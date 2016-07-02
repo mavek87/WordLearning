@@ -1,5 +1,6 @@
 package com.matteoveroni;
 
+import com.airhacks.afterburner.injection.Injector;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventRequestLanguageChange;
 import com.matteoveroni.localization.LocaleManager;
@@ -9,6 +10,9 @@ import java.util.Locale;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  *
@@ -18,14 +22,17 @@ public class WordLearningMain extends Application {
 
     private ViewsManager viewsManager;
     private LocaleManager localeManager;
+    private static final Logger LOG = LoggerFactory.getLogger(WordLearningMain.class);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         buildMainComponents(primaryStage);
         registerMainComponentsToBus();
 
-        EventBus.getDefault().post(new EventRequestLanguageChange(Locale.getDefault()));
+        LOG.info("Setting first view => " + ViewName.MAINMENU);
         EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+        EventBus.getDefault().post(new EventRequestLanguageChange(Locale.getDefault()));
     }
 
     private void buildMainComponents(Stage stage) {
@@ -37,6 +44,7 @@ public class WordLearningMain extends Application {
     public void stop() throws Exception {
         super.stop();
         unregisterMainComponentsFromBus();
+        Injector.forgetAll();
     }
 
     /**
