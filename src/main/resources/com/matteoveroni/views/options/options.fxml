@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.options.OptionsPresenter">
+   <children>
+      <Button layoutX="123.0" layoutY="28.0" mnemonicParsing="false" onAction="#setEnglishLanguage" text="%english" />
+      <Button layoutX="126.0" layoutY="91.0" mnemonicParsing="false" onAction="#setItalianLanguage" text="%italian" />
+      <Button layoutX="135.0" layoutY="156.0" mnemonicParsing="false" onAction="#goBack" text="%back" />
+   </children>
+</AnchorPane>
