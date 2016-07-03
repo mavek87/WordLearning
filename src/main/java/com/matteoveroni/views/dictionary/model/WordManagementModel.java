@@ -22,6 +22,8 @@ public class WordManagementModel {
         translations1.addTranslation("see");
         translations1.addTranslation("watch");
         dictionary.createWordAndTranslations("vedere", translations1);
+//        dictionary.createWord("vedere");
+//        dictionary.getTranslationsForWord("vedere").addTranslations(translations1);
     }
 
     public Dictionary getDictionary() {

@@ -15,6 +15,10 @@ public class Dictionary {
     public Dictionary() {
     }
 
+    public void createWord(String word) {
+        vocabulary.put(word, null);
+    }
+
     public void createWordAndTranslations(String word, Translations translations) {
         vocabulary.put(word, translations);
     }
