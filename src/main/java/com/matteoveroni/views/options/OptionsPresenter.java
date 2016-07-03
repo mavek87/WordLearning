@@ -86,8 +86,9 @@ public class OptionsPresenter implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 int selectedIndex = cmb_windowSize.getSelectionModel().getSelectedIndex();
-                System.out.println(selectedIndex);
-                EventBus.getDefault().post(new EventChangeWindowDimension(App.WINDOW_DIMENSIONS[selectedIndex][0], App.WINDOW_DIMENSIONS[selectedIndex][1]));
+                App.WINDOW_WIDTH = App.WINDOW_DIMENSIONS[selectedIndex][0];
+                App.WINDOW_HEIGHT = App.WINDOW_DIMENSIONS[selectedIndex][1];
+                EventBus.getDefault().post(new EventChangeWindowDimension(App.WINDOW_WIDTH, App.WINDOW_HEIGHT));
             }
         });
     }
