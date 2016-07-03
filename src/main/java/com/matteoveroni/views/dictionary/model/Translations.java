@@ -15,7 +15,7 @@ public class Translations {
     public Translations() {
     }
 
-    public List<String> getTranslations() {
+    public List<String> getEveryTranslation() {
         return translations;
     }
 
@@ -40,20 +40,7 @@ public class Translations {
     }
 
     public boolean removeTranslation(String translation) {
-        int indexToRemove = searchIndexOfTranslation(translation);
-        if (indexToRemove >= 0) {
-            return translations.remove(translation);
-        }
-        return false;
-    }
-
-    private int searchIndexOfTranslation(String translation) {
-        for (int index = 0; index < translations.size(); index++) {
-            if (translations.get(index).equalsIgnoreCase(translation)) {
-                return index;
-            }
-        }
-        return -1;
+        return translations.remove(translation);
     }
 
     public String objectToJson() {

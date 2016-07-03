@@ -2,7 +2,6 @@ package com.matteoveroni.views.dictionary.model;
 
 import com.matteoveroni.gson.GsonSingleton;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -11,13 +10,9 @@ import java.util.Map;
  */
 public class Dictionary {
 
-    private final Locale dictionaryLanguage;
-    private final Locale translationsLanguage;
     private final Map<String, Translations> vocabulary = new HashMap<>();
 
-    public Dictionary(Locale dictionaryLanguage, Locale translationsLanguage) {
-        this.dictionaryLanguage = dictionaryLanguage;
-        this.translationsLanguage = translationsLanguage;
+    public Dictionary() {
     }
 
     public void createWordAndTranslations(String word, Translations translations) {
@@ -37,18 +32,10 @@ public class Dictionary {
     }
 
     public boolean containsTranslationsForWord(String word) {
-        return vocabulary.containsKey(word) && !vocabulary.get(word).getTranslations().isEmpty();
+        return vocabulary.containsKey(word) && !vocabulary.get(word).getEveryTranslation().isEmpty();
     }
 
-    public Locale getDictionaryLanguage() {
-        return dictionaryLanguage;
-    }
-
-    public Locale getTranslationsLanguage() {
-        return translationsLanguage;
-    }
-    
-    public String objectToJson(){
+    public String objectToJson() {
         return GsonSingleton.getInstance().toJson(this);
     }
 }

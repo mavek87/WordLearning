@@ -5,6 +5,8 @@ import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.localization.LocaleManager;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.ViewsManager;
+import com.matteoveroni.views.dictionary.model.Dictionary;
+import com.matteoveroni.views.dictionary.model.WordManagementModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
@@ -19,6 +21,7 @@ public class WordLearningMain extends Application {
 
     private ViewsManager viewsManager;
     private LocaleManager localeManager;
+    private WordManagementModel wordManagementModel;
     private static final Logger LOG = LoggerFactory.getLogger(WordLearningMain.class);
 
     @Override
@@ -27,6 +30,8 @@ public class WordLearningMain extends Application {
 
         buildMainComponents(primaryStage);
         subscribeMainComponentsToBus();
+        
+        wordManagementModel = new WordManagementModel();
 
         LOG.debug("Send request to set first view => " + ViewName.MAINMENU + " on event bus");
         EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));

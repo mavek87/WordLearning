@@ -1,6 +1,7 @@
 package com.matteoveroni.views.dictionary.model;
 
 import java.util.List;
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -8,27 +9,36 @@ import java.util.List;
  */
 public class WordManagementModel {
 
-	private Dictionary dictionary;
+    private Dictionary dictionary;
 
-	public WordManagementModel(Dictionary dictionary) {
-		this.dictionary = dictionary;
-	}
+    public WordManagementModel() {
+    }
 
-	public Dictionary getDictionary() {
-		return dictionary;
-	}
+    @PostConstruct
+    public void init() {
+        this.dictionary = new Dictionary();
+        // TODO => load from file or db
+        Translations translations1 = new Translations();
+        translations1.addTranslation("see");
+        translations1.addTranslation("watch");
+        dictionary.createWordAndTranslations("vedere", translations1);
+    }
 
-	public void setDictionary(Dictionary dictionary) {
-		this.dictionary = dictionary;
-	}
+    public Dictionary getDictionary() {
+        return dictionary;
+    }
 
-	public void insertWord(String word, List<String> listOfTranslations) {
-		if (!dictionary.containsTranslationsForWord(word)) {
-			Translations translations = new Translations();
-			translations.setTranslations(listOfTranslations);
-			dictionary.createWordAndTranslations(word, translations);
-		} else {
-			dictionary.getTranslationsForWord(word).addTranslations(listOfTranslations);
-		}
-	}
+    public void setDictionary(Dictionary dictionary) {
+        this.dictionary = dictionary;
+    }
+
+    public void insertWord(String word, List<String> listOfTranslations) {
+        if (!dictionary.containsTranslationsForWord(word)) {
+            Translations translations = new Translations();
+            translations.setTranslations(listOfTranslations);
+            dictionary.createWordAndTranslations(word, translations);
+        } else {
+            dictionary.getTranslationsForWord(word).addTranslations(listOfTranslations);
+        }
+    }
 }
