@@ -8,6 +8,16 @@
 
 <AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.mainmenu.MainMenuPresenter">
    <children>
-      <Button fx:id="bottone" layoutX="154.0" layoutY="76.0" mnemonicParsing="false" onAction="#goToSettings" text="%settings" />
+      <BorderPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="200.0" text="%startTraining" />
+                  <Button fx:id="bottone" mnemonicParsing="false" onAction="#goToSettings" prefHeight="35.0" prefWidth="200.0" text="%settings" />
+                  <Button mnemonicParsing="false" onAction="#closeApp" prefHeight="35.0" prefWidth="200.0" text="%exit" />
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

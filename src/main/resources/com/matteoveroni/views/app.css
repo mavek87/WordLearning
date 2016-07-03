@@ -1,0 +1,184 @@
+/* 
+    Created on : 3-lug-2016, 13.12.53
+    Author     : Matteo Veroni
+*/
+.boxSpacing{
+    -fx-padding: 10 10 10 10;
+}
+
+.root {    
+    -fx-font: 18px "Umpush";
+}
+
+/*
+Umpush
+Laksaman
+Ubuntu
+*/
+
+/*Font family => Abyssinica SIL
+Font family => DejaVu Sans
+Font family => DejaVu Sans Condensed
+Font family => DejaVu Sans Light
+Font family => DejaVu Sans Mono
+Font family => DejaVu Serif
+Font family => DejaVu Serif Condensed
+Font family => FreeMono
+Font family => FreeSans
+Font family => FreeSerif
+Font family => Garuda
+Font family => KacstArt
+Font family => KacstBook
+Font family => KacstDecorative
+Font family => KacstDigital
+Font family => KacstFarsi
+Font family => KacstLetter
+Font family => KacstNaskh
+Font family => Garuda
+Font family => KacstOne
+Font family => KacstPen
+Font family => KacstPoster
+Font family => KacstQurn
+Font family => KacstScreen
+Font family => KacstTitle
+Font family => KacstTitleL
+Font family => Khmer OS
+Font family => Khmer OS System
+Font family => Kinnari
+Font family => LKLUG
+Font family => Laksaman
+Font family => Lato
+Font family => Lato Black
+Font family => Lato Hairline
+Font family => Lato Heavy
+Font family => Lato Light
+Font family => Lato Medium
+Font family => Lato Semibold
+Font family => Lato Thin
+Font family => Liberation Mono
+Font family => Liberation Sans
+Font family => Liberation Sans Narrow
+Font family => Liberation Serif
+Font family => Lohit Punjabi
+Font family => Loma
+Font family => Lucida Bright
+Font family => Lucida Sans
+Font family => Lucida Sans Typewriter
+Font family => MathJax_AMS
+Font family => MathJax_Caligraphic
+Font family => MathJax_Fraktur
+Font family => MathJax_Main
+Font family => MathJax_Math
+Font family => MathJax_SansSerif
+Font family => MathJax_Script
+Font family => MathJax_Size1
+Font family => MathJax_Size2
+Font family => MathJax_Size3
+Font family => MathJax_Size4
+Font family => MathJax_Typewriter
+Font family => MathJax_WinChrome
+Font family => MathJax_WinIE6
+Font family => Monospaced
+Font family => NanumBarunGothic
+Font family => NanumGothic
+Font family => NanumMyeongjo
+Font family => Norasi
+Font family => Noto Sans CJK JP Black
+Font family => Noto Sans CJK JP Bold
+Font family => Noto Sans CJK JP DemiLight
+Font family => Noto Sans CJK JP Light
+Font family => Noto Sans CJK JP Medium
+Font family => Noto Sans CJK JP Regular
+Font family => Noto Sans CJK JP Thin
+Font family => Noto Sans CJK KR Black
+Font family => Noto Sans CJK KR Bold
+Font family => Noto Sans CJK KR DemiLight
+Font family => Noto Sans CJK KR Light
+Font family => Noto Sans CJK KR Medium
+Font family => Noto Sans CJK KR Regular
+Font family => Noto Sans CJK KR Thin
+Font family => Noto Sans CJK SC Black
+Font family => Noto Sans CJK SC Bold
+Font family => Noto Sans CJK SC DemiLight
+Font family => Noto Sans CJK SC Light
+Font family => Noto Sans CJK SC Medium
+Font family => Noto Sans CJK SC Regular
+Font family => Noto Sans CJK SC Thin
+Font family => Noto Sans CJK TC Black
+Font family => Noto Sans CJK TC Bold
+Font family => Noto Sans CJK TC DemiLight
+Font family => Noto Sans CJK TC Light
+Font family => Noto Sans CJK TC Medium
+Font family => Noto Sans CJK TC Regular
+Font family => Noto Sans CJK TC Thin
+Font family => Noto Sans Mono CJK JP Bold
+Font family => Noto Sans Mono CJK JP Regular
+Font family => Noto Sans Mono CJK KR Bold
+Font family => Noto Sans Mono CJK KR Regular
+Font family => Noto Sans Mono CJK SC Bold
+Font family => Noto Sans Mono CJK SC Regular
+Font family => Noto Sans Mono CJK TC Bold
+Font family => Noto Sans Mono CJK TC Regular
+Font family => OpenSymbol
+Font family => Padauk
+Font family => Padauk Book
+Font family => Phetsarath OT
+Font family => Purisa
+Font family => STIX
+Font family => STIX Math
+Font family => STIXGeneral
+Font family => STIXIntegralsD
+Font family => STIXIntegralsSm
+Font family => STIXIntegralsUp
+Font family => STIXIntegralsUpD
+Font family => STIXIntegralsUpSm
+Font family => STIXNonUnicode
+Font family => STIXSizeFiveSym
+Font family => STIXSizeFourSym
+Font family => STIXSizeOneSym
+Font family => STIXSizeThreeSym
+Font family => STIXSizeTwoSym
+Font family => STIXVariants
+Font family => Saab
+Font family => SansSerif
+Font family => Sawasdee
+Font family => Serif
+Font family => Symbola
+Font family => System
+Font family => TakaoPGothic
+Font family => TeX Gyre Adventor
+Font family => TeX Gyre Bonum
+Font family => TeX Gyre Bonum Math
+Font family => TeX Gyre Chorus
+Font family => TeX Gyre Cursor
+Font family => TeX Gyre Heros
+Font family => TeX Gyre Heros Cn
+Font family => TeX Gyre Pagella
+Font family => TeX Gyre Pagella Math
+Font family => TeX Gyre Schola
+Font family => TeX Gyre Schola Math
+Font family => TeX Gyre Termes
+Font family => TeX Gyre Termes Math
+Font family => Tibetan Machine Uni
+Font family => Tlwg Mono
+Font family => Tlwg Typewriter
+Font family => Tlwg Typist
+Font family => Tlwg Typo
+Font family => Ubuntu
+Font family => Ubuntu Condensed
+Font family => Ubuntu Light
+Font family => Ubuntu Mono
+Font family => Umpush
+Font family => Waree
+Font family => cmex10
+Font family => cmmi10
+Font family => cmr10
+Font family => cmsy10
+Font family => esint10
+Font family => eufm10
+Font family => mry_KacstQurn
+Font family => msam10
+Font family => msbm10
+Font family => rsfs10
+Font family => stmary10
+Font family => wasy10*/

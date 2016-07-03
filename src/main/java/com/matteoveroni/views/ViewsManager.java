@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.slf4j.Logger;
@@ -56,9 +57,18 @@ public class ViewsManager {
             });
         }
         currentScene = new Scene(fxmlView.getView(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
+        applyGeneralCSSToScene();
         stage.setScene(currentScene);
         currentSettedViewName = nameOfViewToUse;
         stage.show();
+    }
+
+    private void applyGeneralCSSToScene() {
+        for (String fontFamily : javafx.scene.text.Font.getFamilies()) {
+            System.out.println("Font family => " + fontFamily);
+        }
+        final String uri = getClass().getResource("app.css").toExternalForm();
+        currentScene.getStylesheets().add(uri);
     }
 
     private void buildViews() {
@@ -69,7 +79,7 @@ public class ViewsManager {
     }
 
     private void buildView(ViewName viewName) {
-        LOG.debug("Building view => " + viewName );
+        LOG.debug("Building view => " + viewName);
         views.remove(viewName);
         FXMLView fxmlView;
         switch (viewName) {

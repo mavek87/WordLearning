@@ -4,6 +4,7 @@ import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.views.ViewName;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,9 +20,7 @@ public class MainMenuPresenter implements Initializable {
 
     @FXML
     private Button bottone;
-
-//    private ResourceBundleHandler bundleHandler;
-//    private ResourceBundle bundle;
+    
     /**
      * Initializes the controller class.
      *
@@ -34,7 +33,13 @@ public class MainMenuPresenter implements Initializable {
 
     @FXML
     void goToSettings(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.OPTIONS));        
+        EventBus.getDefault().post(new EventChangeView(ViewName.OPTIONS));
+    }
+
+    @FXML
+    void closeApp(ActionEvent event) {
+        Platform.exit();
+        System.exit(0);
     }
 
 }
