@@ -6,14 +6,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.mainmenu.MainMenuPresenter">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.mainmenu.MainMenuPresenter">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
                   <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="200.0" text="%startTraining" />
-                  <Button fx:id="bottone" mnemonicParsing="false" onAction="#goToSettings" prefHeight="35.0" prefWidth="200.0" text="%settings" />
+                  <Button mnemonicParsing="false" onAction="#goToDictionary" prefHeight="35.0" prefWidth="200.0" text="%manageDictionary" />
+                  <Button mnemonicParsing="false" onAction="#goToSettings" prefHeight="35.0" prefWidth="200.0" text="%settings" />
                   <Button mnemonicParsing="false" onAction="#closeApp" prefHeight="35.0" prefWidth="200.0" text="%exit" />
                </children>
             </VBox>

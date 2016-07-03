@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.control.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.dictionary.DictionaryPresenter">
+   <children>
+      <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <BorderPane prefHeight="60.0" BorderPane.alignment="CENTER">
+               <center>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="%remove" />
+                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="%modify" />
+                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="%add" />
+                     </children>
+                  </HBox>
+               </center>
+               <left>
+                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="120.0" text="%back" BorderPane.alignment="CENTER" />
+               </left>
+               <BorderPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </BorderPane.margin>
+            </BorderPane>
+         </bottom>
+         <center>
+            <TableView prefHeight="538.0" prefWidth="395.0" BorderPane.alignment="CENTER">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="Words" />
+               </columns>
+            </TableView>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

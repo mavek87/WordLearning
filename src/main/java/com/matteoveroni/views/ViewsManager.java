@@ -5,6 +5,7 @@ import com.matteoveroni.App;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventLanguageChanged;
+import com.matteoveroni.views.dictionary.DictionaryView;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
 import java.util.HashMap;
@@ -88,6 +89,9 @@ public class ViewsManager {
         switch (viewName) {
             case MAINMENU:
                 fxmlView = new MainMenuView();
+                break;
+            case DICTIONARY:
+                fxmlView = new DictionaryView();
                 break;
             case OPTIONS:
                 fxmlView = new OptionsView();

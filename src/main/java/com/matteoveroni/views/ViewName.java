@@ -5,5 +5,5 @@ package com.matteoveroni.views;
  * @author Matteo Veroni
  */
 public enum ViewName {
-    MAINMENU, OPTIONS;
+    MAINMENU, DICTIONARY, OPTIONS;
 }

@@ -10,7 +10,7 @@ import java.util.Locale;
 public class App {
 
     public final static String NAME = "WordLearning";
-    public final static String VERSION = "0.0.6";
+    public final static String VERSION = "0.0.7";
     public static double WINDOW_WIDTH = 800;
     public static double WINDOW_HEIGHT = 600;
     public static final Locale DEFAULT_LOCALE = SupportedCountries.USA.getLocale();

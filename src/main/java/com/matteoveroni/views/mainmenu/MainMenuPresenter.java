@@ -18,9 +18,6 @@ import org.greenrobot.eventbus.EventBus;
  */
 public class MainMenuPresenter implements Initializable {
 
-    @FXML
-    private Button bottone;
-    
     /**
      * Initializes the controller class.
      *
@@ -29,6 +26,11 @@ public class MainMenuPresenter implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    }
+
+    @FXML
+    void goToDictionary(ActionEvent event) {
+        EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
     }
 
     @FXML
