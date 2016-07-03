@@ -7,12 +7,13 @@ import com.matteoveroni.bus.events.EventLanguageChanged;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,6 +25,7 @@ public class ViewsManager {
     private ViewName currentSettedViewName;
     private final Stage stage;
     private Scene currentScene;
+    private static final Logger LOG = LoggerFactory.getLogger(ViewsManager.class);
 
     public ViewsManager(Stage stage) {
         this.stage = stage;
@@ -37,20 +39,17 @@ public class ViewsManager {
 
     @Subscribe
     public void reloadTranslatedViewsAfterLanguageChanged(EventLanguageChanged eventLanguageChanged) {
-        System.out.println(" reloadScreensAfterLanguageChanged => " + this.getClass());
-        System.out.println("language setted => " + eventLanguageChanged.getLocale());
-        System.out.println(Locale.getDefault());
-
         buildViews();
-        ViewsManager.this.useView(currentSettedViewName);
+        useView(currentSettedViewName);
     }
 
     @Subscribe
     public void useView(EventChangeView eventChangeScreen) {
-        ViewsManager.this.useView(eventChangeScreen.getViewName());
+        useView(eventChangeScreen.getViewName());
     }
 
     private void useView(ViewName nameOfViewToUse) {
+        LOG.info("Use view => " + nameOfViewToUse);
         FXMLView fxmlView = views.get(nameOfViewToUse);
         if (currentScene != null) {
             currentScene.setRoot(new Parent() {
@@ -63,12 +62,14 @@ public class ViewsManager {
     }
 
     private void buildViews() {
+        LOG.debug("Building all the views");
         for (ViewName viewName : ViewName.values()) {
             buildView(viewName);
         }
     }
 
     private void buildView(ViewName viewName) {
+        LOG.debug("Building view => " + viewName );
         views.remove(viewName);
         FXMLView fxmlView;
         switch (viewName) {
@@ -79,7 +80,9 @@ public class ViewsManager {
                 fxmlView = new OptionsView();
                 break;
             default:
-                throw new RuntimeException("View " + viewName + " cannot be build. It doesn\'t exist!");
+                String errorMessage = "View " + viewName + " cannot be build. It doesn\'t exist!";
+                LOG.error(errorMessage);
+                throw new RuntimeException(errorMessage);
         }
         fxmlView.getView();
         views.put(viewName, fxmlView);

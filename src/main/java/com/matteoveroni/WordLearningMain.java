@@ -2,17 +2,14 @@ package com.matteoveroni;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.matteoveroni.bus.events.EventChangeView;
-import com.matteoveroni.bus.events.EventRequestLanguageChange;
 import com.matteoveroni.localization.LocaleManager;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.ViewsManager;
-import java.util.Locale;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 /**
  *
@@ -26,25 +23,21 @@ public class WordLearningMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        LOG.trace("Application Word Learning Started");
 
         buildMainComponents(primaryStage);
-        registerMainComponentsToBus();
+        subscribeMainComponentsToBus();
 
-        LOG.info("Setting first view => " + ViewName.MAINMENU);
+        LOG.debug("Send request to set first view => " + ViewName.MAINMENU + " on event bus");
         EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
-        EventBus.getDefault().post(new EventRequestLanguageChange(Locale.getDefault()));
-    }
-
-    private void buildMainComponents(Stage stage) {
-        viewsManager = new ViewsManager(stage);
-        localeManager = new LocaleManager();
     }
 
     @Override
     public void stop() throws Exception {
         super.stop();
-        unregisterMainComponentsFromBus();
+        unsuscribeMainComponentsFromBus();
         Injector.forgetAll();
+        LOG.trace("Application Word Learning stopped");
     }
 
     /**
@@ -54,12 +47,21 @@ public class WordLearningMain extends Application {
         launch(args);
     }
 
-    private void registerMainComponentsToBus() {
+    private void buildMainComponents(Stage stage) {
+        LOG.debug("Building main components");
+        viewsManager = new ViewsManager(stage);
+        localeManager = new LocaleManager();
+        LOG.debug("Main components builded");
+    }
+
+    private void subscribeMainComponentsToBus() {
+        LOG.debug("Subscribing main components to event bus");
         EventBus.getDefault().register(viewsManager);
         EventBus.getDefault().register(localeManager);
     }
 
-    private void unregisterMainComponentsFromBus() {
+    private void unsuscribeMainComponentsFromBus() {
+        LOG.debug("Unsubscribing main components to event bus");
         EventBus.getDefault().unregister(viewsManager);
         EventBus.getDefault().unregister(localeManager);
     }

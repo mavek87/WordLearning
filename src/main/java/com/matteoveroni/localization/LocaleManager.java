@@ -7,6 +7,8 @@ import java.util.Locale;
 import javax.annotation.PostConstruct;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,6 +17,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class LocaleManager {
 
     private Locale applicationLocale;
+    private static final Logger LOG = LoggerFactory.getLogger(LocaleManager.class);
 
     @PostConstruct
     public void init() {
@@ -26,9 +29,9 @@ public class LocaleManager {
 
     @Subscribe
     public void changeApplicationLocale(EventRequestLanguageChange eventRequestLanguageChange) {
-        System.out.println(" changeApplicationLocale => " + this.getClass());
+        LOG.info("Changing application locale");
         setLocaleIfSupported(eventRequestLanguageChange.getLocale());
-        System.out.println("language setted => " + applicationLocale);
+        LOG.info("locale setted => " + applicationLocale);
     }
 
     public Locale getApplicationLocale() {
