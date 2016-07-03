@@ -6,11 +6,11 @@ import java.util.Locale;
  *
  * @author Matteo Veroni
  */
-public class EventRequestLanguageChange {
+public class EventChangeLanguage {
 
     private final Locale language;
 
-    public EventRequestLanguageChange(Locale language) {
+    public EventChangeLanguage(Locale language) {
         this.language = language;
     }
 

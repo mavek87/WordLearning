@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -8,8 +9,28 @@
 
 <AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.options.OptionsPresenter">
    <children>
-      <Button layoutX="123.0" layoutY="28.0" mnemonicParsing="false" onAction="#setEnglishLanguage" text="%english" />
-      <Button layoutX="126.0" layoutY="91.0" mnemonicParsing="false" onAction="#setItalianLanguage" text="%italian" />
-      <Button layoutX="135.0" layoutY="156.0" mnemonicParsing="false" onAction="#goBack" text="%back" />
+      <BorderPane prefHeight="200.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="%windowSize" />
+                  <ComboBox fx:id="cmb_windowSize" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" />
+                  <Label text="%language">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Button fx:id="btn_english" mnemonicParsing="false" onAction="#setEnglishLanguage" prefWidth="150.0" text="%english" />
+                  <Button fx:id="btn_italian" mnemonicParsing="false" onAction="#setItalianLanguage" prefWidth="150.0" text="%italian" />
+               </children>
+            </VBox>
+         </center>
+         <bottom>
+            <Button mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER_LEFT">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="30.0" />
+               </BorderPane.margin></Button>
+         </bottom>
+      </BorderPane>
    </children>
 </AnchorPane>

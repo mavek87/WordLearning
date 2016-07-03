@@ -6,13 +6,13 @@ import java.util.Locale;
  *
  * @author Matteo Veroni
  */
-public enum SupportedNation {
+public enum SupportedCountries {
 
     USA(Locale.US), ITALY(Locale.ITALY);
 
     private final Locale locale;
 
-    SupportedNation(Locale locale) {
+    SupportedCountries(Locale locale) {
         this.locale = locale;
     }
 

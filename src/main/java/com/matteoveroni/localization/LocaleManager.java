@@ -2,7 +2,7 @@ package com.matteoveroni.localization;
 
 import com.matteoveroni.App;
 import com.matteoveroni.bus.events.EventLanguageChanged;
-import com.matteoveroni.bus.events.EventRequestLanguageChange;
+import com.matteoveroni.bus.events.EventChangeLanguage;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import org.greenrobot.eventbus.EventBus;
@@ -28,7 +28,7 @@ public class LocaleManager {
     }
 
     @Subscribe
-    public void changeApplicationLocale(EventRequestLanguageChange eventRequestLanguageChange) {
+    public void changeApplicationLocale(EventChangeLanguage eventRequestLanguageChange) {
         LOG.info("Changing application locale");
         setLocaleIfSupported(eventRequestLanguageChange.getLocale());
         LOG.info("locale setted => " + applicationLocale);
@@ -45,7 +45,7 @@ public class LocaleManager {
     }
 
     private boolean isLocaleSupported(Locale locale) {
-        for (SupportedNation supportedLocale : SupportedNation.values()) {
+        for (SupportedCountries supportedLocale : SupportedCountries.values()) {
             if (supportedLocale.getLocale().equals(locale)) {
                 return true;
             }

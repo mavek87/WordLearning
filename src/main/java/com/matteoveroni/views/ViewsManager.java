@@ -3,6 +3,7 @@ package com.matteoveroni.views;
 import com.airhacks.afterburner.views.FXMLView;
 import com.matteoveroni.App;
 import com.matteoveroni.bus.events.EventChangeView;
+import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventLanguageChanged;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.slf4j.Logger;
@@ -39,6 +39,12 @@ public class ViewsManager {
     }
 
     @Subscribe
+    public void changeWindowDimension(EventChangeWindowDimension eventChangeWindowDimension) {
+        stage.setWidth(eventChangeWindowDimension.getWidth());
+        stage.setHeight(eventChangeWindowDimension.getHeight());
+    }
+
+    @Subscribe
     public void reloadTranslatedViewsAfterLanguageChanged(EventLanguageChanged eventLanguageChanged) {
         buildViews();
         useView(currentSettedViewName);
@@ -64,9 +70,6 @@ public class ViewsManager {
     }
 
     private void applyGeneralCSSToScene() {
-        for (String fontFamily : javafx.scene.text.Font.getFamilies()) {
-            System.out.println("Font family => " + fontFamily);
-        }
         final String uri = getClass().getResource("app.css").toExternalForm();
         currentScene.getStylesheets().add(uri);
     }
