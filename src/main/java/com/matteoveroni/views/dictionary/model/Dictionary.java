@@ -10,36 +10,46 @@ import java.util.Map;
  */
 public class Dictionary {
 
-    private final Map<String, Translations> vocabulary = new HashMap<>();
+	private long id;
+	private final Map<String, Translations> vocabulary = new HashMap<>();
 
-    public Dictionary() {
-    }
+	public Dictionary(long id) {
+		this.id = id;
+	}
 
-    public void createWord(String word) {
-        vocabulary.put(word, null);
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void createWordAndTranslations(String word, Translations translations) {
-        vocabulary.put(word, translations);
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void removeWordAndTranslations(String word) {
-        vocabulary.remove(word);
-    }
+	public void createWord(String word) {
+		vocabulary.put(word, null);
+	}
 
-    public Translations getTranslationsForWord(String word) {
-        return vocabulary.get(word);
-    }
+	public void createWordAndTranslations(String word, Translations translations) {
+		vocabulary.put(word, translations);
+	}
 
-    public void replaceTranslationsForWord(String word, Translations translations) {
-        vocabulary.replace(word, translations);
-    }
+	public void removeWordAndTranslations(String word) {
+		vocabulary.remove(word);
+	}
 
-    public boolean containsTranslationsForWord(String word) {
-        return vocabulary.containsKey(word) && !vocabulary.get(word).getEveryTranslation().isEmpty();
-    }
+	public Translations getTranslationsForWord(String word) {
+		return vocabulary.get(word);
+	}
 
-    public String objectToJson() {
-        return GsonSingleton.getInstance().toJson(this);
-    }
+	public void replaceTranslationsForWord(String word, Translations translations) {
+		vocabulary.replace(word, translations);
+	}
+
+	public boolean containsTranslationsForWord(String word) {
+		return vocabulary.containsKey(word) && !vocabulary.get(word).getEveryTranslation().isEmpty();
+	}
+
+	public String objectToJson() {
+		return GsonSingleton.getInstance().toJson(this);
+	}
 }

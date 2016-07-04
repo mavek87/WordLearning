@@ -16,7 +16,7 @@ public class WordManagementModel {
 
     @PostConstruct
     public void init() {
-        this.dictionary = new Dictionary();
+        this.dictionary = new Dictionary(1);
         // TODO => load from file or db
         Translations translations1 = new Translations();
         translations1.addTranslation("see");
