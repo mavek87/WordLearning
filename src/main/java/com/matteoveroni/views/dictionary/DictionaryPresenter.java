@@ -1,8 +1,7 @@
 package com.matteoveroni.views.dictionary;
 
 import com.matteoveroni.bus.events.EventChangeView;
-import com.matteoveroni.bus.events.EventSaveObject;
-import com.matteoveroni.dao.DaoPrototype;
+import com.matteoveroni.views.dictionary.model.DictionaryDAO;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.dictionary.model.WordManagementModel;
 import java.net.URL;
@@ -23,7 +22,7 @@ public class DictionaryPresenter implements Initializable {
     @Inject
     private WordManagementModel wordManagementModel;
 	@Inject
-	private DaoPrototype dao;
+	private DictionaryDAO dao;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -34,8 +33,8 @@ public class DictionaryPresenter implements Initializable {
     
     @FXML
     void goBack(ActionEvent event) {
-//        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
-        EventBus.getDefault().post(new EventSaveObject(wordManagementModel.getDictionary()));
+        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+//        EventBus.getDefault().post(new EventSaveObject(wordManagementModel.getDictionary()));
 
     }
 }

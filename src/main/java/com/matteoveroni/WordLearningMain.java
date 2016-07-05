@@ -2,7 +2,6 @@ package com.matteoveroni;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.matteoveroni.bus.events.EventChangeView;
-import com.matteoveroni.dao.DaoPrototype;
 import com.matteoveroni.localization.LocaleManager;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.ViewsManager;
@@ -29,8 +28,8 @@ public class WordLearningMain extends Application {
 		buildMainComponents(primaryStage);
 		subscribeMainComponentsToBus();
 
-		DaoPrototype d = new DaoPrototype();
-		EventBus.getDefault().register(d);
+//		DaoPrototype d = new DaoPrototype();
+//		EventBus.getDefault().register(d);
 
 		LOG.debug("Send request to set first view => " + ViewName.MAINMENU + " on event bus");
 		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
