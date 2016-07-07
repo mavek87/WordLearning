@@ -2,9 +2,11 @@ package com.matteoveroni;
 
 import com.airhacks.afterburner.injection.Injector;
 import com.matteoveroni.bus.events.EventChangeView;
+import com.matteoveroni.database.Database;
 import com.matteoveroni.localization.LocaleManager;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.ViewsManager;
+import java.io.File;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
@@ -30,6 +32,10 @@ public class WordLearningMain extends Application {
 
 //		DaoPrototype d = new DaoPrototype();
 //		EventBus.getDefault().register(d);
+		LOG.debug("Creating program folder");
+		createProgramFolder();
+		
+		Database.connect();
 
 		LOG.debug("Send request to set first view => " + ViewName.MAINMENU + " on event bus");
 		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
@@ -69,4 +75,31 @@ public class WordLearningMain extends Application {
 		EventBus.getDefault().unregister(localeManager);
 	}
 
+	private void createProgramFolder() {
+		File wordLearningFolder;
+		File databaseFolder;
+		File databaseFile;
+		try {
+			wordLearningFolder = new File(App.PATH);
+			if (!wordLearningFolder.isDirectory()) {
+				if (!wordLearningFolder.mkdir()) {
+					throw new Exception();
+				}
+			}
+			databaseFolder = new File(App.PATH + File.separator + "Database");
+			if (!databaseFolder.isDirectory()) {
+				if (!databaseFolder.mkdir()) {
+					throw new Exception();
+				}
+			}
+			databaseFile = new File(databaseFolder.getAbsolutePath() + File.separator + "database.sqlite");
+			if (!databaseFile.isFile()) {
+				if (!databaseFile.createNewFile()) {
+					throw new Exception();
+				}
+			}
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
+	}
 }
