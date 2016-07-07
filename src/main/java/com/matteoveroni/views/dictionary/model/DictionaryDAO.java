@@ -1,9 +1,13 @@
 package com.matteoveroni.views.dictionary.model;
 
+import com.matteoveroni.database.Database;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import javax.annotation.PostConstruct;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import org.apache.commons.dbutils.DbUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -11,22 +15,36 @@ import javax.annotation.PostConstruct;
  */
 public class DictionaryDAO {
 
-	private static final String DATABASE_PATH = "com.matteoveroni.persistence.testDb.sqlite";
+    private static final Logger LOG = LoggerFactory.getLogger(DictionaryDAO.class);
 
-//	@PostConstruct
-//	public void init() {
-//		Connection c = null;
-//		String sqlQuery = "CREATE TABLE 'Names' ('Id' INTEGER PRIMARY KEY  NOT NULL , 'Name' TEXT)";
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			c = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_PATH);
-//			PreparedStatement p = c.prepareStatement(sqlQuery);
-//			p.execute();
-//		} catch (Exception e) {
-//			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-//			System.exit(0);
-//		}
-//		System.out.println("Opened database successfully");
-//	}
+    public String getWord() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String sqlQuery = "SELECT * FROM Names";
+        String word = "";
+        LOG.info("Get Word query => " + sqlQuery);
+
+        if (connection != null) {
+            try {
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sqlQuery);
+
+                while (resultSet.next()) {
+                    String sResult = resultSet.getString("Name");
+                    LOG.debug(sResult);
+                }
+
+//            List ar = Arrays.asList(resultSet.getArray("Name"));
+//            System.out.println(ar.get(0));
+            } catch (Exception ex) {
+                LOG.error(ex.getClass().getName() + ": " + ex.getMessage());
+                System.exit(0);
+            } finally {
+                DbUtils.closeQuietly(connection, statement, resultSet);
+            }
+        }
+        return word;
+    }
 
 }

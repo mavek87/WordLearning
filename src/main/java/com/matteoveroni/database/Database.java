@@ -60,33 +60,14 @@ public class Database {
 
     public Connection getConnection() throws SQLException {
         Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-        String sqlQuery = "SELECT * FROM Names";
-        LOG.info("Get connection query => " + sqlQuery);
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_PATH);
             LOG.info("Opened database successfully");
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sqlQuery);
-
-            while (resultSet.next()) {
-                String sResult = resultSet.getString("Name");
-                LOG.debug(sResult);
-            }
-
-//            List ar = Arrays.asList(resultSet.getArray("Name"));
-//            System.out.println(ar.get(0));
         } catch (Exception ex) {
             LOG.error(ex.getClass().getName() + ": " + ex.getMessage());
             System.exit(0);
         } 
-//        finally
-//        {
-//            DbUtils.closeQuietly(connection, statement, resultSet);
-//        }
-
         return connection;
     }
 }
