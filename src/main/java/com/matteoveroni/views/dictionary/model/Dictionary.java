@@ -2,6 +2,7 @@ package com.matteoveroni.views.dictionary.model;
 
 import com.matteoveroni.gson.GsonSingleton;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,46 +11,39 @@ import java.util.Map;
  */
 public class Dictionary {
 
-	private long id;
-	private final Map<String, Translations> vocabulary = new HashMap<>();
-
-	public Dictionary(long id) {
-		this.id = id;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
+	private final Map<String, List<Translation>> vocabulary = new HashMap<>();
 
 	public void createWord(String word) {
 		vocabulary.put(word, null);
 	}
 
-	public void createWordAndTranslations(String word, Translations translations) {
+	public void createWordAndTranslations(String word, List<Translation> translations) {
 		vocabulary.put(word, translations);
+	}
+
+	public void addTranslationToWord(Translation newTranslation, String word) {
+		List<Translation> translationsOfWord = vocabulary.get(word);
+		translationsOfWord.add(newTranslation);
+		vocabulary.put(word, translationsOfWord);
 	}
 
 	public void removeWordAndTranslations(String word) {
 		vocabulary.remove(word);
 	}
 
-	public Translations getTranslationsForWord(String word) {
+	public List<Translation> getTranslationsForWord(String word) {
 		return vocabulary.get(word);
 	}
 
-	public void replaceTranslationsForWord(String word, Translations translations) {
+	public void replaceTranslationsForWord(String word, List<Translation> translations) {
 		vocabulary.replace(word, translations);
 	}
 
 	public boolean containsTranslationsForWord(String word) {
-		return vocabulary.containsKey(word) && !vocabulary.get(word).getEveryTranslation().isEmpty();
+		return !vocabulary.get(word).isEmpty();
 	}
 
-	public String objectToJson() {
+	public String convertToJson() {
 		return GsonSingleton.getInstance().toJson(this);
 	}
 }

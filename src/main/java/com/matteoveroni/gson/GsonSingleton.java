@@ -21,7 +21,7 @@ public class GsonSingleton {
 			synchronized (GsonSingleton.class) {
                 gsonInstance = GsonSingleton.uniqueGsonInstance;
 				if (gsonInstance == null) {
-					GsonSingleton.uniqueGsonInstance = gsonInstance = GSON_BUILDER.create();
+					GsonSingleton.uniqueGsonInstance = gsonInstance = GSON_BUILDER.setPrettyPrinting().create();
 				}
 			}
 		}
