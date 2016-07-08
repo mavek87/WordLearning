@@ -23,85 +23,85 @@ import org.slf4j.LoggerFactory;
  */
 public class ViewsManager {
 
-    private final Map<ViewName, FXMLView> views = new HashMap<>();
-    private ViewName currentSettedViewName;
-    private final Stage stage;
-    private Scene currentScene;
-    private static final Logger LOG = LoggerFactory.getLogger(ViewsManager.class);
+	private final Map<ViewName, FXMLView> views = new HashMap<>();
+	private ViewName currentSettedViewName;
+	private final Stage stage;
+	private Scene currentScene;
+	private static final Logger LOG = LoggerFactory.getLogger(ViewsManager.class);
 
-    public ViewsManager(Stage stage) {
-        this.stage = stage;
-        stage.setTitle(App.NAME + " - v. " + App.VERSION);
-        buildViews();
-    }
+	public ViewsManager(Stage stage) {
+		this.stage = stage;
+		stage.setTitle(App.NAME + " - v. " + App.VERSION);
+		buildViews();
+	}
 
-    public FXMLView getView(ViewName viewName) {
-        return views.get(viewName);
-    }
+	public FXMLView getView(ViewName viewName) {
+		return views.get(viewName);
+	}
 
-    @Subscribe
-    public void changeWindowDimension(EventChangeWindowDimension eventChangeWindowDimension) {
-        stage.setWidth(eventChangeWindowDimension.getWidth());
-        stage.setHeight(eventChangeWindowDimension.getHeight());
-    }
+	@Subscribe
+	public void changeWindowDimension(EventChangeWindowDimension eventChangeWindowDimension) {
+		stage.setWidth(eventChangeWindowDimension.getWidth());
+		stage.setHeight(eventChangeWindowDimension.getHeight());
+	}
 
-    @Subscribe
-    public void reloadTranslatedViewsAfterLanguageChanged(EventLanguageChanged eventLanguageChanged) {
-        buildViews();
-        useView(currentSettedViewName);
-    }
+	@Subscribe
+	public void reloadTranslatedViewsAfterLanguageChanged(EventLanguageChanged eventLanguageChanged) {
+		buildViews();
+		useView(currentSettedViewName);
+	}
 
-    @Subscribe
-    public void useView(EventChangeView eventChangeScreen) {
-        useView(eventChangeScreen.getViewName());
-    }
+	@Subscribe
+	public void useView(EventChangeView eventChangeScreen) {
+		useView(eventChangeScreen.getViewName());
+	}
 
-    private void useView(ViewName nameOfViewToUse) {
-        LOG.info("Use view => " + nameOfViewToUse);
-        FXMLView fxmlView = views.get(nameOfViewToUse);
-        if (currentScene != null) {
-            currentScene.setRoot(new Parent() {
-            });
-        }
-        currentScene = new Scene(fxmlView.getView(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
-        applyGeneralCSSToScene();
-        stage.setScene(currentScene);
-        currentSettedViewName = nameOfViewToUse;
-        stage.show();
-    }
+	private void useView(ViewName nameOfViewToUse) {
+		LOG.info("Use view => " + nameOfViewToUse);
+		FXMLView fxmlView = views.get(nameOfViewToUse);
+		if (currentScene != null) {
+			currentScene.setRoot(new Parent() {
+			});
+		}
+		currentScene = new Scene(fxmlView.getView(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
+		applyGeneralCSSToScene();
+		stage.setScene(currentScene);
+		currentSettedViewName = nameOfViewToUse;
+		stage.show();
+	}
 
-    private void applyGeneralCSSToScene() {
-        final String uri = getClass().getResource("app.css").toExternalForm();
-        currentScene.getStylesheets().add(uri);
-    }
+	private void applyGeneralCSSToScene() {
+		final String uri = getClass().getResource("app.css").toExternalForm();
+		currentScene.getStylesheets().add(uri);
+	}
 
-    private void buildViews() {
-        LOG.debug("Building all the views");
-        for (ViewName viewName : ViewName.values()) {
-            buildView(viewName);
-        }
-    }
+	private void buildViews() {
+		LOG.debug("Building all the views");
+		for (ViewName viewName : ViewName.values()) {
+			buildView(viewName);
+		}
+	}
 
-    private void buildView(ViewName viewName) {
-        LOG.debug("Building view => " + viewName);
-        views.remove(viewName);
-        FXMLView fxmlView;
-        switch (viewName) {
-            case MAINMENU:
-                fxmlView = new MainMenuView();
-                break;
-            case DICTIONARY:
-                fxmlView = new DictionaryView();
-                break;
-            case OPTIONS:
-                fxmlView = new OptionsView();
-                break;
-            default:
-                String errorMessage = "View " + viewName + " cannot be build. It doesn\'t exist!";
-                LOG.error(errorMessage);
-                throw new RuntimeException(errorMessage);
-        }
-        fxmlView.getView();
-        views.put(viewName, fxmlView);
-    }
+	private void buildView(ViewName viewName) {
+		LOG.debug("Building view => " + viewName);
+		views.remove(viewName);
+		FXMLView fxmlView;
+		switch (viewName) {
+			case MAINMENU:
+				fxmlView = new MainMenuView();
+				break;
+			case DICTIONARY:
+				fxmlView = new DictionaryView();
+				break;
+			case OPTIONS:
+				fxmlView = new OptionsView();
+				break;
+			default:
+				String errorMessage = "View " + viewName + " cannot be build. It doesn\'t exist!";
+				LOG.error(errorMessage);
+				throw new RuntimeException(errorMessage);
+		}
+		fxmlView.getView();
+		views.put(viewName, fxmlView);
+	}
 }

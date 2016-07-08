@@ -12,7 +12,7 @@ import java.util.Map;
 public class Dictionary {
 
 	private final Map<String, List<Translation>> vocabulary = new HashMap<>();
-
+	
 	public void createWord(String word) {
 		vocabulary.put(word, null);
 	}

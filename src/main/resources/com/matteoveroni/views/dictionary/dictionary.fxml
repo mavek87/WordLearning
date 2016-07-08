@@ -18,7 +18,7 @@
                      <children>
                         <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="%remove" />
                         <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="%modify" />
-                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="%add" />
+                        <Button mnemonicParsing="false" onAction="#add" prefHeight="35.0" prefWidth="150.0" text="%add" />
                      </children>
                   </HBox>
                </center>

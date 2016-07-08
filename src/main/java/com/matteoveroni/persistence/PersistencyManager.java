@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 public class PersistencyManager {
 
 	private volatile static PersistencyManager persistenceUniqueInstance;
-//	private static final String DATABASE_PATH = App.PATH + File.separator + "Database" + File.separator + "database.sqlite";
 	private static final Logger LOG = LoggerFactory.getLogger(PersistencyManager.class);
 
 	private PersistencyManager() {

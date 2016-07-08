@@ -34,8 +34,6 @@ public class WordLearningMain extends Application {
 		buildMainComponents(primaryStage);
 		subscribeMainComponentsToBus();
 
-//		DaoPrototype d = new DaoPrototype();
-//		EventBus.getDefault().register(d);
 		LOG.debug("Creating program folder");
 		createProgramFolder();
 
@@ -89,25 +87,26 @@ public class WordLearningMain extends Application {
 					throw new Exception();
 				}
 			}
-			databaseFolder = new File(App.PATH + File.separator + "Database");
+			databaseFolder = new File(App.PATH_DATA);
 			LOG.debug("database folder => " + databaseFolder.getAbsolutePath());
 			if (!databaseFolder.isDirectory()) {
 				if (!databaseFolder.mkdir()) {
 					throw new Exception();
 				}
 			}
-			jsonFile = new File(databaseFolder.getAbsolutePath() + File.separator + "jsonDictionary.json");
+			jsonFile = new File(databaseFolder.getAbsolutePath() + File.separator + "dictionary.json");
 			if (!jsonFile.isFile()) {
 				if (!jsonFile.createNewFile()) {
 					throw new Exception();
 				} else {
 					PersistencyManager.getInstance().writeObjectToJsonFile(createHardCodedDictionaryForTest(), jsonFile);
 				}
-			} else {
-				Dictionary dictionary = new Dictionary();
-				dictionary = (Dictionary) PersistencyManager.getInstance().readObjectFromFile(dictionary, jsonFile);
-				System.out.println("dictionary " + dictionary.convertToJson());
-			}
+			} 
+//			else {
+//				Dictionary dictionary = new Dictionary();
+//				dictionary = (Dictionary) PersistencyManager.getInstance().readObjectFromFile(dictionary, jsonFile);
+//				System.out.println("dictionary " + dictionary.convertToJson());
+//			}
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
