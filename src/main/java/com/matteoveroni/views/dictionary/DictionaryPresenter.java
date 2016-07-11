@@ -20,9 +20,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * FXML Controller class
@@ -35,12 +38,20 @@ public class DictionaryPresenter implements Initializable {
 	private DictionaryDAO model;
 	@FXML
 	private ListView<Vocable> list_vocables = new ListView<>();
+	@FXML
+	private TextArea textArea_translations;
 
 	private DictionaryPage dictionaryPage;
+
+	private int pageOffset = 0;
+	private int pageDimension = 10;
+
+	private static final Logger LOG = LoggerFactory.getLogger(DictionaryPresenter.class);
 
 	@Subscribe
 	public void onViewChanged(EventViewChanged eventViewChanged) {
 		if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
+			resetView();
 			loadData();
 		}
 	}
@@ -60,9 +71,8 @@ public class DictionaryPresenter implements Initializable {
 	}
 
 	private void loadData() {
-		dictionaryPage = model.getDictionaryPage(0, 2);
+		dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
 
-//		ObservableList<Vocable> myObservableList = FXCollections.observableList(dictionaryPage.getVocables());
 		List<Vocable> lista = new ArrayList<>();
 		lista.addAll(dictionaryPage.getDictionary().keySet());
 
@@ -91,87 +101,30 @@ public class DictionaryPresenter implements Initializable {
 			public void changed(ObservableValue<? extends Vocable> observable, Vocable oldValue, Vocable newValue) {
 				if (newValue != null) {
 					List<Translation> translations = dictionaryPage.getDictionary().get(newValue);
-					System.out.println("Vocable => " + newValue.getName());
+					LOG.debug("Vocable found => " + newValue.getName());
 					if (translations != null) {
-						for (Translation translation : translations) {
-							System.out.println("Translation => " + translation.getTranslation());
-						}
+						populateTextAreaTranslations(translations);
 					}
+				}
+			}
+
+			private void populateTextAreaTranslations(List<Translation> translations) {
+				textArea_translations.clear();
+				String str_translations = "";
+				for (int i = 0; i < translations.size(); i++) {
+					LOG.debug("Translation found => " + translations.get(i));
+					str_translations += translations.get(i);
+					if (i >= 0 && i < translations.size() - 1) {
+						str_translations += ", ";
+					}
+					textArea_translations.setText(str_translations);
 				}
 			}
 		});
 	}
-}
 
-//
-//public class DictionaryPresenter implements Initializable {
-//
-//	@Inject
-//	private DictionaryDAO model;
-//	@FXML
-//	private ListView<Vocable> listView_vocables = new ListView<>();
-//	private ObservableMap<Vocable, List<Translation>> observableMap_dictionary = FXCollections.observableHashMap();;
-//
-//	@Subscribe
-//	public void onViewChanged(EventViewChanged eventViewChanged) {
-//		if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
-//			loadData();
-//		}
-//	}
-//
-//	@Override
-//	public void initialize(URL location, ResourceBundle resources) {
-//	}
-//
-//	@FXML
-//	void goBack(ActionEvent event) {
-//		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
-//	}
-//
-//	@FXML
-//	void add(ActionEvent event) {
-//
-//	}
-//
-//	private void loadData() {
-//		DictionaryPage dictionaryPage = model.getDictionaryPage(0, 2);
-//
-////		List<Vocable> lista = new ArrayList<>();
-////		lista.add(new Vocable("ciao"));
-//	
-//		observableMap_dictionary = FXCollections.observableMap(dictionaryPage.getDictionary());
-//		
-//		listView_vocables.getItems().setAll(observableMap_dictionary.keySet());
-//		
-//		for(Vocable v : observableMap_dictionary.keySet()){
-//			System.out.println("v " + v.getName());
-//		}
-//				
-////		List<Vocable> listVocables = new ArrayList<>();
-////		listVocables.addAll(observableMap_dictionary.keySet());
-//		
-////		ObservableList<Vocable> myObservableList = FXCollections.observableList(listVocables);
-//		
-////		myObservableList.getItems().setAll(extensionToMimeMap.keySet());
-//		
-////		ObservableList<Vocable> myObservableList = FXCollections.observableList(dictionaryPage.getVocables());
-//
-//		listView_vocables.setCellFactory((ListView<Vocable> d) -> {
-//			ListCell<Vocable> cell = new ListCell<Vocable>() {
-//
-//				@Override
-//				protected void updateItem(Vocable v, boolean bln) {
-//					super.updateItem(v, bln);
-//					if (v != null) {
-//						setText(v.getName());
-//					}
-//				}
-//
-//			};
-//
-//			return cell;
-//		});
-//
-//		listView_vocables.setItems(myObservableList);
-//	}
-//}
+	private void resetView() {
+		textArea_translations.clear();
+		list_vocables.getSelectionModel().select(null);
+	}
+}

@@ -11,22 +11,22 @@ import java.util.Map;
  */
 public class DictionaryPage {
 
-	private int pageNumber;
+	private int offset;
 	private int pageDimension;
 	private List<Vocable> vocables = new ArrayList<>();
 	private Map<Vocable, List<Translation>> dictionary = new HashMap<>();
 
-	public DictionaryPage(int pageNumber, int pageDimension) {
-		this.pageNumber = pageNumber;
+	public DictionaryPage(int offset, int pageDimension) {
+		this.offset = offset;
 		this.pageDimension = pageDimension;
 	}
 
-	public int getPageNumber() {
-		return pageNumber;
+	public int getOffset() {
+		return offset;
 	}
 
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
 
 	public int getPageDimension() {

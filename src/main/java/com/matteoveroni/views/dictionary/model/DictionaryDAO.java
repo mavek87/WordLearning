@@ -21,19 +21,28 @@ public class DictionaryDAO {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DictionaryDAO.class);
 
-	public DictionaryPage getDictionaryPage(int pageNumber, int pageDimension) {
-		DictionaryPage dictionaryPage = new DictionaryPage(pageNumber, pageDimension);
+	public DictionaryPage getDictionaryPage(int offset, int pageDimension) {
+		DictionaryPage dictionaryPage = new DictionaryPage(offset, pageDimension);
 		String query = "SELECT Id, Vocable FROM dictionary LIMIT ? OFFSET ?";
 		try (Connection connection = Database.getInstance().getConnection();
-			PreparedStatement statement = connection.prepareStatement(query);) {
-			statement.setInt(1, 2);
-			statement.setInt(2, 0);
-			try (ResultSet resultSet = statement.executeQuery()) {
-				while (resultSet.next()) {
-					String str_vocable = resultSet.getString("Vocable");
-					System.out.println(str_vocable);
-					dictionaryPage.addVocable(new Vocable(str_vocable));
-					dictionaryPage.addVocableToDictionary(new Vocable(str_vocable));
+			PreparedStatement statementVocables = connection.prepareStatement(query);) {
+			statementVocables.setInt(1, pageDimension);
+			statementVocables.setInt(2, offset);
+			try (ResultSet resultSetVocables = statementVocables.executeQuery()) {
+				while (resultSetVocables.next()) {
+					Vocable vocable = new Vocable(resultSetVocables.getString("Vocable"));
+					dictionaryPage.addVocable(vocable);
+					dictionaryPage.addVocableToDictionary(vocable);
+
+					long long_id = resultSetVocables.getLong("Id");
+					String queryTranslations = "SELECT t.Translation FROM Translations t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id=" + long_id;
+					try (PreparedStatement statementTranslations = connection.prepareStatement(queryTranslations);
+						ResultSet resultSetTranslations = statementTranslations.executeQuery()) {
+						while (resultSetTranslations.next()) {
+							Translation translation = new Translation(resultSetTranslations.getString("Translation"));
+							dictionaryPage.addTranslationForVocable(translation, vocable);
+						}
+					}
 				}
 			}
 		} catch (SQLException ex) {

@@ -21,8 +21,14 @@ public class Translation {
 	public void setTranslation(String translation) {
 		this.translation = translation;
 	}
-
+	
 	public String objectToJson() {
 		return GsonSingleton.getInstance().toJson(this);
 	}
+
+	@Override
+	public String toString() {
+		return getTranslation();
+	}
+	
 }
