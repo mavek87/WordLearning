@@ -16,7 +16,7 @@
                <center>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="remove" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%remove" />
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%remove" />
                         <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%modify" />
                         <Button mnemonicParsing="false" onAction="#add" prefHeight="30.0" prefWidth="150.0" text="%add" />
                      </children>
@@ -40,8 +40,8 @@
                               <Label text="Vocabulary Words" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
-                        <ListView fx:id="list_vocables" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                        <BorderPane prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <ListView fx:id="list_vocables" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                        <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
@@ -51,7 +51,8 @@
                               <Label text="Translations" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
-                        <TextArea fx:id="textArea_translations" editable="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                        <TextArea fx:id="textArea_translations" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                        <BorderPane fx:id="actionPaneTranslations" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </items>

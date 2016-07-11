@@ -22,6 +22,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +43,10 @@ public class DictionaryPresenter implements Initializable {
     private ListView<Vocable> list_vocables = new ListView<>();
     @FXML
     private TextArea textArea_translations;
+    @FXML
+    private BorderPane actionPaneVocabulary;
+    @FXML
+    private BorderPane actionPaneTranslations;
 
     private DictionaryPage dictionaryPage;
 
@@ -81,12 +87,18 @@ public class DictionaryPresenter implements Initializable {
         list_vocables.setItems(myObservableList);
 
         defineListVocablesBehaviours();
+        defineTranslationsAreaBehaviours();
     }
 
     private void defineListVocablesBehaviours() {
         setListVocablesCellFactory();
-        defineListVocablesSelectionBehaviours();
+        defineListVocablesSelectionBehaviour();
+        defineListVocablesFocusBehaviour();
         defineListVocablesSorting();
+    }
+
+    private void defineTranslationsAreaBehaviours() {
+        defineTranslationsAreaFocusBehaviour();
     }
 
     private void setListVocablesCellFactory() {
@@ -106,7 +118,7 @@ public class DictionaryPresenter implements Initializable {
         });
     }
 
-    private void defineListVocablesSelectionBehaviours() {
+    private void defineListVocablesSelectionBehaviour() {
         list_vocables.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Vocable>() {
             @Override
             public void changed(ObservableValue<? extends Vocable> observable, Vocable oldValue, Vocable newValue) {
@@ -115,6 +127,7 @@ public class DictionaryPresenter implements Initializable {
                     LOG.debug("Vocable found => " + newValue.getName());
                     if (translations != null) {
                         populateTextAreaTranslations(translations);
+                        showActionPanelVocabulary(true);
                     }
                 }
             }
@@ -134,12 +147,107 @@ public class DictionaryPresenter implements Initializable {
         });
     }
 
+    private void defineListVocablesFocusBehaviour() {
+        list_vocables.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue == true) {
+                    if (list_vocables.getSelectionModel().getSelectedItem() == null) {
+                        list_vocables.getSelectionModel().selectFirst();
+                    }
+                    showActionPanelVocabulary(true);
+                } else {
+                    list_vocables.getSelectionModel().select(null);
+                    showActionPanelVocabulary(false);
+                }
+            }
+        });
+    }
+
     private void defineListVocablesSorting() {
         Collections.sort(list_vocables.getItems(), (Vocable voc1, Vocable voc2) -> voc1.toString().compareTo(voc2.toString()));
     }
 
+    private void defineTranslationsAreaFocusBehaviour() {
+        textArea_translations.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue == true) {
+                    showActionPanelTranslations(true);
+                } else {
+                    showActionPanelTranslations(false);
+                }
+            }
+        });
+    }
+
+    private void showActionPanelVocabulary(boolean isShown) {
+        if (isShown) {
+            AnchorPane.setBottomAnchor(list_vocables, 50.0);
+        } else {
+            AnchorPane.setBottomAnchor(list_vocables, 0.0);
+        }
+    }
+
+    private void showActionPanelTranslations(boolean isShown) {
+        if (isShown) {
+            AnchorPane.setBottomAnchor(textArea_translations, 50.0);
+        } else {
+            AnchorPane.setBottomAnchor(textArea_translations, 0.0);
+        }
+    }
+
     private void resetView() {
+        showActionPanelVocabulary(false);
+        showActionPanelTranslations(false);
         textArea_translations.clear();
         list_vocables.getSelectionModel().select(null);
     }
+
+//    code for modifiable listview
+//    ListView<String> list = new ListView<>();
+//    Image testImg = new Rectangle(12, 12, Color.CORNFLOWERBLUE).snapshot(null, null);
+//    for (int i = 0;
+//    i< 6; i
+//
+//    
+//        ++) {
+//            list.getItems().add("label " + i);
+//    }
+//
+//    StringConverter<String> identityStringConverter = new DefaultStringConverter();
+//
+//    list.setCellFactory (lv  -> new TextFieldListCell<String>(identityStringConverter) {
+//
+//    private ImageView imageView = new ImageView(testImg);
+//
+//    @Override
+//    public void updateItem(String item, boolean empty) {
+//        super.updateItem(item, empty);
+//        if (!empty && !isEditing()) {
+//            setStaticGraphic();
+//        }
+//    }
+//
+//    @Override
+//    public void cancelEdit() {
+//        super.cancelEdit();
+//        setStaticGraphic();
+//    }
+//
+//    @Override
+//    public void commitEdit(String newValue) {
+//        super.commitEdit(newValue);
+//        setStaticGraphic();
+//    }
+//
+//    private void setStaticGraphic() {
+//        setGraphic(imageView);
+//        setContentDisplay(ContentDisplay.LEFT);
+//        setGraphicTextGap(10.2);
+//    }
+//}
+//);
+//
+//        list.setEditable(true);
 }
