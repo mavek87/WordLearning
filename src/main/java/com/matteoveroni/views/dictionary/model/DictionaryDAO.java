@@ -1,8 +1,6 @@
 package com.matteoveroni.views.dictionary.model;
 
-import com.matteoveroni.App;
 import com.matteoveroni.database.Database;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,38 +14,52 @@ import org.slf4j.LoggerFactory;
  */
 public class DictionaryDAO {
 
-	private final File fileDictionary = new File(App.PATH_DATA + File.separator + "dictionary.json");
-	private final File fileDatabase = new File(App.PATH_DATABASE + File.separator + "database.sqlite");
+    private static final Logger LOG = LoggerFactory.getLogger(DictionaryDAO.class);
 
-	private static final Logger LOG = LoggerFactory.getLogger(DictionaryDAO.class);
+    public DictionaryPage getDictionaryPage(int offset, int pageDimension) {
+        DictionaryPage dictionaryPage = new DictionaryPage(offset, pageDimension);
+        String queryVocables = "SELECT Id, Vocable FROM dictionary ORDER BY Vocable ASC LIMIT ? OFFSET ?";
+        String queryTranslations = "SELECT t.Translation FROM Translations t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id=?";
 
-	public DictionaryPage getDictionaryPage(int offset, int pageDimension) {
-		DictionaryPage dictionaryPage = new DictionaryPage(offset, pageDimension);
-		String query = "SELECT Id, Vocable FROM dictionary LIMIT ? OFFSET ?";
-		try (Connection connection = Database.getInstance().getConnection();
-			PreparedStatement statementVocables = connection.prepareStatement(query);) {
-			statementVocables.setInt(1, pageDimension);
-			statementVocables.setInt(2, offset);
-			try (ResultSet resultSetVocables = statementVocables.executeQuery()) {
-				while (resultSetVocables.next()) {
-					Vocable vocable = new Vocable(resultSetVocables.getString("Vocable"));
-					dictionaryPage.addVocable(vocable);
-					dictionaryPage.addVocableToDictionary(vocable);
+        try (Connection connection = Database.getInstance().getConnection();
+            PreparedStatement statementVocables = connection.prepareStatement(queryVocables);
+            PreparedStatement statementTranslations = connection.prepareStatement(queryTranslations)) {
 
-					long long_id = resultSetVocables.getLong("Id");
-					String queryTranslations = "SELECT t.Translation FROM Translations t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id=" + long_id;
-					try (PreparedStatement statementTranslations = connection.prepareStatement(queryTranslations);
-						ResultSet resultSetTranslations = statementTranslations.executeQuery()) {
-						while (resultSetTranslations.next()) {
-							Translation translation = new Translation(resultSetTranslations.getString("Translation"));
-							dictionaryPage.addTranslationForVocable(translation, vocable);
-						}
-					}
-				}
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return dictionaryPage;
-	}
+            statementVocables.setInt(1, pageDimension);
+            statementVocables.setInt(2, offset);
+
+            populateDictionaryPageWithVocablesAndTranslations(dictionaryPage, statementVocables, statementTranslations);
+        } catch (SQLException ex) {
+            LOG.error(ex.getMessage());
+            Database.getInstance().printSQLException(ex);
+        }
+        return dictionaryPage;
+    }
+
+    private void populateDictionaryPageWithVocablesAndTranslations(DictionaryPage dictionaryPage, final PreparedStatement statementVocables, final PreparedStatement statementTranslations) throws SQLException {
+        try (ResultSet resultSetVocables = statementVocables.executeQuery()) {
+            while (resultSetVocables.next()) {
+                // Check resultSetVocables.getString("Vocable") != null
+                Vocable vocable = new Vocable(resultSetVocables.getString("Vocable"));
+                LOG.debug(vocable.toString());
+                dictionaryPage.addVocable(vocable);
+
+                long vocableId = resultSetVocables.getLong("Id");
+                statementTranslations.setLong(1, vocableId);
+                populateDictionaryPageWithTranslations(dictionaryPage, statementTranslations, vocable);
+            }
+        }
+    }
+
+    private void populateDictionaryPageWithTranslations(DictionaryPage dictionaryPage, final PreparedStatement statementTranslations, Vocable vocable) throws SQLException {
+        try (ResultSet resultSetTranslations = statementTranslations.executeQuery()) {
+            while (resultSetTranslations.next()) {
+                // Check resultSetTranslations.getString("Translation") != null
+                Translation translation = new Translation(resultSetTranslations.getString("Translation"));
+                LOG.debug(translation.toString());
+                dictionaryPage.addTranslationForVocable(translation, vocable);
+            }
+        }
+
+    }
 }

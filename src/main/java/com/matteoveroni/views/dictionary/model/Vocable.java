@@ -4,7 +4,7 @@ package com.matteoveroni.views.dictionary.model;
  *
  * @author Matteo Veroni
  */
-public class Vocable {
+public class Vocable{
 
 	private final String name;
 
@@ -20,4 +20,5 @@ public class Vocable {
 	public String toString() {
 		return getName();
 	}
+    
 }

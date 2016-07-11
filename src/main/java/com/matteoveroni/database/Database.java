@@ -66,7 +66,7 @@ public class Database {
         return DriverManager.getConnection("jdbc:sqlite:" + DATABASE_PATH);
     }
 
-    private static void printSQLException(SQLException ex) {
+    public void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {
 

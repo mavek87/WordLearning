@@ -13,7 +13,6 @@ public class DictionaryPage {
 
 	private int offset;
 	private int pageDimension;
-	private List<Vocable> vocables = new ArrayList<>();
 	private Map<Vocable, List<Translation>> dictionary = new HashMap<>();
 
 	public DictionaryPage(int offset, int pageDimension) {
@@ -37,18 +36,6 @@ public class DictionaryPage {
 		this.pageDimension = pageDimension;
 	}
 
-	public void setVocables(List<Vocable> vocables) {
-		this.vocables = vocables;
-	}
-
-	public List<Vocable> getVocables() {
-		return this.vocables;
-	}
-
-	public void addVocable(Vocable vocable) {
-		vocables.add(vocable);
-	}
-
 	public Map<Vocable, List<Translation>> getDictionary() {
 		return dictionary;
 	}
@@ -66,7 +53,7 @@ public class DictionaryPage {
 		dictionary.put(vocable, translations);
 	}
 
-	public void addVocableToDictionary(Vocable vocable) {
+	public void addVocable(Vocable vocable) {
 		// TODO throw exception if vocable exists
 		if(!dictionary.containsKey(vocable)) {
 			dictionary.put(vocable, null);

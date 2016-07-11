@@ -9,6 +9,7 @@ import com.matteoveroni.views.dictionary.model.Translation;
 import com.matteoveroni.views.dictionary.model.Vocable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -34,97 +35,111 @@ import org.slf4j.LoggerFactory;
  */
 public class DictionaryPresenter implements Initializable {
 
-	@Inject
-	private DictionaryDAO model;
-	@FXML
-	private ListView<Vocable> list_vocables = new ListView<>();
-	@FXML
-	private TextArea textArea_translations;
+    @Inject
+    private DictionaryDAO model;
+    @FXML
+    private ListView<Vocable> list_vocables = new ListView<>();
+    @FXML
+    private TextArea textArea_translations;
 
-	private DictionaryPage dictionaryPage;
+    private DictionaryPage dictionaryPage;
 
-	private int pageOffset = 0;
-	private int pageDimension = 10;
+    private int pageOffset = 0;
+    private int pageDimension = 10;
 
-	private static final Logger LOG = LoggerFactory.getLogger(DictionaryPresenter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DictionaryPresenter.class);
 
-	@Subscribe
-	public void onViewChanged(EventViewChanged eventViewChanged) {
-		if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
-			resetView();
-			loadData();
-		}
-	}
+    @Subscribe
+    public void onViewChanged(EventViewChanged eventViewChanged) {
+        if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
+            resetView();
+            loadData();
+        }
+    }
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-	}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
 
-	@FXML
-	void goBack(ActionEvent event) {
-		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
-	}
+    @FXML
+    void goBack(ActionEvent event) {
+        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+    }
 
-	@FXML
-	void add(ActionEvent event) {
+    @FXML
+    void add(ActionEvent event) {
+    }
 
-	}
+    private void loadData() {
+        dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
 
-	private void loadData() {
-		dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
+        List<Vocable> lista = new ArrayList<>();
+        lista.addAll(dictionaryPage.getDictionary().keySet());
 
-		List<Vocable> lista = new ArrayList<>();
-		lista.addAll(dictionaryPage.getDictionary().keySet());
+        ObservableList<Vocable> myObservableList = FXCollections.observableList(lista);
 
-		ObservableList<Vocable> myObservableList = FXCollections.observableList(lista);
+        list_vocables.setItems(myObservableList);
 
-		list_vocables.setCellFactory((ListView<Vocable> d) -> {
-			ListCell<Vocable> cell = new ListCell<Vocable>() {
+        defineListVocablesBehaviours();
+    }
 
-				@Override
-				protected void updateItem(Vocable v, boolean bln) {
-					super.updateItem(v, bln);
-					if (v != null) {
-						setText(v.getName());
-					}
-				}
+    private void defineListVocablesBehaviours() {
+        setListVocablesCellFactory();
+        defineListVocablesSelectionBehaviours();
+        defineListVocablesSorting();
+    }
 
-			};
+    private void setListVocablesCellFactory() {
+        list_vocables.setCellFactory((ListView<Vocable> d) -> {
+            ListCell<Vocable> cell = new ListCell<Vocable>() {
 
-			return cell;
-		});
+                @Override
+                protected void updateItem(Vocable v, boolean bln) {
+                    super.updateItem(v, bln);
+                    if (v != null) {
+                        setText(v.getName());
+                    }
+                }
+            };
 
-		list_vocables.setItems(myObservableList);
+            return cell;
+        });
+    }
 
-		list_vocables.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Vocable>() {
-			@Override
-			public void changed(ObservableValue<? extends Vocable> observable, Vocable oldValue, Vocable newValue) {
-				if (newValue != null) {
-					List<Translation> translations = dictionaryPage.getDictionary().get(newValue);
-					LOG.debug("Vocable found => " + newValue.getName());
-					if (translations != null) {
-						populateTextAreaTranslations(translations);
-					}
-				}
-			}
+    private void defineListVocablesSelectionBehaviours() {
+        list_vocables.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Vocable>() {
+            @Override
+            public void changed(ObservableValue<? extends Vocable> observable, Vocable oldValue, Vocable newValue) {
+                if (newValue != null) {
+                    List<Translation> translations = dictionaryPage.getDictionary().get(newValue);
+                    LOG.debug("Vocable found => " + newValue.getName());
+                    if (translations != null) {
+                        populateTextAreaTranslations(translations);
+                    }
+                }
+            }
 
-			private void populateTextAreaTranslations(List<Translation> translations) {
-				textArea_translations.clear();
-				String str_translations = "";
-				for (int i = 0; i < translations.size(); i++) {
-					LOG.debug("Translation found => " + translations.get(i));
-					str_translations += translations.get(i);
-					if (i >= 0 && i < translations.size() - 1) {
-						str_translations += ", ";
-					}
-					textArea_translations.setText(str_translations);
-				}
-			}
-		});
-	}
+            private void populateTextAreaTranslations(List<Translation> translations) {
+                textArea_translations.clear();
+                String str_translations = "";
+                for (int i = 0; i < translations.size(); i++) {
+                    LOG.debug("Translation found => " + translations.get(i));
+                    str_translations += translations.get(i);
+                    if (i >= 0 && i < translations.size() - 1) {
+                        str_translations += ", ";
+                    }
+                    textArea_translations.setText(str_translations);
+                }
+            }
+        });
+    }
 
-	private void resetView() {
-		textArea_translations.clear();
-		list_vocables.getSelectionModel().select(null);
-	}
+    private void defineListVocablesSorting() {
+        Collections.sort(list_vocables.getItems(), (Vocable voc1, Vocable voc2) -> voc1.toString().compareTo(voc2.toString()));
+    }
+
+    private void resetView() {
+        textArea_translations.clear();
+        list_vocables.getSelectionModel().select(null);
+    }
 }
