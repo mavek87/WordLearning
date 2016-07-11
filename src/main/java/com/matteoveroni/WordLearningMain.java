@@ -71,6 +71,7 @@ public class WordLearningMain extends Application {
 
     private void unsuscribeMainComponentsFromBus() {
         LOG.debug("Unsubscribing main components to event bus");
+		viewsManager.dispose();
         EventBus.getDefault().unregister(viewsManager);
         EventBus.getDefault().unregister(localeManager);
     }
@@ -104,19 +105,6 @@ public class WordLearningMain extends Application {
                     Database.getInstance().createDb();
                 }
             }
-//            jsonFile = new File(databaseFolder.getAbsolutePath() + File.separator + "dictionary.json");
-//            if (!jsonFile.isFile()) {
-//                if (!jsonFile.createNewFile()) {
-//                    throw new Exception();
-//                } else {
-//                    PersistencyManager.getInstance().writeObjectToJsonFile(createHardCodedDictionaryForTest(), jsonFile);
-//                }
-//            }
-//			else {
-//				Dictionary dictionary = new Dictionary();
-//				dictionary = (Dictionary) PersistencyManager.getInstance().readObjectFromFile(dictionary, jsonFile);
-//				System.out.println("dictionary " + dictionary.convertToJson());
-//			}
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

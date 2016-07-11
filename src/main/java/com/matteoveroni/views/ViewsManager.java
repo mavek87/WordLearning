@@ -5,14 +5,17 @@ import com.matteoveroni.App;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventLanguageChanged;
+import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.dictionary.DictionaryView;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
+import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +24,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matteo Veroni
  */
-public class ViewsManager {
+public class ViewsManager implements Disposable {
 
 	private final Map<ViewName, FXMLView> views = new HashMap<>();
 	private ViewName currentSettedViewName;
@@ -47,6 +50,7 @@ public class ViewsManager {
 
 	@Subscribe
 	public void reloadTranslatedViewsAfterLanguageChanged(EventLanguageChanged eventLanguageChanged) {
+		unregisterViewsFromBus();
 		buildViews();
 		useView(currentSettedViewName);
 	}
@@ -68,6 +72,7 @@ public class ViewsManager {
 		stage.setScene(currentScene);
 		currentSettedViewName = nameOfViewToUse;
 		stage.show();
+		EventBus.getDefault().post(new EventViewChanged(currentSettedViewName));
 	}
 
 	private void applyGeneralCSSToScene() {
@@ -103,5 +108,22 @@ public class ViewsManager {
 		}
 		fxmlView.getView();
 		views.put(viewName, fxmlView);
+		EventBus.getDefault().register(fxmlView.getPresenter());
+		LOG.debug(viewName + " presenter registered to bus");
+	}
+
+	private void unregisterViewsFromBus() {
+		for (FXMLView fxmlView : views.values()) {
+			try {
+				EventBus.getDefault().unregister(fxmlView.getPresenter());
+			} catch (Exception ex) {
+			}
+		}
+		LOG.debug(views.values().size() + " view\'s presenters unregistered from bus");
+	}
+
+	@Override
+	public void dispose() {
+		unregisterViewsFromBus();
 	}
 }
