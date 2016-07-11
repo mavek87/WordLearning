@@ -21,7 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.inject.Inject;
@@ -40,9 +39,9 @@ public class DictionaryPresenter implements Initializable {
     @Inject
     private DictionaryDAO model;
     @FXML
-    private ListView<Vocable> list_vocables = new ListView<>();
+    private ListView<Vocable> listview_vocables = new ListView<>();
     @FXML
-    private TextArea textArea_translations;
+    private ListView<Translation> listview_translations = new ListView<>();
     @FXML
     private BorderPane actionPaneVocabulary;
     @FXML
@@ -82,128 +81,165 @@ public class DictionaryPresenter implements Initializable {
         List<Vocable> lista = new ArrayList<>();
         lista.addAll(dictionaryPage.getDictionary().keySet());
 
-        ObservableList<Vocable> myObservableList = FXCollections.observableList(lista);
-
-        list_vocables.setItems(myObservableList);
+        ObservableList<Vocable> observableVocablesList = FXCollections.observableList(lista);
+        listview_vocables.setItems(observableVocablesList);
 
         defineListVocablesBehaviours();
         defineTranslationsAreaBehaviours();
     }
 
     private void defineListVocablesBehaviours() {
-        setListVocablesCellFactory();
-        defineListVocablesSelectionBehaviour();
-        defineListVocablesFocusBehaviour();
-        defineListVocablesSorting();
+        setVocablesListViewCellFactory();
+        defineVocablesListViewSelectionBehaviour();
+        defineVocablesListViewFocusBehaviour();
+        defineListViewSortingToAlphabeticOrder(listview_vocables);
     }
 
     private void defineTranslationsAreaBehaviours() {
-        defineTranslationsAreaFocusBehaviour();
+        setTranslationsListViewCellFactory();
+//        defineTranslationsListViewSelectionBehaviour();
+//        defineTranslationsListViewFocusBehaviour();
+        defineListViewSortingToAlphabeticOrder(listview_translations);
     }
 
-    private void setListVocablesCellFactory() {
-        list_vocables.setCellFactory((ListView<Vocable> d) -> {
-            ListCell<Vocable> cell = new ListCell<Vocable>() {
+    private void setVocablesListViewCellFactory() {
+        listview_vocables.setCellFactory((ListView<Vocable> d) -> {
+            ListCell<Vocable> vocablesListViewCell = new ListCell<Vocable>() {
 
                 @Override
-                protected void updateItem(Vocable v, boolean bln) {
-                    super.updateItem(v, bln);
-                    if (v != null) {
-                        setText(v.getName());
+                protected void updateItem(Vocable vocable, boolean empty) {
+                    super.updateItem(vocable, empty);
+                    if (empty || vocable == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(vocable.getName());
                     }
                 }
             };
 
-            return cell;
+            return vocablesListViewCell;
+        }
+        );
+    }
+
+    private void setTranslationsListViewCellFactory() {
+        listview_translations.setCellFactory((ListView<Translation> t) -> {
+            ListCell<Translation> translationsListViewCell = new ListCell<Translation>() {
+
+                @Override
+                protected void updateItem(Translation translation, boolean empty) {
+                    super.updateItem(translation, empty);
+                    if (empty || translation == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(translation.getTranslation());
+                    }
+                }
+            };
+
+            return translationsListViewCell;
         });
     }
 
-    private void defineListVocablesSelectionBehaviour() {
-        list_vocables.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Vocable>() {
+    private void defineVocablesListViewSelectionBehaviour() {
+        listview_vocables.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Vocable>() {
             @Override
             public void changed(ObservableValue<? extends Vocable> observable, Vocable oldValue, Vocable newValue) {
                 if (newValue != null) {
                     List<Translation> translations = dictionaryPage.getDictionary().get(newValue);
                     LOG.debug("Vocable found => " + newValue.getName());
                     if (translations != null) {
-                        populateTextAreaTranslations(translations);
+                        populateTranslationsListView(translations);
                         showActionPanelVocabulary(true);
                     }
                 }
             }
 
-            private void populateTextAreaTranslations(List<Translation> translations) {
-                textArea_translations.clear();
-                String str_translations = "";
-                for (int i = 0; i < translations.size(); i++) {
-                    LOG.debug("Translation found => " + translations.get(i));
-                    str_translations += translations.get(i);
-                    if (i >= 0 && i < translations.size() - 1) {
-                        str_translations += ", ";
-                    }
-                    textArea_translations.setText(str_translations);
-                }
+            private void populateTranslationsListView(List<Translation> translations) {
+//                clearListView(listview_translations);
+                ObservableList<Translation> observableListOfTranslations = FXCollections.observableArrayList(translations);
+                listview_translations.setItems(observableListOfTranslations);
             }
         });
     }
 
-    private void defineListVocablesFocusBehaviour() {
-        list_vocables.focusedProperty().addListener(new ChangeListener<Boolean>() {
+    private void defineVocablesListViewFocusBehaviour() {
+        listview_vocables.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue == true) {
-                    if (list_vocables.getSelectionModel().getSelectedItem() == null) {
-                        list_vocables.getSelectionModel().selectFirst();
+                    if (listview_vocables.getSelectionModel().getSelectedItem() == null) {
+                        if (!listview_vocables.getItems().isEmpty()) {
+                            listview_vocables.getSelectionModel().selectFirst();
+                        }
                     }
                     showActionPanelVocabulary(true);
                 } else {
-                    list_vocables.getSelectionModel().select(null);
+                    listview_vocables.getSelectionModel().clearSelection();
+                    listview_vocables.getSelectionModel().select(null);
                     showActionPanelVocabulary(false);
                 }
             }
         });
     }
 
-    private void defineListVocablesSorting() {
-        Collections.sort(list_vocables.getItems(), (Vocable voc1, Vocable voc2) -> voc1.toString().compareTo(voc2.toString()));
-    }
-
-    private void defineTranslationsAreaFocusBehaviour() {
-        textArea_translations.focusedProperty().addListener(new ChangeListener<Boolean>() {
+    private void defineTranslationsListViewFocusBehaviour() {
+        listview_translations.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue == true) {
+                    if (listview_translations.getSelectionModel().getSelectedItem() == null) {
+                        if (!listview_translations.getItems().isEmpty()) {
+                            listview_translations.getSelectionModel().selectFirst();
+                        }
+                    }
                     showActionPanelTranslations(true);
                 } else {
+                    listview_vocables.getSelectionModel().clearSelection();
+                    listview_vocables.getSelectionModel().select(null);
                     showActionPanelTranslations(false);
                 }
             }
         });
     }
 
+//    private void defineVocablesListViewSorting() {
+//        Collections.sort(listview_vocables.getItems(), (Vocable voc1, Vocable voc2) -> voc1.toString().compareTo(voc2.toString()));
+//    }
+    private void defineListViewSortingToAlphabeticOrder(ListView listView) {
+        Collections.sort(listView.getItems(), (Object obj1, Object obj2) -> obj1.toString().compareTo(obj2.toString()));
+    }
+
     private void showActionPanelVocabulary(boolean isShown) {
         if (isShown) {
-            AnchorPane.setBottomAnchor(list_vocables, 50.0);
+            AnchorPane.setBottomAnchor(listview_vocables, 50.0);
         } else {
-            AnchorPane.setBottomAnchor(list_vocables, 0.0);
+            AnchorPane.setBottomAnchor(listview_vocables, 0.0);
         }
     }
 
     private void showActionPanelTranslations(boolean isShown) {
         if (isShown) {
-            AnchorPane.setBottomAnchor(textArea_translations, 50.0);
+            AnchorPane.setBottomAnchor(listview_translations, 50.0);
         } else {
-            AnchorPane.setBottomAnchor(textArea_translations, 0.0);
+            AnchorPane.setBottomAnchor(listview_translations, 0.0);
         }
     }
 
     private void resetView() {
         showActionPanelVocabulary(false);
         showActionPanelTranslations(false);
-        textArea_translations.clear();
-        list_vocables.getSelectionModel().select(null);
+//        clearListView(listview_translations);
+        listview_vocables.getSelectionModel().select(null);
+        listview_translations.getSelectionModel().select(null);
     }
 
+//    private void clearListView(ListView listview) {
+//        listview.setItems(FXCollections.observableArrayList(new ArrayList<Translation>()));
+//        listview.refresh();
+//    }
 //    code for modifiable listview
 //    ListView<String> list = new ListView<>();
 //    Image testImg = new Rectangle(12, 12, Color.CORNFLOWERBLUE).snapshot(null, null);
