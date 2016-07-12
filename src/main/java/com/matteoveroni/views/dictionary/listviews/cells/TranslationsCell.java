@@ -1,4 +1,4 @@
-package com.matteoveroni.views.dictionary.listcells;
+package com.matteoveroni.views.dictionary.listviews.cells;
 
 import com.matteoveroni.views.dictionary.model.Translation;
 import javafx.scene.control.ListCell;
@@ -7,7 +7,7 @@ import javafx.scene.control.ListCell;
  *
  * @author Matteo Veroni
  */
-public class TranslationsListViewCell extends ListCell<Translation> {
+public class TranslationsCell extends ListCell<Translation> {
 
 	@Override
 	protected void updateItem(Translation translation, boolean empty) {

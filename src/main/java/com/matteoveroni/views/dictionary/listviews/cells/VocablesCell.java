@@ -1,4 +1,4 @@
-package com.matteoveroni.views.dictionary.listcells;
+package com.matteoveroni.views.dictionary.listviews.cells;
 
 import com.matteoveroni.views.dictionary.model.Vocable;
 import javafx.scene.control.ListCell;
@@ -7,7 +7,7 @@ import javafx.scene.control.ListCell;
  *
  * @author Matteo veroni
  */
-public class VocablesListViewCell extends ListCell<Vocable> {
+public class VocablesCell extends ListCell<Vocable> {
 
 	@Override
 	protected void updateItem(Vocable vocable, boolean empty) {

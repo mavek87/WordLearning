@@ -6,10 +6,12 @@ import com.matteoveroni.views.dictionary.model.DictionaryDAO;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.dictionary.bus.events.EventShowTranslationsActionPanel;
 import com.matteoveroni.views.dictionary.bus.events.EventShowVocablesActionPanel;
-import com.matteoveroni.views.dictionary.listcells.VocablesListViewCell;
-import com.matteoveroni.views.dictionary.listcells.TranslationsListViewCell;
-import com.matteoveroni.views.dictionary.listeners.SelectionChangeListenerListViewVocables;
-import com.matteoveroni.views.dictionary.listeners.FocusChangeListenerListViewVocables;
+import com.matteoveroni.views.dictionary.listviews.cells.VocablesCell;
+import com.matteoveroni.views.dictionary.listviews.cells.TranslationsCell;
+import com.matteoveroni.views.dictionary.listviews.listeners.FocusChangeListenerTranslations;
+import com.matteoveroni.views.dictionary.listviews.listeners.SelectionChangeListenerVocables;
+import com.matteoveroni.views.dictionary.listviews.listeners.FocusChangeListenerVocables;
+import com.matteoveroni.views.dictionary.listviews.listeners.SelectionChangeListenerTranslations;
 import com.matteoveroni.views.dictionary.model.DictionaryPage;
 import com.matteoveroni.views.dictionary.model.Translation;
 import com.matteoveroni.views.dictionary.model.Vocable;
@@ -39,7 +41,7 @@ import org.slf4j.LoggerFactory;
  * @author Matteo Veroni
  */
 public class DictionaryPresenter implements Initializable {
-	
+
 	@Inject
 	private DictionaryDAO model;
 	@FXML
@@ -50,82 +52,82 @@ public class DictionaryPresenter implements Initializable {
 	private BorderPane actionPaneVocabulary;
 	@FXML
 	private BorderPane actionPaneTranslations;
-	
+
 	private DictionaryPage dictionaryPage;
-	
+
 	private int pageOffset = 0;
 	private int pageDimension = 10;
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(DictionaryPresenter.class);
-	
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+	}
+
 	@Subscribe
 	public void onViewChanged(EventViewChanged eventViewChanged) {
 		if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
 			resetView();
-			loadData();
+			initializeView();
 		}
 	}
-	
+
 	@Subscribe
 	public void onEventShowVocableActionPanelChange(EventShowVocablesActionPanel eventShowVocableActionPanel) {
 		showActionPanel(eventShowVocableActionPanel.getShowValue(), listview_vocables);
 	}
-	
+
 	@Subscribe
 	public void onEventShowVocableActionPanelChange(EventShowTranslationsActionPanel eventShowTranslationsActionPanel) {
 		showActionPanel(eventShowTranslationsActionPanel.getShowValue(), listview_translations);
 	}
-	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-	}
-	
+
 	@FXML
 	void goBack(ActionEvent event) {
 		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
 	}
-	
+
 	@FXML
 	void add(ActionEvent event) {
 	}
-	
-	private void loadData() {
+
+	private void initializeView() {
 		dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
-		
+
 		List<Vocable> lista = new ArrayList<>();
 		lista.addAll(dictionaryPage.getDictionary().keySet());
-		
+
 		ObservableList<Vocable> observableVocablesList = FXCollections.observableList(lista);
 		listview_vocables.setItems(observableVocablesList);
-		
+
 		defineListVocablesBehaviours();
 		defineTranslationsAreaBehaviours();
 	}
-	
+
 	private void defineListVocablesBehaviours() {
 		setVocablesListViewCellFactory();
-		listview_vocables.getSelectionModel().selectedItemProperty().addListener(new SelectionChangeListenerListViewVocables(dictionaryPage, listview_translations));
-		listview_vocables.focusedProperty().addListener(new FocusChangeListenerListViewVocables(listview_vocables));
+		listview_vocables.getSelectionModel().selectedItemProperty().addListener(new SelectionChangeListenerVocables(dictionaryPage, listview_translations));
+		listview_vocables.focusedProperty().addListener(new FocusChangeListenerVocables(listview_vocables));
 		Collections.sort(listview_vocables.getItems(), (Vocable v1, Vocable v2) -> v1.toString().compareTo(v2.toString()));
 	}
-	
+
 	private void setVocablesListViewCellFactory() {
 		listview_vocables.setCellFactory((ListView<Vocable> d) -> {
-			ListCell<Vocable> vocablesListViewCell = new VocablesListViewCell();
+			ListCell<Vocable> vocablesListViewCell = new VocablesCell();
 			return vocablesListViewCell;
 		});
 	}
-	
+
 	private void defineTranslationsAreaBehaviours() {
 		setTranslationsListViewCellFactory();
-//        defineTranslationsListViewSelectionBehaviour();
-//        defineTranslationsListViewFocusBehaviour();
-		Collections.sort(listview_translations.getItems(), (Translation t1, Translation t2) -> t1.toString().compareTo(t2.toString()));
+		listview_translations.getSelectionModel().selectedItemProperty().addListener(new SelectionChangeListenerTranslations());
+		listview_translations.focusedProperty().addListener(new FocusChangeListenerTranslations(listview_translations));
+//		Collections.sort(listview_translations.getItems(), (Translation t1, Translation t2) -> t1.toString().compareTo(t2.toString()));
 	}
-	
+
 	private void setTranslationsListViewCellFactory() {
 		listview_translations.setCellFactory((ListView<Translation> t) -> {
-			ListCell<Translation> translationsListViewCell = new TranslationsListViewCell();
+			ListCell<Translation> translationsListViewCell = new TranslationsCell();
 			return translationsListViewCell;
 		});
 	}
@@ -162,7 +164,7 @@ public class DictionaryPresenter implements Initializable {
 			AnchorPane.setBottomAnchor(listview, 0.0);
 		}
 	}
-	
+
 	private void resetView() {
 		showActionPanel(false, listview_vocables);
 		showActionPanel(false, listview_translations);

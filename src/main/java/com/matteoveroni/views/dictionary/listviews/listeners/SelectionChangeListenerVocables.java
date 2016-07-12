@@ -1,4 +1,4 @@
-package com.matteoveroni.views.dictionary.listeners;
+package com.matteoveroni.views.dictionary.listviews.listeners;
 
 import com.matteoveroni.views.dictionary.bus.events.EventShowVocablesActionPanel;
 import com.matteoveroni.views.dictionary.model.DictionaryPage;
@@ -18,14 +18,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matteo Veroni
  */
-public class SelectionChangeListenerListViewVocables implements ChangeListener<Vocable> {
+public class SelectionChangeListenerVocables implements ChangeListener<Vocable> {
 
 	private final DictionaryPage dictionaryPage;
 	private final ListView<Translation> listViewTranslations;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(SelectionChangeListenerListViewVocables.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SelectionChangeListenerVocables.class);
 
-	public SelectionChangeListenerListViewVocables(DictionaryPage dictionaryPage, ListView<Translation> listViewTranslations) {
+	public SelectionChangeListenerVocables(DictionaryPage dictionaryPage, ListView<Translation> listViewTranslations) {
 		this.dictionaryPage = dictionaryPage;
 		this.listViewTranslations = listViewTranslations;
 	}
@@ -34,7 +34,7 @@ public class SelectionChangeListenerListViewVocables implements ChangeListener<V
 	public void changed(ObservableValue<? extends Vocable> observable, Vocable oldValue, Vocable newValue) {
 		if (newValue != null) {
 			List<Translation> translations = dictionaryPage.getDictionary().get(newValue);
-			LOG.debug("Vocable found => " + newValue.getName());
+			LOG.debug("Vocable SELECTED = " + newValue.getName());
 			if (translations != null) {
 				populateTranslationsListView(translations);
 				EventBus.getDefault().post(new EventShowVocablesActionPanel(true));
