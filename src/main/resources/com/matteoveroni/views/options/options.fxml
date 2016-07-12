@@ -26,7 +26,7 @@
             </VBox>
          </center>
          <bottom>
-            <Button mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER_LEFT">
+            <Button minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER_LEFT">
                <BorderPane.margin>
                   <Insets bottom="20.0" left="30.0" />
                </BorderPane.margin></Button>

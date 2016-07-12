@@ -1,16 +1,16 @@
 package com.matteoveroni.views.dictionary.listviews.cells;
 
 import com.matteoveroni.views.dictionary.model.Vocable;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.cell.TextFieldListCell;
 
 /**
  *
  * @author Matteo veroni
  */
-public class VocablesCell extends ListCell<Vocable> {
+public class VocablesCell extends TextFieldListCell<Vocable> {
 
 	@Override
-	protected void updateItem(Vocable vocable, boolean empty) {
+	public void updateItem(Vocable vocable, boolean empty) {
 		super.updateItem(vocable, empty);
 		if (empty || vocable == null) {
 			setGraphic(null);

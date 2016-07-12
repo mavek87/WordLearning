@@ -27,15 +27,15 @@ public class FocusChangeListenerVocables implements ChangeListener<Boolean> {
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 		LOG.debug("FOCUS = " + newValue);
 		if (newValue == true) {
-			if (listview_vocables.getSelectionModel().getSelectedItem() == null) {
-				if (!listview_vocables.getItems().isEmpty()) {
-					listview_vocables.getSelectionModel().selectFirst();
-				}
-			}
+//			if (listview_vocables.getSelectionModel().getSelectedItem() == null) {
+//				if (!listview_vocables.getItems().isEmpty()) {
+//					listview_vocables.getSelectionModel().selectFirst();
+//				}
+//			}
 			EventBus.getDefault().post(new EventShowVocablesActionPanel(true));
 		} else {
-			listview_vocables.getSelectionModel().clearSelection();
-			listview_vocables.getSelectionModel().select(null);
+//			listview_vocables.getSelectionModel().clearSelection();
+//			listview_vocables.getSelectionModel().select(null);
 			EventBus.getDefault().post(new EventShowVocablesActionPanel(false));
 		}
 	}

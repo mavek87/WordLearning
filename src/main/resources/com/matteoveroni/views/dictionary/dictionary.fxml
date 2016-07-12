@@ -17,7 +17,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER" />
                </center>
                <left>
-                  <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="120.0" text="%back" BorderPane.alignment="CENTER" />
+                  <Button minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER" />
                </left>
                <BorderPane.margin>
                   <Insets left="30.0" right="30.0" />
@@ -31,7 +31,7 @@
                      <children>
                         <BorderPane prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <center>
-                              <Label text="Vocabulary Words" BorderPane.alignment="CENTER" />
+                              <Label text="%vocabulary" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <ListView fx:id="listview_vocables" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
@@ -42,7 +42,7 @@
                      <children>
                         <BorderPane prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <center>
-                              <Label text="Translations" BorderPane.alignment="CENTER" />
+                              <Label text="%translations" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <ListView fx:id="listview_translations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />

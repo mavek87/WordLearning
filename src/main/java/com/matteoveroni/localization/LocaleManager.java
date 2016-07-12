@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matteo Veroni
  */
-public class LocaleManager {
+public class LocaleManager{
 
     private Locale applicationLocale;
     private static final Logger LOG = LoggerFactory.getLogger(LocaleManager.class);

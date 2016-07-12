@@ -67,40 +67,49 @@ public class WordLearningMain extends Application {
 
     private void unsuscribeMainComponentsFromBus() {
         LOG.debug("Unsubscribing main components to event bus");
-		viewsManager.dispose();
+        viewsManager.dispose();
         EventBus.getDefault().unregister(viewsManager);
         EventBus.getDefault().unregister(localeManager);
     }
 
     private void createProgramFolder() {
-        File wordLearningFolder;
-        File databaseFolder;
-        File databaseFile;
         try {
-            wordLearningFolder = new File(App.PATH);
-            LOG.debug("word learning folder => " + wordLearningFolder.getAbsolutePath());
-            if (!wordLearningFolder.isDirectory()) {
-                if (!wordLearningFolder.mkdir()) {
-                    throw new Exception();
-                }
-            }
-            databaseFolder = new File(App.PATH_DATABASE);
-            LOG.debug("database folder => " + databaseFolder.getAbsolutePath());
-            if (!databaseFolder.isDirectory()) {
-                if (!databaseFolder.mkdir()) {
-                    throw new Exception();
-                }
-            }
-            databaseFile = new File(databaseFolder.getAbsolutePath() + File.separator + "database.sqlite");
-            if (!databaseFile.isFile()) {
-                if (!databaseFile.createNewFile()) {
-                    throw new Exception();
-                } else {
-                    Database.getInstance().createDb();
-                }
-            }
+            createWordLearningFolder();
+            createDatabaseFolder();
+            createDatabaseFile();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    private void createWordLearningFolder() throws Exception {
+        File wordLearningFolder = new File(App.PATH);
+        LOG.debug("word learning folder => " + wordLearningFolder.getAbsolutePath());
+        if (!wordLearningFolder.isDirectory()) {
+            if (!wordLearningFolder.mkdir()) {
+                throw new Exception();
+            }
+        }
+    }
+
+    private void createDatabaseFolder() throws Exception {
+        File databaseFolder = new File(App.PATH_DATABASE);
+        LOG.debug("database folder => " + databaseFolder.getAbsolutePath());
+        if (!databaseFolder.isDirectory()) {
+            if (!databaseFolder.mkdir()) {
+                throw new Exception();
+            }
+        }
+    }
+
+    private void createDatabaseFile() throws Exception {
+        File databaseFile = new File(App.PATH_DATABASE + File.separator + "database.sqlite");
+        if (!databaseFile.isFile()) {
+            if (!databaseFile.createNewFile()) {
+                throw new Exception();
+            } else {
+                Database.getInstance().createDb();
+            }
         }
     }
 }
