@@ -15,6 +15,7 @@ import com.matteoveroni.views.dictionary.listviews.listeners.SelectionChangeList
 import com.matteoveroni.views.dictionary.model.DictionaryPage;
 import com.matteoveroni.views.dictionary.model.Translation;
 import com.matteoveroni.views.dictionary.model.Vocable;
+import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +41,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matteo Veroni
  */
-public class DictionaryPresenter implements Initializable {
+public class DictionaryPresenter implements Initializable, Disposable {
 
 	@Inject
 	private DictionaryDAO model;
@@ -92,6 +93,14 @@ public class DictionaryPresenter implements Initializable {
 		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
 	}
 
+	@Override
+	public void dispose() {
+		disposeSelectionChangeListenerVocables();
+		disposeFocusChangeListenerVocables();
+		disposeSelectionChangeListenerTranslations();
+		disposeFocusChangeListenerTranslations();
+	}
+
 	private void initializeView() {
 		dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
 
@@ -122,23 +131,13 @@ public class DictionaryPresenter implements Initializable {
 	}
 
 	private void setSelectionChangeListenerForVocablesListView() {
-		if (selectionChangeListenerVocables != null) {
-			try {
-				listview_vocables.getSelectionModel().selectedItemProperty().removeListener(selectionChangeListenerVocables);
-			} catch (Exception ex) {
-			}
-		}
+		disposeSelectionChangeListenerVocables();
 		selectionChangeListenerVocables = new SelectionChangeListenerVocables(dictionaryPage, listview_translations);
 		listview_vocables.getSelectionModel().selectedItemProperty().addListener(selectionChangeListenerVocables);
 	}
 
 	private void setFocusChangeListenerForVocablesListView() {
-		if (focusChangeListenerVocables != null) {
-			try {
-				listview_vocables.focusedProperty().removeListener(focusChangeListenerVocables);
-			} catch (Exception ex) {
-			}
-		}
+		disposeFocusChangeListenerVocables();
 		focusChangeListenerVocables = new FocusChangeListenerVocables(listview_vocables);
 		listview_vocables.focusedProperty().addListener(focusChangeListenerVocables);
 	}
@@ -153,23 +152,13 @@ public class DictionaryPresenter implements Initializable {
 	}
 
 	private void setSelectionChangeListenerForTranslationsListView() {
-		if (selectionChangeListenerTranslations != null) {
-			try {
-				listview_translations.getSelectionModel().selectedItemProperty().removeListener(selectionChangeListenerTranslations);
-			} catch (Exception ex) {
-			}
-		}
+		disposeSelectionChangeListenerTranslations();
 		selectionChangeListenerTranslations = new SelectionChangeListenerTranslations();
 		listview_translations.getSelectionModel().selectedItemProperty().addListener(selectionChangeListenerTranslations);
 	}
 
 	private void setFocusChangeListenerForTranslationsListView() {
-		if (focusChangeListenerTranslations != null) {
-			try {
-				listview_translations.focusedProperty().removeListener(focusChangeListenerTranslations);
-			} catch (Exception ex) {
-			}
-		}
+		disposeFocusChangeListenerTranslations();
 		focusChangeListenerTranslations = new FocusChangeListenerTranslations(listview_translations);
 		listview_translations.focusedProperty().addListener(focusChangeListenerTranslations);
 	}
@@ -196,6 +185,42 @@ public class DictionaryPresenter implements Initializable {
 		listview_translations.getSelectionModel().select(null);
 		listview_vocables.setItems(null);
 		listview_translations.setItems(null);
+	}
+
+	private void disposeSelectionChangeListenerVocables() {
+		if (selectionChangeListenerVocables != null) {
+			try {
+				listview_vocables.getSelectionModel().selectedItemProperty().removeListener(selectionChangeListenerVocables);
+			} catch (Exception ex) {
+			}
+		}
+	}
+
+	private void disposeFocusChangeListenerVocables() {
+		if (focusChangeListenerVocables != null) {
+			try {
+				listview_vocables.focusedProperty().removeListener(focusChangeListenerVocables);
+			} catch (Exception ex) {
+			}
+		}
+	}
+
+	private void disposeSelectionChangeListenerTranslations() {
+		if (selectionChangeListenerTranslations != null) {
+			try {
+				listview_translations.getSelectionModel().selectedItemProperty().removeListener(selectionChangeListenerTranslations);
+			} catch (Exception ex) {
+			}
+		}
+	}
+
+	private void disposeFocusChangeListenerTranslations() {
+		if (focusChangeListenerTranslations != null) {
+			try {
+				listview_translations.focusedProperty().removeListener(focusChangeListenerTranslations);
+			} catch (Exception ex) {
+			}
+		}
 	}
 
 //    private void clearListView(ListView listview) {

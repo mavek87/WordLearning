@@ -6,11 +6,7 @@ import com.matteoveroni.database.Database;
 import com.matteoveroni.localization.LocaleManager;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.ViewsManager;
-import com.matteoveroni.views.dictionary.model.Dictionary;
-import com.matteoveroni.views.dictionary.model.Translation;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
@@ -80,7 +76,6 @@ public class WordLearningMain extends Application {
         File wordLearningFolder;
         File databaseFolder;
         File databaseFile;
-//        File jsonFile;
         try {
             wordLearningFolder = new File(App.PATH);
             LOG.debug("word learning folder => " + wordLearningFolder.getAbsolutePath());
@@ -101,29 +96,11 @@ public class WordLearningMain extends Application {
                 if (!databaseFile.createNewFile()) {
                     throw new Exception();
                 } else {
-                    LOG.info("AAAAAAAAAAAAa");
                     Database.getInstance().createDb();
                 }
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    private Dictionary createHardCodedDictionaryForTest() {
-        String wordGuardare = "guardare";
-        List<Translation> translationsOfGuardare = new ArrayList<>();
-        translationsOfGuardare.add(new Translation("look"));
-        translationsOfGuardare.add(new Translation("watch"));
-
-        String wordSentire = "sentire";
-        List<Translation> translationsOfSentire = new ArrayList<>();
-        translationsOfSentire.add(new Translation("look"));
-        translationsOfSentire.add(new Translation("watch"));
-
-        Dictionary dictionary = new Dictionary();
-        dictionary.createWordAndTranslations(wordSentire, translationsOfSentire);
-        dictionary.createWordAndTranslations(wordGuardare, translationsOfGuardare);
-        return dictionary;
     }
 }
