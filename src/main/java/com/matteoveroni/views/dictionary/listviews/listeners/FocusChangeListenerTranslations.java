@@ -25,7 +25,7 @@ public class FocusChangeListenerTranslations implements ChangeListener<Boolean> 
 
 	@Override
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-		LOG.debug("focus translations = " + newValue);
+		LOG.debug("FOCUS = " + newValue);
 		if (newValue == true) {
 			if (listview_translations.getSelectionModel().getSelectedItem() == null) {
 				if (listview_translations.getItems() != null && !listview_translations.getItems().isEmpty()) {

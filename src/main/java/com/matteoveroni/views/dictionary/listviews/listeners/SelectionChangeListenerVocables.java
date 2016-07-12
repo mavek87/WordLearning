@@ -22,7 +22,7 @@ public class SelectionChangeListenerVocables implements ChangeListener<Vocable> 
 
 	private final DictionaryPage dictionaryPage;
 	private final ListView<Translation> listViewTranslations;
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(SelectionChangeListenerVocables.class);
 
 	public SelectionChangeListenerVocables(DictionaryPage dictionaryPage, ListView<Translation> listViewTranslations) {
@@ -34,7 +34,8 @@ public class SelectionChangeListenerVocables implements ChangeListener<Vocable> 
 	public void changed(ObservableValue<? extends Vocable> observable, Vocable oldValue, Vocable newValue) {
 		if (newValue != null) {
 			List<Translation> translations = dictionaryPage.getDictionary().get(newValue);
-			LOG.debug("Vocable SELECTED = " + newValue.getName());
+			LOG.debug("SELECTION = " + newValue.getName());
+
 			if (translations != null) {
 				populateTranslationsListView(translations);
 				EventBus.getDefault().post(new EventShowVocablesActionPanel(true));

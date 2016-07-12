@@ -19,7 +19,7 @@ public class SelectionChangeListenerTranslations implements ChangeListener<Trans
 	@Override
 	public void changed(ObservableValue<? extends Translation> observable, Translation oldValue, Translation newValue) {
 		if (newValue != null) {
-			LOG.debug("Translation SELECTED = " + newValue.getTranslation());
+			LOG.debug("SELECTION = " + newValue.getTranslation());
 			EventBus.getDefault().post(new EventShowTranslationsActionPanel(true));
 		}
 	}
