@@ -4,9 +4,10 @@ import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.dictionary.model.DictionaryDAO;
 import com.matteoveroni.views.ViewName;
-import com.matteoveroni.views.dictionary.bus.events.EventShowTranslationsActionPanel1;
+import com.matteoveroni.views.dictionary.bus.events.EventShowTranslationsActionPanel;
 import com.matteoveroni.views.dictionary.bus.events.EventShowVocablesActionPanel;
 import com.matteoveroni.views.dictionary.listcells.VocablesListViewCell;
+import com.matteoveroni.views.dictionary.listcells.TranslationsListViewCell;
 import com.matteoveroni.views.dictionary.listeners.SelectionChangeListenerListViewVocables;
 import com.matteoveroni.views.dictionary.listeners.FocusChangeListenerListViewVocables;
 import com.matteoveroni.views.dictionary.model.DictionaryPage;
@@ -38,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * @author Matteo Veroni
  */
 public class DictionaryPresenter implements Initializable {
-
+	
 	@Inject
 	private DictionaryDAO model;
 	@FXML
@@ -49,14 +50,14 @@ public class DictionaryPresenter implements Initializable {
 	private BorderPane actionPaneVocabulary;
 	@FXML
 	private BorderPane actionPaneTranslations;
-
+	
 	private DictionaryPage dictionaryPage;
-
+	
 	private int pageOffset = 0;
 	private int pageDimension = 10;
-
+	
 	private static final Logger LOG = LoggerFactory.getLogger(DictionaryPresenter.class);
-
+	
 	@Subscribe
 	public void onViewChanged(EventViewChanged eventViewChanged) {
 		if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
@@ -64,80 +65,67 @@ public class DictionaryPresenter implements Initializable {
 			loadData();
 		}
 	}
-
+	
 	@Subscribe
 	public void onEventShowVocableActionPanelChange(EventShowVocablesActionPanel eventShowVocableActionPanel) {
 		showActionPanel(eventShowVocableActionPanel.getShowValue(), listview_vocables);
 	}
-
+	
 	@Subscribe
-	public void onEventShowVocableActionPanelChange(EventShowTranslationsActionPanel1 eventShowTranslationsActionPanel1) {
-		showActionPanel(eventShowTranslationsActionPanel1.getShowValue(), listview_translations);
+	public void onEventShowVocableActionPanelChange(EventShowTranslationsActionPanel eventShowTranslationsActionPanel) {
+		showActionPanel(eventShowTranslationsActionPanel.getShowValue(), listview_translations);
 	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}
-
+	
 	@FXML
 	void goBack(ActionEvent event) {
 		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
 	}
-
+	
 	@FXML
 	void add(ActionEvent event) {
 	}
-
+	
 	private void loadData() {
 		dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
-
+		
 		List<Vocable> lista = new ArrayList<>();
 		lista.addAll(dictionaryPage.getDictionary().keySet());
-
+		
 		ObservableList<Vocable> observableVocablesList = FXCollections.observableList(lista);
 		listview_vocables.setItems(observableVocablesList);
-
+		
 		defineListVocablesBehaviours();
 		defineTranslationsAreaBehaviours();
 	}
-
+	
 	private void defineListVocablesBehaviours() {
 		setVocablesListViewCellFactory();
 		listview_vocables.getSelectionModel().selectedItemProperty().addListener(new SelectionChangeListenerListViewVocables(dictionaryPage, listview_translations));
 		listview_vocables.focusedProperty().addListener(new FocusChangeListenerListViewVocables(listview_vocables));
 		Collections.sort(listview_vocables.getItems(), (Vocable v1, Vocable v2) -> v1.toString().compareTo(v2.toString()));
 	}
-
+	
 	private void setVocablesListViewCellFactory() {
 		listview_vocables.setCellFactory((ListView<Vocable> d) -> {
 			ListCell<Vocable> vocablesListViewCell = new VocablesListViewCell();
 			return vocablesListViewCell;
 		});
 	}
-
+	
 	private void defineTranslationsAreaBehaviours() {
 		setTranslationsListViewCellFactory();
 //        defineTranslationsListViewSelectionBehaviour();
 //        defineTranslationsListViewFocusBehaviour();
 		Collections.sort(listview_translations.getItems(), (Translation t1, Translation t2) -> t1.toString().compareTo(t2.toString()));
 	}
-
+	
 	private void setTranslationsListViewCellFactory() {
 		listview_translations.setCellFactory((ListView<Translation> t) -> {
-			ListCell<Translation> translationsListViewCell = new ListCell<Translation>() {
-
-				@Override
-				protected void updateItem(Translation translation, boolean empty) {
-					super.updateItem(translation, empty);
-					if (empty || translation == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						setText(translation.getTranslation());
-					}
-				}
-			};
-
+			ListCell<Translation> translationsListViewCell = new TranslationsListViewCell();
 			return translationsListViewCell;
 		});
 	}
@@ -174,12 +162,13 @@ public class DictionaryPresenter implements Initializable {
 			AnchorPane.setBottomAnchor(listview, 0.0);
 		}
 	}
-
+	
 	private void resetView() {
 		showActionPanel(false, listview_vocables);
 		showActionPanel(false, listview_translations);
 		listview_vocables.getSelectionModel().select(null);
 		listview_translations.getSelectionModel().select(null);
+		listview_translations.setItems(null);
 	}
 
 //    private void clearListView(ListView listview) {
