@@ -14,13 +14,7 @@
          <bottom>
             <BorderPane prefHeight="60.0" BorderPane.alignment="CENTER">
                <center>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%remove" />
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="%modify" />
-                        <Button mnemonicParsing="false" onAction="#add" prefHeight="30.0" prefWidth="150.0" text="%add" />
-                     </children>
-                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER" />
                </center>
                <left>
                   <Button mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="120.0" text="%back" BorderPane.alignment="CENTER" />

@@ -25,7 +25,7 @@ public class FocusChangeListenerVocables implements ChangeListener<Boolean> {
 
 	@Override
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-		LOG.debug("focus value = " + newValue);
+		LOG.debug("focus value vocables = " + newValue);
 		if (newValue == true) {
 			if (listview_vocables.getSelectionModel().getSelectedItem() == null) {
 				if (!listview_vocables.getItems().isEmpty()) {

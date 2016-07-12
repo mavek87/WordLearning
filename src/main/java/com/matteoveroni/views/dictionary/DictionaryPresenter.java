@@ -50,9 +50,10 @@ public class DictionaryPresenter implements Initializable {
 	private ListView<Translation> listview_translations = new ListView<>();
 	@FXML
 	private BorderPane actionPaneVocabulary;
+	private boolean isActionPaneVocablesEnabled = false;
 	@FXML
 	private BorderPane actionPaneTranslations;
-
+	private boolean isActionPaneTranslationsEnabled = false;
 	private DictionaryPage dictionaryPage;
 
 	private int pageOffset = 0;
@@ -73,13 +74,22 @@ public class DictionaryPresenter implements Initializable {
 	}
 
 	@Subscribe
-	public void onEventShowVocableActionPanelChange(EventShowVocablesActionPanel eventShowVocableActionPanel) {
-		showActionPanel(eventShowVocableActionPanel.getShowValue(), listview_vocables);
+	public void onEventShowVocableActionPanelChange(EventShowVocablesActionPanel eventShowVocablesActionPanel) {
+//		showActionPanel(eventShowVocablesActionPanel.getShowValue(), listview_vocables);
+		if (eventShowVocablesActionPanel.getShowValue() && !isActionPaneVocablesEnabled) {
+			AnchorPane.setBottomAnchor(listview_vocables, 50.0);
+			isActionPaneVocablesEnabled = true;
+		} else if (!eventShowVocablesActionPanel.getShowValue() && isActionPaneVocablesEnabled) {
+			AnchorPane.setBottomAnchor(listview_vocables, 0.0);
+			isActionPaneVocablesEnabled = false;
+		}
+		LOG.info("show vocables action panel = " + eventShowVocablesActionPanel.getShowValue());
 	}
 
 	@Subscribe
-	public void onEventShowVocableActionPanelChange(EventShowTranslationsActionPanel eventShowTranslationsActionPanel) {
-		showActionPanel(eventShowTranslationsActionPanel.getShowValue(), listview_translations);
+	public void onEventShowTranslationsActionPanelChange(EventShowTranslationsActionPanel eventShowTranslationsActionPanel) {
+//		showActionPanel(eventShowTranslationsActionPanel.getShowValue(), listview_translations);
+//		LOG.info("show translactions action panel = " + eventShowTranslationsActionPanel.getShowValue());
 	}
 
 	@FXML

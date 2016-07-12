@@ -41,7 +41,7 @@ public class DictionaryDAO {
             while (resultSetVocables.next()) {
                 // Check resultSetVocables.getString("Vocable") != null
                 Vocable vocable = new Vocable(resultSetVocables.getString("Vocable"));
-                LOG.debug(vocable.toString());
+                LOG.debug("vocable => " + vocable.toString());
                 dictionaryPage.addVocable(vocable);
 
                 long vocableId = resultSetVocables.getLong("Id");
@@ -56,7 +56,7 @@ public class DictionaryDAO {
             while (resultSetTranslations.next()) {
                 // Check resultSetTranslations.getString("Translation") != null
                 Translation translation = new Translation(resultSetTranslations.getString("Translation"));
-                LOG.debug(translation.toString());
+                LOG.debug("translation => " +translation.toString());
                 dictionaryPage.addTranslationForVocable(translation, vocable);
             }
         }

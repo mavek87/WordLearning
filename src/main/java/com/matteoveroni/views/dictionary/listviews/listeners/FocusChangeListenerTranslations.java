@@ -1,9 +1,11 @@
 package com.matteoveroni.views.dictionary.listviews.listeners;
 
+import com.matteoveroni.views.dictionary.bus.events.EventShowTranslationsActionPanel;
 import com.matteoveroni.views.dictionary.model.Translation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ListView;
+import org.greenrobot.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,18 +25,18 @@ public class FocusChangeListenerTranslations implements ChangeListener<Boolean> 
 
 	@Override
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-		LOG.debug("focus value = " + newValue);
+		LOG.debug("focus value translations = " + newValue);
 		if (newValue == true) {
 			if (listview_translations.getSelectionModel().getSelectedItem() == null) {
-				if (!listview_translations.getItems().isEmpty()) {
+				if (listview_translations.getItems() != null && !listview_translations.getItems().isEmpty()) {
 					listview_translations.getSelectionModel().selectFirst();
 				}
 			}
-//			EventBus.getDefault().post(new EventShowVocablesActionPanel(true));
-			} else {
+			EventBus.getDefault().post(new EventShowTranslationsActionPanel(true));
+		} else {
 //			listview_vocables.getSelectionModel().clearSelection();
 //			listview_vocables.getSelectionModel().select(null);
-//			EventBus.getDefault().post(new EventShowVocablesActionPanel(false));
-			}
+			EventBus.getDefault().post(new EventShowTranslationsActionPanel(false));
 		}
 	}
+}
