@@ -14,7 +14,7 @@
          <bottom>
             <BorderPane prefHeight="60.0" BorderPane.alignment="CENTER">
                <center>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER" />
+                  <HBox fx:id="hbbox_bottomActions" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER" />
                </center>
                <left>
                   <Button minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER" />
