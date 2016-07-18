@@ -7,7 +7,7 @@ import javafx.scene.control.cell.TextFieldListCell;
  *
  * @author Matteo veroni
  */
-public class VocablesCell extends TextFieldListCell<Vocable> {
+public class VocableCell extends TextFieldListCell<Vocable> {
 
 	@Override
 	public void updateItem(Vocable vocable, boolean empty) {

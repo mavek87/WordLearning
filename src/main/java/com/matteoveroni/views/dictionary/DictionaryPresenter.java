@@ -2,13 +2,12 @@ package com.matteoveroni.views.dictionary;
 
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventViewChanged;
-import com.matteoveroni.customjavafxcomponents.EditableListViewCell;
 import com.matteoveroni.views.dictionary.model.DictionaryDAO;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.dictionary.bus.events.EventShowTranslationsActionPanel;
 import com.matteoveroni.views.dictionary.bus.events.EventShowVocablesActionPanel;
-import com.matteoveroni.views.dictionary.listviews.cells.VocablesCell;
-import com.matteoveroni.views.dictionary.listviews.cells.TranslationsCell;
+import com.matteoveroni.views.dictionary.listviews.cells.VocableCell;
+import com.matteoveroni.views.dictionary.listviews.cells.TranslationCell;
 import com.matteoveroni.views.dictionary.listviews.listeners.FocusChangeListenerTranslations;
 import com.matteoveroni.views.dictionary.listviews.listeners.SelectionChangeListenerVocables;
 import com.matteoveroni.views.dictionary.listviews.listeners.FocusChangeListenerVocables;
@@ -33,7 +32,6 @@ import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.util.StringConverter;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -108,8 +106,6 @@ public class DictionaryPresenter implements Initializable, Disposable {
 	}
 
 	private void initializeView() {
-		hbbox_bottomActions.getChildren().add(new EditableListViewCell());
-		
 		dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
 
 		List<Vocable> lista = new ArrayList<>();
@@ -130,37 +126,37 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
 	private void setCellFactoryForVocablesList() {
 		listview_vocables.setCellFactory((ListView<Vocable> d) -> {
-			TextFieldListCell<Vocable> vocablesListViewCell = new VocablesCell();
-			StringConverter<Vocable> converter = new StringConverter<Vocable>() {
+			TextFieldListCell<Vocable> vocablesListViewCell = new VocableCell();
+//			StringConverter<Vocable> converter = new StringConverter<Vocable>() {
+//
+//				@Override
+//				public String toString(Vocable vocable) {
+//					return vocable.getName();
+//				}
+//
+//				@Override
+//				public Vocable fromString(String string) {
+//					Vocable vocable = vocablesListViewCell.getItem();
+//					if (vocable == null) {
+//						Vocable newVocable = new Vocable("aa");
+////                        newVocable.setName(string);
+//						return newVocable;
+//					} else {
+////                        
+//						return vocable;
+//					}
+//				}
+//
+//			};
 
-				@Override
-				public String toString(Vocable vocable) {
-					return vocable.getName();
-				}
-
-				@Override
-				public Vocable fromString(String string) {
-					Vocable vocable = vocablesListViewCell.getItem();
-					if (vocable == null) {
-						Vocable newVocable = new Vocable("aa");
-//                        newVocable.setName(string);
-						return newVocable;
-					} else {
-//                        
-						return vocable;
-					}
-				}
-
-			};
-
-			vocablesListViewCell.setConverter(converter);
+//			vocablesListViewCell.setConverter(converter);
 			return vocablesListViewCell;
 		});
 	}
 
 	private void setCellFactoryForTranslationsListView() {
 		listview_translations.setCellFactory((ListView<Translation> t) -> {
-			ListCell<Translation> translationsListViewCell = new TranslationsCell();
+			ListCell<Translation> translationsListViewCell = new TranslationCell();
 			return translationsListViewCell;
 		});
 	}
