@@ -9,14 +9,14 @@ import javafx.scene.control.cell.TextFieldListCell;
  */
 public class VocableCell extends TextFieldListCell<Vocable> {
 
-	@Override
-	public void updateItem(Vocable vocable, boolean empty) {
-		super.updateItem(vocable, empty);
-		if (empty || vocable == null) {
-			setGraphic(null);
-			setText(null);
-		} else {
-			setText(vocable.getName());
-		}
-	}
+    @Override
+    public void updateItem(Vocable vocable, boolean empty) {
+        super.updateItem(vocable, empty);
+        if (empty || vocable == null) {
+            setGraphic(null);
+            setText(null);
+        } else {
+            setText(vocable.getName());
+        }
+    }
 }

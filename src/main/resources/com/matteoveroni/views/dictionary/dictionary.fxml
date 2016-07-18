@@ -35,7 +35,21 @@
                            </center>
                         </BorderPane>
                         <ListView fx:id="listview_vocables" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                        <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <left>
+                              <Button mnemonicParsing="false" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </BorderPane.margin>
+                              </Button>
+                           </left>
+                           <right>
+                              <Button mnemonicParsing="false" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </BorderPane.margin>
+                              </Button>
+                           </right></BorderPane>
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
