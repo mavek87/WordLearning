@@ -9,6 +9,7 @@ import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.dictionary.DictionaryView;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
+import com.matteoveroni.views.question.QuestionsView;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,6 +101,9 @@ public class ViewsManager implements Disposable {
 				break;
 			case OPTIONS:
 				fxmlView = new OptionsView();
+				break;
+			case QUESTIONS:
+				fxmlView = new QuestionsView();
 				break;
 			default:
 				String errorMessage = "View " + viewName + " cannot be build. It doesn\'t exist!";

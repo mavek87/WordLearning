@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.options.OptionsPresenter">
+   <children>
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="%whatdoesitmean" />
+                  <Label fx:id="lbl_vocable" alignment="CENTER" contentDisplay="CENTER" wrapText="true" />
+                  <TextArea fx:id="textArea_answer" minHeight="100.0" prefHeight="150.0">
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </TextArea>
+                  <Button mnemonicParsing="false" onAction="#answerPosted" text="%confirmanswer" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </BorderPane.margin>
+            </VBox>
+         </center>
+         <bottom>
+            <Button minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" />
+               </BorderPane.margin></Button>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

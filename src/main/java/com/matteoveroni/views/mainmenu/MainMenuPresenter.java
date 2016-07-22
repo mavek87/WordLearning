@@ -19,36 +19,41 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class MainMenuPresenter implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-    }
-	
+	/**
+	 * Initializes the controller class.
+	 *
+	 * @param url
+	 * @param rb
+	 */
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+	}
+
 	@Subscribe
 	public void onViewChanged(EventViewChanged eventViewChanged) {
 		if (eventViewChanged.getCurrentViewName() == ViewName.MAINMENU) {
 		}
 	}
 
-    @FXML
-    void goToDictionary(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
-    }
+	@FXML
+	void startTraining(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.QUESTIONS));
+	}
 
-    @FXML
-    void goToSettings(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.OPTIONS));
-    }
+	@FXML
+	void goToDictionary(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
+	}
 
-    @FXML
-    void closeApp(ActionEvent event) {
-        Platform.exit();
-        System.exit(0);
-    }
-	
+	@FXML
+	void goToSettings(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.OPTIONS));
+	}
+
+	@FXML
+	void closeApp(ActionEvent event) {
+		Platform.exit();
+		System.exit(0);
+	}
+
 }

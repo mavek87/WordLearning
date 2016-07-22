@@ -12,7 +12,7 @@
          <center>
             <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="200.0" text="%startTraining" />
+                  <Button mnemonicParsing="false" onAction="#startTraining" prefHeight="35.0" prefWidth="200.0" text="%startTraining" />
                   <Button mnemonicParsing="false" onAction="#goToDictionary" prefHeight="35.0" prefWidth="200.0" text="%manageDictionary" />
                   <Button mnemonicParsing="false" onAction="#goToSettings" prefHeight="35.0" prefWidth="200.0" text="%settings" />
                   <Button mnemonicParsing="false" onAction="#closeApp" prefHeight="35.0" prefWidth="200.0" text="%exit" />
