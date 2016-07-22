@@ -1,4 +1,4 @@
-package com.matteoveroni.views.question.model;
+package com.matteoveroni.views.questions.model;
 
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;

@@ -1,4 +1,4 @@
-package com.matteoveroni.views.question;
+package com.matteoveroni.views.questions;
 
 import com.airhacks.afterburner.views.FXMLView;
 

@@ -1,9 +1,9 @@
-package com.matteoveroni.views.question;
+package com.matteoveroni.views.questions;
 
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;
-import com.matteoveroni.views.question.model.QuestionModel;
+import com.matteoveroni.views.questions.model.QuestionModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -74,6 +74,7 @@ public class QuestionsPresenter implements Initializable {
 
 	private void clearView() {
 		lbl_vocable.setText("");
+		textArea_answer.setText("");
 		btn_confirmAnswer.setVisible(false);
 	}
 }
