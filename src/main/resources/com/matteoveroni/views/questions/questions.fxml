@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -9,12 +10,21 @@
 
 <AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.questions.QuestionsPresenter">
    <children>
+      <BorderPane fx:id="borderPane_trainingFinished" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <Label text="%trainingfinished" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+            <VBox fx:id="vbox_questionsPanel" alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
                   <Label text="%whatdoesitmean" />
-                  <Label fx:id="lbl_vocable" alignment="CENTER" contentDisplay="CENTER" wrapText="true" />
+                  <Label fx:id="lbl_vocable" alignment="CENTER" contentDisplay="CENTER" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
                   <TextArea fx:id="textArea_answer" minHeight="100.0" prefHeight="150.0">
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" />
@@ -31,7 +41,8 @@
             <Button minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="20.0" />
-               </BorderPane.margin></Button>
+               </BorderPane.margin>
+            </Button>
          </bottom>
       </BorderPane>
    </children>

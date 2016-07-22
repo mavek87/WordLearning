@@ -18,6 +18,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -34,23 +36,24 @@ public class QuestionsPresenter implements Initializable, Disposable {
     private Button btn_confirmAnswer;
     @FXML
     private TextArea textArea_answer;
+    @FXML
+    private BorderPane borderPane_trainingFinished;
+    @FXML
+    private VBox vbox_questionsPanel;
 
     private QuestionsModel model;
-
     private ChangeListener<String> changeListenerTextAreaAnswer;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model = new QuestionsModel();
         clearView();
-        changeListenerTextAreaAnswer = new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.isEmpty()) {
-                    btn_confirmAnswer.setVisible(false);
-                } else {
-                    btn_confirmAnswer.setVisible(true);
-                }
+
+        changeListenerTextAreaAnswer = (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (newValue.isEmpty()) {
+                btn_confirmAnswer.setVisible(false);
+            } else {
+                btn_confirmAnswer.setVisible(true);
             }
         };
         textArea_answer.textProperty().addListener(changeListenerTextAreaAnswer);
@@ -94,7 +97,8 @@ public class QuestionsPresenter implements Initializable, Disposable {
         if (model.hasNextVocable()) {
             drawVocableInTheView(model.getRandomVocable());
         } else {
-            System.out.println("Finito esci");
+            vbox_questionsPanel.setVisible(false);
+            borderPane_trainingFinished.setVisible(true);
         }
     }
 
@@ -110,6 +114,8 @@ public class QuestionsPresenter implements Initializable, Disposable {
         lbl_vocable.setText("");
         textArea_answer.setText("");
         btn_confirmAnswer.setVisible(false);
+        vbox_questionsPanel.setVisible(true);
+        borderPane_trainingFinished.setVisible(false);
     }
 
     @Override

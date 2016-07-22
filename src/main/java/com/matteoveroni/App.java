@@ -11,7 +11,7 @@ import java.util.Locale;
 public class App {
 
     public final static String NAME = "WordLearning";
-    public final static String VERSION = "0.0.19";
+    public final static String VERSION = "0.0.20";
     public final static String PATH = System.getProperty("user.home") + File.separator + "WordLearning";
     public final static String PATH_DATA = PATH + File.separator + "Data";
     public final static String PATH_DATABASE = PATH + File.separator + "Database";
