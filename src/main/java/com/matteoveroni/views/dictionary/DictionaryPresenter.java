@@ -138,9 +138,10 @@ public class DictionaryPresenter implements Initializable, Disposable {
                 return vocable.getName();
             }
 
+            // TODO non va bene qui
             @Override
             public Vocable fromString(String string) {
-                return new Vocable(string);
+                return new Vocable(0, string);
             }
         };
 

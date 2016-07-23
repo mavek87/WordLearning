@@ -7,28 +7,34 @@ import com.matteoveroni.gson.GsonSingleton;
  * @author Matteo Veroni
  */
 public class Translation {
-	
-	private String translation;
-	
-	public Translation(String translation){
-		this.translation = translation;
-	}
 
-	public String getTranslation() {
-		return translation;
-	}
+    private final long id;
+    private String translation;
 
-	public void setTranslation(String translation) {
-		this.translation = translation;
-	}
-	
-	public String objectToJson() {
-		return GsonSingleton.getInstance().toJson(this);
-	}
+    public Translation(long id, String translation) {
+        this.id = id;
+        this.translation = translation;
+    }
 
-	@Override
-	public String toString() {
-		return getTranslation();
-	}
-	
+    public long getId() {
+        return id;
+    }
+
+    public String getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(String translation) {
+        this.translation = translation;
+    }
+
+    public String objectToJson() {
+        return GsonSingleton.getInstance().toJson(this);
+    }
+
+    @Override
+    public String toString() {
+        return getTranslation();
+    }
+
 }

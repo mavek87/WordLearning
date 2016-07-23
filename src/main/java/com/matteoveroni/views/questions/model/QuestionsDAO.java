@@ -20,19 +20,24 @@ public class QuestionsDAO {
     private static final Logger LOG = LoggerFactory.getLogger(QuestionsDAO.class);
 
     public List<Vocable> getVocables() {
-        String queryVocables = "SELECT Id, Vocable FROM dictionary ORDER BY Vocable ASC";
+        String queryGetVocables = "SELECT Id, Vocable FROM Dictionary ORDER BY Vocable ASC";
         List<Vocable> listOfAllVocables = new ArrayList<>();
-        
+
         try (Connection connection = Database.getInstance().getConnection();
-            PreparedStatement statementVocables = connection.prepareStatement(queryVocables);
+            PreparedStatement statementVocables = connection.prepareStatement(queryGetVocables);
             ResultSet resultSetVocables = statementVocables.executeQuery()) {
 
-            Vocable vocable;
             while (resultSetVocables.next()) {
-                vocable = new Vocable(resultSetVocables.getString("Vocable"));
-                listOfAllVocables.add(vocable);
+                long vocableId = resultSetVocables.getLong("Id");
+                String vocableName = resultSetVocables.getString("Vocable");
+                if (vocableId >= 0 && vocableName != null) {
+                    Vocable vocable = new Vocable(vocableId, vocableName);
+                    listOfAllVocables.add(vocable);
+                } else {
+                    break;
+                }
             }
-            
+
         } catch (SQLException ex) {
             LOG.error(ex.getMessage());
             Database.getInstance().printSQLException(ex);
@@ -40,30 +45,47 @@ public class QuestionsDAO {
         return listOfAllVocables;
     }
 
-    private void populateDictionaryPageWithVocablesAndTranslations(DictionaryPage dictionaryPage, final PreparedStatement statementVocables, final PreparedStatement statementTranslations) throws SQLException {
-        try (ResultSet resultSetVocables = statementVocables.executeQuery()) {
-            while (resultSetVocables.next()) {
-                // Check resultSetVocables.getString("Vocable") != null
-                Vocable vocable = new Vocable(resultSetVocables.getString("Vocable"));
-                LOG.debug("vocable => " + vocable.toString());
-                dictionaryPage.addVocable(vocable);
+    // NEVER TESTED
+    public List<Translation> getTranslationsForVocable(Vocable vocable) {
+        List<Translation> translationsForVocable = new ArrayList<>();
+        String queryGetTranslations = "SELECT t.Id,t.Translation FROM translations AS t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id =" + vocable.getId() + " ORDER BY t.Translation ASC";
 
-                long vocableId = resultSetVocables.getLong("Id");
-                statementTranslations.setLong(1, vocableId);
-                populateDictionaryPageWithTranslations(dictionaryPage, statementTranslations, vocable);
+        try (Connection connection = Database.getInstance().getConnection();
+            PreparedStatement statementVocables = connection.prepareStatement(queryGetTranslations);
+            ResultSet resultSetTranslations = statementVocables.executeQuery()) {
+
+            while (resultSetTranslations.next()) {
+                long translationId = resultSetTranslations.getLong("Id");
+                String translationName = resultSetTranslations.getString("Translation");
+                if (translationId >= 0 && translationName != null) {
+                    Translation translation = new Translation(translationId, translationName);
+                    translationsForVocable.add(translation);
+                } else {
+                    break;
+                }
             }
+
+        } catch (SQLException ex) {
+            LOG.error(ex.getMessage());
+            Database.getInstance().printSQLException(ex);
         }
+        return translationsForVocable;
     }
 
-    private void populateDictionaryPageWithTranslations(DictionaryPage dictionaryPage, final PreparedStatement statementTranslations, Vocable vocable) throws SQLException {
-        try (ResultSet resultSetTranslations = statementTranslations.executeQuery()) {
-            while (resultSetTranslations.next()) {
-                // Check resultSetTranslations.getString("Translation") != null
-                Translation translation = new Translation(resultSetTranslations.getString("Translation"));
-                LOG.debug("translation => " + translation.toString());
-                dictionaryPage.addTranslationForVocable(translation, vocable);
+    public boolean isTranslationForVocableEqualsToStringPresent(Vocable vocable, String string) {
+        String queryGetTranslations = "SELECT COUNT (*) FROM translations AS t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id =" + vocable.getId() + " AND t.Translation='" + string + "' ORDER BY t.Translation ASC";
+        try (Connection connection = Database.getInstance().getConnection();
+            PreparedStatement statementVocables = connection.prepareStatement(queryGetTranslations);
+            ResultSet resultSetTranslations = statementVocables.executeQuery()) {
+            
+            if(resultSetTranslations.next()){
+                return true;
             }
-        }
 
+        } catch (SQLException ex) {
+            LOG.error(ex.getMessage());
+            Database.getInstance().printSQLException(ex);
+        }
+        return false;
     }
 }

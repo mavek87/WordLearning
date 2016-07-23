@@ -103,7 +103,7 @@ public class QuestionsPresenter implements Initializable, Disposable {
     }
 
     private boolean isAnswerForVocableCorrect(String answer, Vocable vocable) {
-        return answer.toLowerCase().equals(vocable.getName().toLowerCase());
+        return model.isAnswerForVocableRight(answer.toLowerCase(), vocable);
     }
 
     private void drawVocableInTheView(Vocable vocable) {
