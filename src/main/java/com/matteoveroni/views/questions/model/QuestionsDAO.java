@@ -48,7 +48,7 @@ public class QuestionsDAO {
     // NEVER TESTED
     public List<Translation> getTranslationsForVocable(Vocable vocable) {
         List<Translation> translationsForVocable = new ArrayList<>();
-        String queryGetTranslations = "SELECT t.Id,t.Translation FROM translations AS t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id =" + vocable.getId() + " ORDER BY t.Translation ASC";
+        String queryGetTranslations = "SELECT t.Id,t.Translation FROM translations AS t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id =" + vocable.getId() + " COLLATE NOCASE ORDER BY t.Translation ASC";
 
         try (Connection connection = Database.getInstance().getConnection();
             PreparedStatement statementVocables = connection.prepareStatement(queryGetTranslations);
@@ -73,19 +73,27 @@ public class QuestionsDAO {
     }
 
     public boolean isTranslationForVocableEqualsToStringPresent(Vocable vocable, String string) {
-        String queryGetTranslations = "SELECT COUNT (*) FROM translations AS t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id =" + vocable.getId() + " AND t.Translation='" + string + "' ORDER BY t.Translation ASC";
+        String queryGetTranslations = "SELECT COUNT (*) FROM translations AS t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id =" + vocable.getId() + " AND t.Translation='" + string + "' COLLATE NOCASE ORDER BY t.Translation ASC";
         try (Connection connection = Database.getInstance().getConnection();
-            PreparedStatement statementVocables = connection.prepareStatement(queryGetTranslations);
+            PreparedStatement statementVocables
+            = connection.prepareStatement(queryGetTranslations);
             ResultSet resultSetTranslations = statementVocables.executeQuery()) {
-            
-            if(resultSetTranslations.next()){
-                return true;
+
+            int size = 0;
+            try {
+                resultSetTranslations.first();
+                size = resultSetTranslations.getRow();
+                System.out.println("SELECT COUNT (*) FROM translations AS t LEFT JOIN DictionaryTranslations dt ON t.Id=dt.Translation_Id WHERE dt.Vocable_Id =" + vocable.getId() + " AND t.Translation='" + string + "' COLLATE NOCASE ORDER BY t.Translation ASC");
+                System.out.println("Size " + size);
+            } catch (Exception ex) {
             }
+
+            return size > 0;
 
         } catch (SQLException ex) {
             LOG.error(ex.getMessage());
             Database.getInstance().printSQLException(ex);
+            return false;
         }
-        return false;
     }
 }

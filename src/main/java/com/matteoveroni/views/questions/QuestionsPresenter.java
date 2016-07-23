@@ -75,20 +75,21 @@ public class QuestionsPresenter implements Initializable, Disposable {
 
     @FXML
     void answerConfirmed(ActionEvent event) {
-        String answer = textArea_answer.getText();
-        clearView();
+        String answer = textArea_answer.getText().toLowerCase();
+        String questionVocable = lbl_vocable.getText().toLowerCase();
         Alert answerAlert = new Alert(AlertType.NONE);
         if (isAnswerForVocableCorrect(answer, model.getCurrentVocable())) {
             answerAlert.setAlertType(AlertType.INFORMATION);
-            answerAlert.setTitle("Risposta esatta");
-            answerAlert.setHeaderText("Corretto");
-            answerAlert.setContentText("Risposta esatta");
+            answerAlert.setTitle("Risposta corretta");
+            answerAlert.setHeaderText("Risposta corretta");
+            answerAlert.setContentText("Una traduzione di " + questionVocable + " è " + answer);
         } else {
             answerAlert.setAlertType(AlertType.ERROR);
             answerAlert.setTitle("Risposta errata");
-            answerAlert.setHeaderText("Errato");
-            answerAlert.setContentText("Risposta errata");
+            answerAlert.setHeaderText("Risposta errata");
+            answerAlert.setContentText(answer + " non è una traduzione di " + questionVocable);
         }
+        clearView();
         answerAlert.showAndWait();
         getNextVocableIfPresentAndPopulateView();
     }
