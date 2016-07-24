@@ -7,6 +7,7 @@ import com.matteoveroni.bus.events.EventChangeLanguage;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.localization.SupportedCountries;
 import com.matteoveroni.views.ViewName;
+import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -27,78 +28,92 @@ import org.greenrobot.eventbus.Subscribe;
  *
  * @author Matteo Veroni
  */
-public class OptionsPresenter implements Initializable {
+public class OptionsPresenter implements Initializable, Disposable {
 
-	@FXML
-	private Button btn_english;
-	@FXML
-	private Button btn_italian;
-	@FXML
-	private ComboBox<String> cmb_windowSize;
+    @FXML
+    private Button btn_english;
+    @FXML
+    private Button btn_italian;
+    @FXML
+    private ComboBox<String> cmb_windowSize;
 
-	/**
-	 * Initializes the controller class.
-	 *
-	 * @param url
-	 * @param rb
-	 */
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		populateComboboxWindowSize();
-		cmb_windowSize.getSelectionModel().selectLast();
-		addListenerOnComboboxWindowSizeChange();
+    private ChangeListener<String> changeListenerCmbWindowSize;
 
-		Image image_en_GB = new Image("/com/matteoveroni/icons/countries/en_GB.png", 30, 20, false, false);
-		btn_english.setGraphic(new ImageView(image_en_GB));
+    /**
+     * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        populateComboboxWindowSize();
+        cmb_windowSize.getSelectionModel().selectLast();
+        addListenerOnComboboxWindowSizeChange();
 
-		Image image_it_IT = new Image("/com/matteoveroni/icons/countries/it_IT.png", 30, 20, false, false);
-		btn_italian.setGraphic(new ImageView(image_it_IT));
-	}
+        Image image_en_GB = new Image("/com/matteoveroni/icons/countries/en_GB.png", 30, 20, false, false);
+        btn_english.setGraphic(new ImageView(image_en_GB));
 
-	@Subscribe
-	public void onViewChanged(EventViewChanged eventViewChanged) {
-		if (eventViewChanged.getCurrentViewName() == ViewName.OPTIONS) {
-		}
-	}
+        Image image_it_IT = new Image("/com/matteoveroni/icons/countries/it_IT.png", 30, 20, false, false);
+        btn_italian.setGraphic(new ImageView(image_it_IT));
+    }
 
-	@FXML
-	void setEnglishLanguage(ActionEvent event) {
-		Platform.runLater(() -> {
-			EventBus.getDefault().post(new EventChangeLanguage(SupportedCountries.USA.getLocale()));
-		});
-	}
+    @Subscribe
+    public void onViewChanged(EventViewChanged eventViewChanged) {
+        if (eventViewChanged.getCurrentViewName() == ViewName.OPTIONS) {
+        }
+    }
 
-	@FXML
-	void setItalianLanguage(ActionEvent event) {
-		Platform.runLater(() -> {
-			EventBus.getDefault().post(new EventChangeLanguage(SupportedCountries.ITALY.getLocale()));
-		});
-	}
+    @FXML
+    void setEnglishLanguage(ActionEvent event) {
+        Platform.runLater(() -> {
+            EventBus.getDefault().post(new EventChangeLanguage(SupportedCountries.USA.getLocale()));
+        });
+    }
 
-	@FXML
-	void goBack(ActionEvent event) {
-		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
-	}
+    @FXML
+    void setItalianLanguage(ActionEvent event) {
+        Platform.runLater(() -> {
+            EventBus.getDefault().post(new EventChangeLanguage(SupportedCountries.ITALY.getLocale()));
+        });
+    }
 
-	private void populateComboboxWindowSize() {
-		int n = App.WINDOW_DIMENSIONS.length;
-		for (int i = 0; i < n; i++) {
-			String windowWidth = "" + (int) App.WINDOW_DIMENSIONS[i][0];
-			String windowHeight = "" + (int) App.WINDOW_DIMENSIONS[i][1];
-			cmb_windowSize.getItems().add(windowWidth + " x " + windowHeight);
-		}
-	}
+    @FXML
+    void goBack(ActionEvent event) {
+        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+    }
 
-	private void addListenerOnComboboxWindowSizeChange() {
-		cmb_windowSize.valueProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				int selectedIndex = cmb_windowSize.getSelectionModel().getSelectedIndex();
-				App.WINDOW_WIDTH = App.WINDOW_DIMENSIONS[selectedIndex][0];
-				App.WINDOW_HEIGHT = App.WINDOW_DIMENSIONS[selectedIndex][1];
-				EventBus.getDefault().post(new EventChangeWindowDimension(App.WINDOW_WIDTH, App.WINDOW_HEIGHT));
-			}
-		});
-	}
+    private void populateComboboxWindowSize() {
+        int n = App.WINDOW_DIMENSIONS.length;
+        for (int i = 0; i < n; i++) {
+            String windowWidth = "" + (int) App.WINDOW_DIMENSIONS[i][0];
+            String windowHeight = "" + (int) App.WINDOW_DIMENSIONS[i][1];
+            cmb_windowSize.getItems().add(windowWidth + " x " + windowHeight);
+        }
+    }
 
+    private void addListenerOnComboboxWindowSizeChange() {
+        if (changeListenerCmbWindowSize == null) {
+            cmb_windowSize.valueProperty().removeListener(changeListenerCmbWindowSize);
+        }
+        changeListenerCmbWindowSize = new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                int selectedIndex = cmb_windowSize.getSelectionModel().getSelectedIndex();
+                App.WINDOW_WIDTH = App.WINDOW_DIMENSIONS[selectedIndex][0];
+                App.WINDOW_HEIGHT = App.WINDOW_DIMENSIONS[selectedIndex][1];
+                EventBus.getDefault().post(new EventChangeWindowDimension(App.WINDOW_WIDTH, App.WINDOW_HEIGHT));
+            }
+        };
+
+        cmb_windowSize.valueProperty().addListener(changeListenerCmbWindowSize);
+    }
+
+    @Override
+    public void dispose() {
+        try {
+            cmb_windowSize.valueProperty().removeListener(changeListenerCmbWindowSize);
+        } catch (Exception ex) {
+        }
+    }
 }

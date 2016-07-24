@@ -7,6 +7,7 @@ import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventLanguageChanged;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.dictionary.DictionaryView;
+import com.matteoveroni.views.editvocable.EditvocableView;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
 import com.matteoveroni.views.questions.QuestionsView;
@@ -57,11 +58,19 @@ public class ViewsManager implements Disposable {
     }
 
     @Subscribe
-    public void useView(EventChangeView eventChangeScreen) {
-        useView(eventChangeScreen.getViewName());
+    public void useView(EventChangeView eventChangeView) {
+        if (eventChangeView.getObjectPassed() == null) {
+            useView(eventChangeView.getViewName());
+        } else {
+            useView(eventChangeView.getViewName(), eventChangeView.getObjectPassed());
+        }
     }
 
     private void useView(ViewName nameOfViewToUse) {
+        useView(nameOfViewToUse, null);
+    }
+
+    private void useView(ViewName nameOfViewToUse, Object objectPassed) {
         LOG.info("Use view => " + nameOfViewToUse);
         FXMLView fxmlView = views.get(nameOfViewToUse);
         if (currentScene != null) {
@@ -73,7 +82,11 @@ public class ViewsManager implements Disposable {
         stage.setScene(currentScene);
         currentSettedViewName = nameOfViewToUse;
         stage.show();
-        EventBus.getDefault().post(new EventViewChanged(currentSettedViewName));
+        if (objectPassed == null) {
+            EventBus.getDefault().post(new EventViewChanged(currentSettedViewName));
+        } else {
+            EventBus.getDefault().post(new EventViewChanged(currentSettedViewName, objectPassed));
+        }
     }
 
     private void applyGeneralCSSToScene() {
@@ -99,6 +112,8 @@ public class ViewsManager implements Disposable {
             case DICTIONARY:
                 fxmlView = new DictionaryView();
                 break;
+            case EDIT_VOCABLE:
+                fxmlView = new EditvocableView();
             case OPTIONS:
                 fxmlView = new OptionsView();
                 break;

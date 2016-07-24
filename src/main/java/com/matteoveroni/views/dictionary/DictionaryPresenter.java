@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,12 +31,10 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
-import javafx.util.converter.DefaultStringConverter;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,12 +100,28 @@ public class DictionaryPresenter implements Initializable, Disposable {
         EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
     }
 
-    @Override
-    public void dispose() {
-        disposeSelectionChangeListenerVocables();
-        disposeFocusChangeListenerVocables();
-        disposeSelectionChangeListenerTranslations();
-        disposeFocusChangeListenerTranslations();
+    @FXML
+    void goToVocableEdit(ActionEvent event) {
+        Vocable selectedVocable = listview_vocables.getSelectionModel().getSelectedItem();
+        if (selectedVocable != null) {
+            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedVocable));
+        }
+    }
+
+    public int getPageOffset() {
+        return pageOffset;
+    }
+
+    public void setPageOffset(int pageOffset) {
+        this.pageOffset = pageOffset;
+    }
+
+    public int getPageDimension() {
+        return pageDimension;
+    }
+
+    public void setPageDimension(int pageDimension) {
+        this.pageDimension = pageDimension;
     }
 
     private void initializeView() {
@@ -163,7 +176,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
             @Override
             public void commitEdit(Vocable newValue) {
                 super.commitEdit(newValue);
-                if(newValue==null || newValue.getName().trim().isEmpty()){
+                if (newValue == null || newValue.getName().trim().isEmpty()) {
                     Alert a = new Alert(AlertType.CONFIRMATION);
                     a.showAndWait();
                 }
@@ -289,6 +302,14 @@ public class DictionaryPresenter implements Initializable, Disposable {
         listview_translations.setItems(null);
     }
 
+    @Override
+    public void dispose() {
+        disposeSelectionChangeListenerVocables();
+        disposeFocusChangeListenerVocables();
+        disposeSelectionChangeListenerTranslations();
+        disposeFocusChangeListenerTranslations();
+    }
+
     private void disposeSelectionChangeListenerVocables() {
         if (selectionChangeListenerVocables != null) {
             try {
@@ -324,4 +345,5 @@ public class DictionaryPresenter implements Initializable, Disposable {
             }
         }
     }
+
 }
