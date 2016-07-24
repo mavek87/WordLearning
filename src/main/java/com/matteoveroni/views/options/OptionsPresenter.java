@@ -93,7 +93,7 @@ public class OptionsPresenter implements Initializable, Disposable {
     }
 
     private void addListenerOnComboboxWindowSizeChange() {
-        if (changeListenerCmbWindowSize == null) {
+        if (changeListenerCmbWindowSize != null) {
             cmb_windowSize.valueProperty().removeListener(changeListenerCmbWindowSize);
         }
         changeListenerCmbWindowSize = new ChangeListener<String>() {
@@ -105,7 +105,6 @@ public class OptionsPresenter implements Initializable, Disposable {
                 EventBus.getDefault().post(new EventChangeWindowDimension(App.WINDOW_WIDTH, App.WINDOW_HEIGHT));
             }
         };
-
         cmb_windowSize.valueProperty().addListener(changeListenerCmbWindowSize);
     }
 

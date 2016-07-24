@@ -27,7 +27,7 @@
               </rowConstraints>
                <children>
                   <Label text="%vocable" />
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="txt_vocable" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="30.0" right="30.0" />
                      </GridPane.margin>
@@ -38,7 +38,7 @@
       </BorderPane>
       <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <left>
-            <Button mnemonicParsing="false" text="%back" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="30.0" />
                </BorderPane.margin>

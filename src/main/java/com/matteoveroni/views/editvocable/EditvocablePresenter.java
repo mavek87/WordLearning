@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.slf4j.Logger;
@@ -24,6 +25,9 @@ public class EditvocablePresenter implements Initializable, Disposable {
 
     private static final Logger LOG = LoggerFactory.getLogger(EditvocablePresenter.class);
 
+    @FXML
+    private TextField txt_vocable;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -34,6 +38,12 @@ public class EditvocablePresenter implements Initializable, Disposable {
         if (eventViewChanged.getCurrentViewName() == ViewName.EDIT_VOCABLE && eventViewChanged.getObjectPassed() instanceof Vocable) {
             resetView();
             initializeView();
+            String vocableToUse = ((Vocable)eventViewChanged.getObjectPassed()).getName();
+            if(vocableToUse!=null && !vocableToUse.isEmpty()){
+                txt_vocable.setText(vocableToUse);
+            }else{
+                goBack(null);
+            }
         }
     }
 

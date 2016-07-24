@@ -114,6 +114,7 @@ public class ViewsManager implements Disposable {
                 break;
             case EDIT_VOCABLE:
                 fxmlView = new EditvocableView();
+                break;
             case OPTIONS:
                 fxmlView = new OptionsView();
                 break;
