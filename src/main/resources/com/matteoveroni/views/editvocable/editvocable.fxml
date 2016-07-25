@@ -15,19 +15,19 @@
             <Label fx:id="lbl_vocableToEdit" text="%editvocable" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
-      <BorderPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <BorderPane AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <center>
             <GridPane BorderPane.alignment="CENTER">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="120.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="120.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label text="%vocable" />
-                  <TextField fx:id="txt_vocable" GridPane.columnIndex="1">
+                  <TextField fx:id="txt_vocable" minWidth="120.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="30.0" right="30.0" />
                      </GridPane.margin>
@@ -36,9 +36,9 @@
             </GridPane>
          </center>
       </BorderPane>
-      <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <BorderPane fx:id="actionPaneVocabulary" prefHeight="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <left>
-            <Button mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER">
+            <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="30.0" />
                </BorderPane.margin>

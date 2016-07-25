@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -61,6 +62,10 @@ public class DictionaryPresenter implements Initializable, Disposable {
     @FXML
     private HBox hbbox_bottomActions;
 
+    private enum ActionPaneType {
+        VOCABULARY, TRANSLATIONS;
+    }
+
     private SelectionChangeListenerVocables selectionChangeListenerVocables;
     private FocusChangeListenerVocables focusChangeListenerVocables;
     private SelectionChangeListenerTranslations selectionChangeListenerTranslations;
@@ -87,12 +92,12 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     @Subscribe
     public void onEventShowVocableActionPanelChange(EventShowVocablesActionPanel eventShowVocablesActionPanel) {
-        showActionPanel(eventShowVocablesActionPanel.getShowValue(), listview_vocables);
+        showActionPanel(eventShowVocablesActionPanel.getShowValue(), listview_vocables, ActionPaneType.VOCABULARY);
     }
 
     @Subscribe
     public void onEventShowTranslationsActionPanelChange(EventShowTranslationsActionPanel eventShowTranslationsActionPanel) {
-        showActionPanel(eventShowTranslationsActionPanel.getShowValue(), listview_translations);
+        showActionPanel(eventShowTranslationsActionPanel.getShowValue(), listview_translations, ActionPaneType.TRANSLATIONS);
     }
 
     @FXML
@@ -285,17 +290,76 @@ public class DictionaryPresenter implements Initializable, Disposable {
         listview_translations.focusedProperty().addListener(focusChangeListenerTranslations);
     }
 
-    private void showActionPanel(boolean isShown, ListView listview) {
+    private void showActionPanel(boolean isShown, ListView listview, ActionPaneType actionPaneType) {
         if (isShown) {
             AnchorPane.setBottomAnchor(listview, 50.0);
+
+            Button buttonLeft = new Button();
+            buttonLeft.setMinWidth(120);
+            buttonLeft.setText("Edit");
+
+            Button buttonRight = new Button();
+            buttonRight.setMinWidth(120);
+            buttonRight.setText("Remove");
+
+            switch (actionPaneType) {
+                case VOCABULARY:
+                    buttonLeft.setOnAction((event) -> {
+                        Vocable selectedVocable = (Vocable) listview.getSelectionModel().getSelectedItem();
+                        if (selectedVocable != null) {
+                            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedVocable));
+                        }
+                    });
+                    buttonRight.setOnAction((event) -> {
+                        Vocable selectedVocable = listview_vocables.getSelectionModel().getSelectedItem();
+                        if (selectedVocable != null) {
+                            removeVocable();
+                        }
+                    });
+                    actionPaneVocabulary.setLeft(buttonLeft);
+                    actionPaneVocabulary.setRight(buttonRight);
+
+                    break;
+                case TRANSLATIONS:
+                    buttonLeft.setOnAction((event) -> {
+                        Translation selectedTranslation = (Translation) listview.getSelectionModel().getSelectedItem();
+                        if (selectedTranslation != null) {
+                            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedTranslation));
+                        }
+                    });
+                    buttonRight.setOnAction((event) -> {
+                        Translation selectedTranslation = (Translation) listview.getSelectionModel().getSelectedItem();
+                        if (selectedTranslation != null) {
+                            removeTranslation();
+                        }
+                    });
+                    actionPaneTranslations.setLeft(buttonLeft);
+                    actionPaneTranslations.setRight(buttonRight);
+                    break;
+            }
         } else {
             AnchorPane.setBottomAnchor(listview, 0.0);
+            switch (actionPaneType) {
+                case VOCABULARY:
+                    actionPaneVocabulary.setLeft(null);
+                    actionPaneVocabulary.setRight(null);
+                    break;
+                case TRANSLATIONS:
+                    actionPaneTranslations.setLeft(null);
+                    actionPaneTranslations.setRight(null);
+            }
         }
     }
 
+    private void removeVocable() {
+    }
+
+    private void removeTranslation() {
+    }
+
     private void resetView() {
-        showActionPanel(false, listview_vocables);
-        showActionPanel(false, listview_translations);
+        showActionPanel(false, listview_vocables, ActionPaneType.VOCABULARY);
+        showActionPanel(false, listview_translations, ActionPaneType.TRANSLATIONS);
         listview_vocables.getSelectionModel().select(null);
         listview_translations.getSelectionModel().select(null);
         listview_vocables.setItems(null);
