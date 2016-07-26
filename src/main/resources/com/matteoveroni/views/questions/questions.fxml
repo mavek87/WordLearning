@@ -38,7 +38,7 @@
             </VBox>
          </center>
          <bottom>
-            <Button minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER">
+            <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="20.0" />
                </BorderPane.margin>

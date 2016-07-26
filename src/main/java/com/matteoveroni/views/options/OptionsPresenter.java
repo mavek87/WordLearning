@@ -8,6 +8,8 @@ import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.localization.SupportedCountries;
 import com.matteoveroni.views.ViewName;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -35,6 +37,8 @@ public class OptionsPresenter implements Initializable, Disposable {
     @FXML
     private Button btn_italian;
     @FXML
+    private Button btn_goBack;
+    @FXML
     private ComboBox<String> cmb_windowSize;
 
     private ChangeListener<String> changeListenerCmbWindowSize;
@@ -47,6 +51,8 @@ public class OptionsPresenter implements Initializable, Disposable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1.3em"));
+
         populateComboboxWindowSize();
         cmb_windowSize.getSelectionModel().selectLast();
         addListenerOnComboboxWindowSizeChange();

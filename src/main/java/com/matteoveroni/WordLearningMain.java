@@ -26,10 +26,9 @@ public class WordLearningMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         LOG.debug("Application Word Learning Started");
-
         buildMainComponents(primaryStage);
         subscribeMainComponentsToBus();
-
+        
         LOG.debug("Creating program folder");
         createProgramFolder();
 

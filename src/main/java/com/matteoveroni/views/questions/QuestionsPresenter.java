@@ -6,6 +6,8 @@ import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.dictionary.model.Vocable;
 import com.matteoveroni.views.questions.model.QuestionsModel;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -35,6 +37,8 @@ public class QuestionsPresenter implements Initializable, Disposable {
     @FXML
     private Button btn_confirmAnswer;
     @FXML
+    private Button btn_goBack;
+    @FXML
     private TextArea textArea_answer;
     @FXML
     private BorderPane borderPane_trainingFinished;
@@ -48,6 +52,10 @@ public class QuestionsPresenter implements Initializable, Disposable {
     public void initialize(URL location, ResourceBundle resources) {
         model = new QuestionsModel();
         clearView();
+
+        if (btn_goBack.getGraphic() == null) {
+            btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1.3em"));
+        }
 
         changeListenerTextAreaAnswer = (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (newValue.isEmpty()) {

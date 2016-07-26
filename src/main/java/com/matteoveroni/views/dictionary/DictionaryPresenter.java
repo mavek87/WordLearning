@@ -15,6 +15,8 @@ import com.matteoveroni.views.dictionary.model.DictionaryPage;
 import com.matteoveroni.views.dictionary.model.Translation;
 import com.matteoveroni.views.dictionary.model.Vocable;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +63,8 @@ public class DictionaryPresenter implements Initializable, Disposable {
     private BorderPane actionPaneTranslations;
     @FXML
     private HBox hbbox_bottomActions;
+    @FXML
+    private Button btn_goBack;
 
     private enum ActionPaneType {
         VOCABULARY, TRANSLATIONS;
@@ -130,6 +134,8 @@ public class DictionaryPresenter implements Initializable, Disposable {
     }
 
     private void initializeView() {
+        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1.3em"));
+
         dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
 
         List<Vocable> lista = new ArrayList<>();
@@ -295,13 +301,11 @@ public class DictionaryPresenter implements Initializable, Disposable {
             AnchorPane.setBottomAnchor(listview, 50.0);
 
             Button buttonLeft = new Button();
-            buttonLeft.setMinWidth(120);
-            buttonLeft.setText("Edit");
-
+            buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT, "1.3em"));
+            buttonLeft.setMinWidth(50);
             Button buttonRight = new Button();
-            buttonRight.setMinWidth(120);
-            buttonRight.setText("Remove");
-
+            buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH, "1.3em"));
+            buttonRight.setPrefWidth(50);
             switch (actionPaneType) {
                 case VOCABULARY:
                     buttonLeft.setOnAction((event) -> {

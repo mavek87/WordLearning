@@ -38,7 +38,7 @@
       </BorderPane>
       <BorderPane fx:id="actionPaneVocabulary" prefHeight="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <left>
-            <Button alignment="CENTER" minWidth="120.0" mnemonicParsing="false" onAction="#goBack" text="%back" BorderPane.alignment="CENTER">
+            <Button fx:id="btn_goBack" alignment="CENTER" mnemonicParsing="false" onAction="#goBack" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets left="30.0" />
                </BorderPane.margin>
