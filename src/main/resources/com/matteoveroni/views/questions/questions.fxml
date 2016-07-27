@@ -38,11 +38,15 @@
             </VBox>
          </center>
          <bottom>
-            <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="20.0" />
-               </BorderPane.margin>
-            </Button>
+            <BorderPane BorderPane.alignment="CENTER">
+               <left>
+                  <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="20.0" left="20.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </left>
+            </BorderPane>
          </bottom>
       </BorderPane>
    </children>

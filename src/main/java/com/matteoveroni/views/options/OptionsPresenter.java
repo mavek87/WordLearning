@@ -51,7 +51,7 @@ public class OptionsPresenter implements Initializable, Disposable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1.3em"));
+        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1em"));
 
         populateComboboxWindowSize();
         cmb_windowSize.getSelectionModel().selectLast();

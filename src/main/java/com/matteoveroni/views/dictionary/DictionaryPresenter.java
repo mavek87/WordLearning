@@ -65,6 +65,8 @@ public class DictionaryPresenter implements Initializable, Disposable {
     private HBox hbbox_bottomActions;
     @FXML
     private Button btn_goBack;
+    @FXML
+    private Button btn_add;
 
     private enum ActionPaneType {
         VOCABULARY, TRANSLATIONS;
@@ -84,13 +86,15 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY));
+        btn_add.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS));
     }
 
     @Subscribe
     public void onViewChanged(EventViewChanged eventViewChanged) {
         if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
-            resetView();
-            initializeView();
+            resetSelection();
+            loadViewDataAndBehaviours();
         }
     }
 
@@ -107,6 +111,11 @@ public class DictionaryPresenter implements Initializable, Disposable {
     @FXML
     void goBack(ActionEvent event) {
         EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+    }
+
+    @FXML
+    void goToAdd(ActionEvent event) {
+        //TODO
     }
 
     @FXML
@@ -133,25 +142,18 @@ public class DictionaryPresenter implements Initializable, Disposable {
         this.pageDimension = pageDimension;
     }
 
-    private void initializeView() {
-        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1.3em"));
-
+    private void loadViewDataAndBehaviours() {
         dictionaryPage = model.getDictionaryPage(pageOffset, pageDimension);
 
         List<Vocable> lista = new ArrayList<>();
         lista.addAll(dictionaryPage.getDictionary().keySet());
-
         ObservableList<Vocable> observableVocablesList = FXCollections.observableList(lista);
         listview_vocables.setItems(observableVocablesList);
 
         setCellFactoryForVocablesList();
         setCellFactoryForTranslationsListView();
-
         defineListViewVocablesBehaviours();
         defineListViewTranslationsBehaviours();
-
-        listview_vocables.setEditable(true);
-        listview_translations.setEditable(true);
     }
 
     private void setCellFactoryForVocablesList() {
@@ -361,7 +363,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
     private void removeTranslation() {
     }
 
-    private void resetView() {
+    private void resetSelection() {
         showActionPanel(false, listview_vocables, ActionPaneType.VOCABULARY);
         showActionPanel(false, listview_translations, ActionPaneType.TRANSLATIONS);
         listview_vocables.getSelectionModel().select(null);

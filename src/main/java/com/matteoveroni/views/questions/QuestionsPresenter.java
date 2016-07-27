@@ -54,7 +54,7 @@ public class QuestionsPresenter implements Initializable, Disposable {
         clearView();
 
         if (btn_goBack.getGraphic() == null) {
-            btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1.3em"));
+            btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1em"));
         }
 
         changeListenerTextAreaAnswer = (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {

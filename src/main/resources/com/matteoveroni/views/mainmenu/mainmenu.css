@@ -1,20 +1,17 @@
 .mainFxmlClass {
 
 }
+
 .blind{
     -glyph-name: "BLIND";
-    -glyph-size: 6em;
 }
 .edit{
     -glyph-name: "EDIT";
-    -glyph-size: 6em;
 }
 .gears{
     -glyph-name: "GEARS";
-    -glyph-size: 6em;
 }
 .sign-out{
     -glyph-name: "SIGN_OUT";
-    -glyph-size: 6em;
 }
 

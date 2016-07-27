@@ -14,11 +14,21 @@
          <bottom>
             <BorderPane prefHeight="60.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="30.0" right="30.0" />
+                  <Insets />
                </BorderPane.margin>
-               <center>
-                  <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" BorderPane.alignment="CENTER" />
-               </center>
+               <left>
+                  <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="20.0" />
+                     </BorderPane.margin></Button>
+               </left>
+               <right>
+                  <Button fx:id="btn_add" mnemonicParsing="false" onAction="#goToAdd" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="20.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </right>
             </BorderPane>
          </bottom>
          <center>

@@ -36,7 +36,7 @@ public class EditvocablePresenter implements Initializable, Disposable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (btn_goBack.getGraphic() == null) {
-            btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1.3em"));
+            btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1em"));
         }
     }
 
