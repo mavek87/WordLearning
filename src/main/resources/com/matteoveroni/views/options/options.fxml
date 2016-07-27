@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -13,12 +14,18 @@
          <center>
             <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="%windowSize" />
+                  <Label stylesheets="@options.css" text="%windowSize">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Label>
                   <ComboBox fx:id="cmb_windowSize" nodeOrientation="LEFT_TO_RIGHT" prefWidth="200.0" />
-                  <Label text="%language">
+                  <Label text="%language" textAlignment="RIGHT">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
                   </Label>
                   <Button fx:id="btn_english" mnemonicParsing="false" onAction="#setEnglishLanguage" prefWidth="150.0" text="%english" />
                   <Button fx:id="btn_italian" mnemonicParsing="false" onAction="#setItalianLanguage" prefWidth="150.0" text="%italian" />

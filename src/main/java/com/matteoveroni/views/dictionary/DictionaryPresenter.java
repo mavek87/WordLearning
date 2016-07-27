@@ -31,14 +31,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.util.StringConverter;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
@@ -117,7 +115,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     @FXML
     void goToAdd(ActionEvent event) {
-        //TODO
+        EventBus.getDefault().post(new EventChangeView(ViewName.CREATION));
     }
 
     @FXML
@@ -302,7 +300,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     private void showActionPanel(boolean isShown, ListView listview, ActionPaneType actionPaneType) {
         if (isShown) {
-            AnchorPane.setBottomAnchor(listview, 54.0);
+            AnchorPane.setBottomAnchor(listview, 55.0);
             Button buttonLeft = new Button();
             buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
             buttonLeft.setPrefWidth(50);

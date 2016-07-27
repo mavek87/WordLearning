@@ -1,9 +1,8 @@
-package com.matteoveroni.views.editvocable;
+package com.matteoveroni.views.creation;
 
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;
-import com.matteoveroni.views.dictionary.model.Vocable;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
@@ -13,7 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.slf4j.Logger;
@@ -24,32 +25,34 @@ import org.slf4j.LoggerFactory;
  *
  * @author Matteo Veroni
  */
-public class EditvocablePresenter implements Initializable, Disposable {
+public class CreationPresenter implements Initializable, Disposable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EditvocablePresenter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CreationPresenter.class);
 
     @FXML
-    private TextField txt_vocable;
+    private Label lbl_create;
     @FXML
     private Button btn_goBack;
+    @FXML
+    private RadioButton radio_vocable;
+    @FXML
+    private RadioButton radio_translation;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (btn_goBack.getGraphic() == null) {
-            btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1em"));
-        }
+        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY));
+                
+        final ToggleGroup toggleGroup = new ToggleGroup();
+        radio_vocable.setToggleGroup(toggleGroup);
+        radio_vocable.setSelected(true);
+        radio_translation.setToggleGroup(toggleGroup);
+
     }
 
     @Subscribe
     public void onViewChanged(EventViewChanged eventViewChanged) {
-        if (eventViewChanged.getCurrentViewName() == ViewName.EDIT_VOCABLE && eventViewChanged.getObjectPassed() instanceof Vocable) {
+        if (eventViewChanged.getCurrentViewName() == ViewName.CREATION) {
             resetView();
-            String vocableToUse = ((Vocable) eventViewChanged.getObjectPassed()).getName();
-            if (vocableToUse != null && !vocableToUse.isEmpty()) {
-                txt_vocable.setText(vocableToUse);
-            } else {
-                goBack(null);
-            }
         }
     }
 
@@ -63,7 +66,6 @@ public class EditvocablePresenter implements Initializable, Disposable {
 
     @Override
     public void dispose() {
-
     }
 
 }

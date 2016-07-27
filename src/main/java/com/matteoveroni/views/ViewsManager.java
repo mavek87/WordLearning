@@ -6,6 +6,7 @@ import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventLanguageChanged;
 import com.matteoveroni.bus.events.EventViewChanged;
+import com.matteoveroni.views.creation.CreationView;
 import com.matteoveroni.views.dictionary.DictionaryView;
 import com.matteoveroni.views.editvocable.EditvocableView;
 import com.matteoveroni.views.mainmenu.MainMenuView;
@@ -114,6 +115,9 @@ public class ViewsManager implements Disposable {
                 break;
             case EDIT_VOCABLE:
                 fxmlView = new EditvocableView();
+                break;
+            case CREATION:
+                fxmlView = new CreationView();
                 break;
             case OPTIONS:
                 fxmlView = new OptionsView();

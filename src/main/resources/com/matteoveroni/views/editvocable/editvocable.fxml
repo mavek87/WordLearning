@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import org.controlsfx.control.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -12,7 +13,10 @@
    <children>
       <BorderPane prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <Label fx:id="lbl_vocableToEdit" text="%editvocable" BorderPane.alignment="CENTER" />
+            <Label fx:id="lbl_vocableToEdit" text="%editvocable" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
          </center>
       </BorderPane>
       <BorderPane AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
