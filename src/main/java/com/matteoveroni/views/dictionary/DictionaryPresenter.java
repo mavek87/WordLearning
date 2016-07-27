@@ -303,10 +303,10 @@ public class DictionaryPresenter implements Initializable, Disposable {
             AnchorPane.setBottomAnchor(listview, 50.0);
 
             Button buttonLeft = new Button();
-            buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT, "1.3em"));
+            buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
             buttonLeft.setMinWidth(50);
             Button buttonRight = new Button();
-            buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH, "1.3em"));
+            buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
             buttonRight.setPrefWidth(50);
             switch (actionPaneType) {
                 case VOCABULARY:

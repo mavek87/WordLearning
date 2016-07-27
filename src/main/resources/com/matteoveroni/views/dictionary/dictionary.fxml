@@ -12,7 +12,7 @@
    <children>
       <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
-            <BorderPane prefHeight="60.0" BorderPane.alignment="CENTER">
+            <BorderPane prefHeight="80.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
