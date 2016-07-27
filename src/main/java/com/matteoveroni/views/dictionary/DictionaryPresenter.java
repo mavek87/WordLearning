@@ -31,12 +31,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import javafx.util.StringConverter;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
@@ -274,7 +276,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     private void setFocusChangeListenerForVocablesListView() {
         disposeFocusChangeListenerVocables();
-        focusChangeListenerVocables = new FocusChangeListenerVocables(listview_vocables);
+        focusChangeListenerVocables = new FocusChangeListenerVocables();
         listview_vocables.focusedProperty().addListener(focusChangeListenerVocables);
     }
 
@@ -300,11 +302,10 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     private void showActionPanel(boolean isShown, ListView listview, ActionPaneType actionPaneType) {
         if (isShown) {
-            AnchorPane.setBottomAnchor(listview, 50.0);
-
+            AnchorPane.setBottomAnchor(listview, 54.0);
             Button buttonLeft = new Button();
             buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
-            buttonLeft.setMinWidth(50);
+            buttonLeft.setPrefWidth(50);
             Button buttonRight = new Button();
             buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
             buttonRight.setPrefWidth(50);
@@ -340,6 +341,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
                         }
                     });
                     actionPaneTranslations.setLeft(buttonLeft);
+
                     actionPaneTranslations.setRight(buttonRight);
                     break;
             }

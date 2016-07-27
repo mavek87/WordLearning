@@ -17,13 +17,13 @@
                   <Insets />
                </BorderPane.margin>
                <left>
-                  <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" BorderPane.alignment="CENTER">
+                  <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" prefWidth="50.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets left="20.0" />
                      </BorderPane.margin></Button>
                </left>
                <right>
-                  <Button fx:id="btn_add" mnemonicParsing="false" onAction="#goToAdd" BorderPane.alignment="CENTER">
+                  <Button fx:id="btn_add" mnemonicParsing="false" onAction="#goToAdd" prefWidth="50.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets right="20.0" />
                      </BorderPane.margin>
@@ -42,7 +42,10 @@
                            </center>
                         </BorderPane>
                         <ListView fx:id="listview_vocables" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                        <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding></BorderPane>
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
@@ -53,7 +56,10 @@
                            </center>
                         </BorderPane>
                         <ListView fx:id="listview_translations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                        <BorderPane fx:id="actionPaneTranslations" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <BorderPane fx:id="actionPaneTranslations" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding></BorderPane>
                      </children>
                   </AnchorPane>
               </items>
