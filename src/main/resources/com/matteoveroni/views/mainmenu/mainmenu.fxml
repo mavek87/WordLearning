@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?> 
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.mainmenu.MainMenuPresenter">
-   <children>
-      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-            <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#startTraining" prefHeight="35.0" prefWidth="200.0" text="%startTraining" />
-                  <Button mnemonicParsing="false" onAction="#goToDictionary" prefHeight="35.0" prefWidth="200.0" text="%manageDictionary" />
-                  <Button mnemonicParsing="false" onAction="#goToSettings" prefHeight="35.0" prefWidth="200.0" text="%settings" />
-                  <Button mnemonicParsing="false" onAction="#closeApp" prefHeight="35.0" prefWidth="200.0" text="%exit" />
-               </children>
-            </VBox>
-         </center>
-      </BorderPane>
-   </children>
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <center>
+                <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#startTraining" prefHeight="35.0" prefWidth="200.0" text="%startTraining">
+                            <graphic>
+                                <FontAwesomeIconView styleClass="blind"/>
+                            </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#goToDictionary" prefHeight="35.0" prefWidth="200.0" text="%manageDictionary">
+                            <graphic>
+                                <FontAwesomeIconView styleClass="edit"/>
+                            </graphic>
+                        </Button>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#goToSettings" prefHeight="35.0" prefWidth="200.0" text="%settings" >
+                            <graphic>
+                                <FontAwesomeIconView styleClass="gears"/>
+                            </graphic>
+                        </Button> 
+                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#closeApp" prefHeight="35.0" prefWidth="200.0" text="%exit" >
+                            <graphic>
+                                <FontAwesomeIconView styleClass="sign-out"/>
+                            </graphic>
+                        </Button>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>
