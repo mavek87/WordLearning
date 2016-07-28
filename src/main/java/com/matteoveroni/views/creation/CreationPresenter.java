@@ -3,7 +3,10 @@ package com.matteoveroni.views.creation;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;
+import com.matteoveroni.views.creation.model.CreationModel;
 import com.matteoveroni.views.creation.model.events.EventRadioButtonSelectionChanged;
+import com.matteoveroni.views.creation.model.exceptions.InvalidVocableException;
+import com.matteoveroni.views.creation.model.exceptions.VocableExistsException;
 import com.matteoveroni.views.creation.model.listeners.RadioToggleGroupChangeListener;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -33,7 +36,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CreationPresenter implements Initializable, Disposable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CreationPresenter.class);
+    private final CreationModel model = new CreationModel();
 
     private final ToggleGroup toggleGroup = new ToggleGroup();
     private final RadioToggleGroupChangeListener radioToggleGroupChangeListener = new RadioToggleGroupChangeListener();
@@ -43,8 +46,6 @@ public class CreationPresenter implements Initializable, Disposable {
     @FXML
     private RadioButton radio_vocable;
     @FXML
-    private Label lbl_create;
-    @FXML
     private Button btn_goBack;
     @FXML
     private HBox hbox_vocable;
@@ -53,12 +54,13 @@ public class CreationPresenter implements Initializable, Disposable {
     private final TextField txt_newVocable = new TextField();
     private final Button btn_saveNewVocable = new Button();
 
-    private ResourceBundle resources;
+    private ResourceBundle resourceBundle;
+
+    private static final Logger LOG = LoggerFactory.getLogger(CreationPresenter.class);
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.resources = resources;
-
+    public void initialize(URL location, ResourceBundle resourceBundle) {
+        this.resourceBundle = resourceBundle;
         btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY));
 
         radio_vocable.setToggleGroup(toggleGroup);
@@ -141,17 +143,26 @@ public class CreationPresenter implements Initializable, Disposable {
     }
 
     private void saveVocable() {
-        LOG.debug("salvo " + txt_newVocable.getText());
-        String newVocable = txt_newVocable.getText();
         Alert alertSaveVocable = new Alert(AlertType.NONE);
         alertSaveVocable.setTitle("Save vocable");
-        if (!newVocable.trim().isEmpty()) {
+        String str_vocable = txt_newVocable.getText();
+        try {
+            model.saveStringToVocable(str_vocable);
             alertSaveVocable.setAlertType(AlertType.INFORMATION);
-            alertSaveVocable.setContentText("Salvataggio " + newVocable + " riuscito!");
+            alertSaveVocable.setContentText("Salvataggio " + str_vocable + " riuscito!");
             resetView();
-        } else {
+        } catch (Exception ex) {
             alertSaveVocable.setAlertType(AlertType.ERROR);
-            alertSaveVocable.setContentText("Salvataggio vocabolo fallito!");
+            alertSaveVocable.setHeaderText("Errore salvataggio");
+            String alertMessage;
+            if (ex instanceof InvalidVocableException) {
+                alertMessage = "Invalid Vocable";
+            } else if (ex instanceof VocableExistsException) {
+                alertMessage = "Vocable exists yet";
+            } else {
+                alertMessage = "SQL Exception";
+            }
+            alertSaveVocable.setContentText(alertMessage);
         }
         alertSaveVocable.showAndWait();
     }

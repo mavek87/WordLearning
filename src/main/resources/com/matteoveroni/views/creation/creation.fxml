@@ -13,7 +13,7 @@
    <children>
       <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="lbl_create" text="%create">
+            <Label text="%create">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
