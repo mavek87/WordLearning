@@ -1,4 +1,4 @@
-package com.matteoveroni.views.dictionary.bus.events;
+package com.matteoveroni.views.dictionary.events;
 
 /**
  *

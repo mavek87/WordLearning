@@ -1,6 +1,6 @@
 package com.matteoveroni.views.dictionary.listviews.listeners;
 
-import com.matteoveroni.views.dictionary.bus.events.EventShowTranslationsActionPanel;
+import com.matteoveroni.views.dictionary.events.EventShowTranslationsActionPanel;
 import com.matteoveroni.views.dictionary.model.pojo.Translation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

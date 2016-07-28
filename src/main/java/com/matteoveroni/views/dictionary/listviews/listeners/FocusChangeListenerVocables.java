@@ -1,6 +1,6 @@
 package com.matteoveroni.views.dictionary.listviews.listeners;
 
-import com.matteoveroni.views.dictionary.bus.events.EventShowVocablesActionPanel;
+import com.matteoveroni.views.dictionary.events.EventShowVocablesActionPanel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import org.greenrobot.eventbus.EventBus;
