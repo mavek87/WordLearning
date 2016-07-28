@@ -1,5 +1,7 @@
 package com.matteoveroni.views.dictionary.model;
 
+import com.matteoveroni.views.dictionary.model.pojo.Translation;
+import com.matteoveroni.views.dictionary.model.pojo.Vocable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

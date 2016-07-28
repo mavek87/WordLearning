@@ -1,7 +1,7 @@
 package com.matteoveroni.views.questions.model;
 
-import com.matteoveroni.views.dictionary.model.Translation;
-import com.matteoveroni.views.dictionary.model.Vocable;
+import com.matteoveroni.views.dictionary.model.pojo.Translation;
+import com.matteoveroni.views.dictionary.model.pojo.Vocable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

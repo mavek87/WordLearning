@@ -12,8 +12,8 @@ import com.matteoveroni.views.dictionary.listviews.listeners.SelectionChangeList
 import com.matteoveroni.views.dictionary.listviews.listeners.FocusChangeListenerVocables;
 import com.matteoveroni.views.dictionary.listviews.listeners.SelectionChangeListenerTranslations;
 import com.matteoveroni.views.dictionary.model.DictionaryPage;
-import com.matteoveroni.views.dictionary.model.Translation;
-import com.matteoveroni.views.dictionary.model.Vocable;
+import com.matteoveroni.views.dictionary.model.pojo.Translation;
+import com.matteoveroni.views.dictionary.model.pojo.Vocable;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;

@@ -19,7 +19,7 @@
                </font></Label>
             <RadioButton fx:id="radio_vocable" mnemonicParsing="false" text="%vocable" />
             <RadioButton fx:id="radio_translation" mnemonicParsing="false" text="%translation" />
-            <BorderPane prefHeight="200.0" prefWidth="200.0" />
+            <HBox fx:id="hbox_vocable" alignment="CENTER" spacing="10.0" />
          </children>
       </VBox>
       <BorderPane prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

@@ -1,6 +1,6 @@
 package com.matteoveroni.views.dictionary.listviews.cells;
 
-import com.matteoveroni.views.dictionary.model.Vocable;
+import com.matteoveroni.views.dictionary.model.pojo.Vocable;
 import javafx.scene.control.cell.TextFieldListCell;
 
 /**

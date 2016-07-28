@@ -1,5 +1,7 @@
 package com.matteoveroni.views.questions.model;
 
+import com.matteoveroni.views.dictionary.model.pojo.Translation;
+import com.matteoveroni.views.dictionary.model.pojo.Vocable;
 import com.matteoveroni.views.dictionary.model.*;
 import com.matteoveroni.database.Database;
 import java.sql.Connection;

@@ -3,7 +3,7 @@ package com.matteoveroni.views.editvocable;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;
-import com.matteoveroni.views.dictionary.model.Vocable;
+import com.matteoveroni.views.dictionary.model.pojo.Vocable;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;

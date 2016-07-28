@@ -1,4 +1,4 @@
-package com.matteoveroni.views.dictionary.model;
+package com.matteoveroni.views.dictionary.model.pojo;
 
 /**
  *

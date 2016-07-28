@@ -2,8 +2,8 @@ package com.matteoveroni.views.dictionary.listviews.listeners;
 
 import com.matteoveroni.views.dictionary.bus.events.EventShowVocablesActionPanel;
 import com.matteoveroni.views.dictionary.model.DictionaryPage;
-import com.matteoveroni.views.dictionary.model.Translation;
-import com.matteoveroni.views.dictionary.model.Vocable;
+import com.matteoveroni.views.dictionary.model.pojo.Translation;
+import com.matteoveroni.views.dictionary.model.pojo.Vocable;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -1,6 +1,6 @@
 package com.matteoveroni.views.dictionary.listviews.cells;
 
-import com.matteoveroni.views.dictionary.model.Translation;
+import com.matteoveroni.views.dictionary.model.pojo.Translation;
 import javafx.scene.control.ListCell;
 
 /**
