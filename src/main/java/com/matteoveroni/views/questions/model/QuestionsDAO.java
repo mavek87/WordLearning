@@ -46,6 +46,32 @@ public class QuestionsDAO {
         return listOfAllVocables;
     }
 
+    public List<Vocable> getVocablesWithAtLeastATranslation() {
+        String queryGetVocables = "SELECT DISTINCT d.Id, d.Vocable FROM Dictionary as d LEFT JOIN DictionaryTranslations dt WHERE d.Id=dt.Vocable_Id ORDER BY Vocable ASC;";
+        List<Vocable> listOfAllVocables = new ArrayList<>();
+
+        try (Connection connection = Database.getInstance().getConnection();
+            PreparedStatement statementVocables = connection.prepareStatement(queryGetVocables);
+            ResultSet resultSetVocables = statementVocables.executeQuery()) {
+
+            while (resultSetVocables.next()) {
+                long vocableId = resultSetVocables.getLong("Id");
+                String vocableName = resultSetVocables.getString("Vocable");
+                if (vocableId >= 0 && vocableName != null) {
+                    Vocable vocable = new Vocable(vocableId, vocableName);
+                    listOfAllVocables.add(vocable);
+                } else {
+                    break;
+                }
+            }
+
+        } catch (SQLException ex) {
+            LOG.error(ex.getMessage());
+            Database.getInstance().printSQLException(ex);
+        }
+        return listOfAllVocables;
+    }
+
     // NEVER TESTED
     public List<Translation> getTranslationsForVocable(Vocable vocable) {
         List<Translation> translationsForVocable = new ArrayList<>();

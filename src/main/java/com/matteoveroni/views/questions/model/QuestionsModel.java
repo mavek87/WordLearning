@@ -17,7 +17,7 @@ public class QuestionsModel {
     private final QuestionsDAO questionsDAO = new QuestionsDAO();
 
     public QuestionsModel() {
-        this.vocables = questionsDAO.getVocables();
+        this.vocables = questionsDAO.getVocablesWithAtLeastATranslation();
     }
 
     public Vocable getRandomVocable() {
