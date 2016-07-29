@@ -6,13 +6,6 @@ import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventLanguageChanged;
 import com.matteoveroni.bus.events.EventViewChanged;
-import com.matteoveroni.views.creation.CreationView;
-import com.matteoveroni.views.dictionary.DictionaryView;
-import com.matteoveroni.views.editvocable.EditvocableView;
-import com.matteoveroni.views.mainmenu.MainMenuView;
-import com.matteoveroni.views.options.OptionsView;
-import com.matteoveroni.views.questions.QuestionsView;
-import com.matteoveroni.views.translations.TranslationsView;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,40 +97,16 @@ public class ViewsManager implements Disposable {
     }
 
     private void buildView(ViewName viewName) {
-        LOG.debug("Building view => " + viewName);
-        views.remove(viewName);
-        FXMLView fxmlView;
-        switch (viewName) {
-            case MAINMENU:
-                fxmlView = new MainMenuView();
-                break;
-            case DICTIONARY:
-                fxmlView = new DictionaryView();
-                break;
-            case EDIT_VOCABLE:
-                fxmlView = new EditvocableView();
-                break;
-            case TRANSLATIONS:
-                fxmlView = new TranslationsView();
-                break;
-            case CREATION:
-                fxmlView = new CreationView();
-                break;
-            case OPTIONS:
-                fxmlView = new OptionsView();
-                break;
-            case QUESTIONS:
-                fxmlView = new QuestionsView();
-                break;
-            default:
-                String errorMessage = "View " + viewName + " cannot be build. It doesn\'t exist!";
-                LOG.error(errorMessage);
-                throw new RuntimeException(errorMessage);
+        try {
+            FXMLView fxmlView = ViewsFactory.create(viewName);
+            fxmlView.getView();
+            views.put(viewName, fxmlView);
+            EventBus.getDefault().register(fxmlView.getPresenter());
+            LOG.debug(viewName + " presenter registered to bus");
+        } catch (ViewsFactoryCreationException ex) {
+            LOG.error(ex.getMessage());
+            throw new RuntimeException(ex.getMessage());
         }
-        fxmlView.getView();
-        views.put(viewName, fxmlView);
-        EventBus.getDefault().register(fxmlView.getPresenter());
-        LOG.debug(viewName + " presenter registered to bus");
     }
 
     private void unregisterViewFromBus(FXMLView view) {
