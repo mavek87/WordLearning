@@ -49,6 +49,11 @@ public class MainMenuPresenter implements Initializable {
 	void goToSettings(ActionEvent event) {
 		EventBus.getDefault().post(new EventChangeView(ViewName.OPTIONS));
 	}
+    
+    @FXML
+    void goToTranslations(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.TRANSLATIONS));
+    }
 
 	@FXML
 	void closeApp(ActionEvent event) {

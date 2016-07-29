@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.translations.TranslationsPresenter">
+   <children>
+      <BorderPane prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <Label text="%translations" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </center>
+         <right>
+            <Button fx:id="btn_add" mnemonicParsing="false" prefWidth="50.0" BorderPane.alignment="CENTER" />
+         </right>
+         <left>
+            <Button fx:id="btn_search" mnemonicParsing="false" prefWidth="50.0" BorderPane.alignment="CENTER" />
+         </left>
+      </BorderPane>
+      <ListView fx:id="listview_translations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+      <BorderPane fx:id="actionPaneTranslations" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+      </BorderPane>
+   </children>
+</AnchorPane>

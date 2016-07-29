@@ -12,6 +12,7 @@ import com.matteoveroni.views.editvocable.EditvocableView;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
 import com.matteoveroni.views.questions.QuestionsView;
+import com.matteoveroni.views.translations.TranslationsView;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import java.util.HashMap;
 import java.util.Map;
@@ -115,6 +116,9 @@ public class ViewsManager implements Disposable {
                 break;
             case EDIT_VOCABLE:
                 fxmlView = new EditvocableView();
+                break;
+            case TRANSLATIONS:
+                fxmlView = new TranslationsView();
                 break;
             case CREATION:
                 fxmlView = new CreationView();

@@ -54,19 +54,19 @@ public class CreationPresenter implements Initializable, Disposable {
     private final Label lbl_newVocable = new Label();
     private final TextField txt_newVocable = new TextField();
     private final Button btn_saveNewVocable = new Button();
-    
-    @FXML 
+
+    @FXML
     private HBox hbox_searchVocable;
     private final Label lbl_searchVocable = new Label();
     private final TextField txt_searchVocable = new TextField();
     private ListView<Vocable> listView_searchVocable;
-    
+
     @FXML
     private HBox hbox_translation;
     private final Label lbl_newTranslation = new Label();
     private final TextField txt_newTranslation = new TextField();
     private final Button btn_saveNewTranslation = new Button();
-    
+
     private ResourceBundle resourceBundle;
 
     private static final Logger LOG = LoggerFactory.getLogger(CreationPresenter.class);
@@ -81,6 +81,7 @@ public class CreationPresenter implements Initializable, Disposable {
         toggleGroup.selectedToggleProperty().addListener(radioToggleGroupChangeListener);
 
         createVocableComponents();
+        createTranslationComponents();
 
         resetView();
     }
@@ -179,6 +180,17 @@ public class CreationPresenter implements Initializable, Disposable {
             alertSaveVocable.setContentText(alertMessage);
         }
         alertSaveVocable.showAndWait();
+    }
+
+    private void createTranslationComponents() {
+        lbl_searchVocable.setText("search a vocable");
+        
+        
+        btn_saveNewVocable.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE));
+        btn_saveNewVocable.setPrefWidth(50);
+        btn_saveNewVocable.setOnAction((ActionEvent event) -> {
+            saveVocable();
+        });
     }
 
     @Override

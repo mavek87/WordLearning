@@ -34,6 +34,7 @@
                                 <FontAwesomeIconView styleClass="sign-out"/>
                             </graphic>
                         </Button>
+                        <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#goToTranslations" prefHeight="35.0" prefWidth="200.0" />
                     </children>
                 </VBox>
             </center>
