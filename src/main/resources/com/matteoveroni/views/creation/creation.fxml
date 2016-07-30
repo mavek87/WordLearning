@@ -10,27 +10,31 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.creation.CreationPresenter">
-   <children>
-      <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label text="%create">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></Label>
-            <RadioButton fx:id="radio_vocable" mnemonicParsing="false" text="%vocable" />
-            <RadioButton fx:id="radio_translation" mnemonicParsing="false" text="%translation" />
-            <HBox fx:id="hbox_vocable" alignment="CENTER" spacing="10.0" />
-            <HBox fx:id="xbox_searchVocable" />
-            <HBox fx:id="hbox_translation" />
-         </children>
-      </VBox>
-      <BorderPane prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <left>
-            <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" prefWidth="50.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="20.0" left="20.0" />
-               </BorderPane.margin></Button>
-         </left>
-      </BorderPane>
-   </children>
+    <children>
+        <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label text="%create">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+                <RadioButton fx:id="radio_vocable" mnemonicParsing="false" text="%vocable" />
+                <RadioButton fx:id="radio_translation" mnemonicParsing="false" text="%translation" />
+                <HBox fx:id="hbox_vocable" alignment="CENTER" spacing="10.0" />
+                <HBox fx:id="xbox_searchVocable">
+                </HBox>
+                <HBox fx:id="hbox_translation">
+                </HBox>
+            </children>
+        </VBox>
+        <BorderPane prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <left>
+                <Button fx:id="btn_goBack" mnemonicParsing="false" onAction="#goBack" prefWidth="50.0" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="20.0" left="20.0" />
+                    </BorderPane.margin>
+                </Button>
+            </left>
+        </BorderPane>
+    </children>
 </AnchorPane>

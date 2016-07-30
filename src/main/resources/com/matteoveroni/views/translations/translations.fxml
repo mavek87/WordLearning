@@ -20,7 +20,7 @@
             </Label>
          </center>
          <right>
-            <Button fx:id="btn_add" mnemonicParsing="false" prefWidth="50.0" BorderPane.alignment="CENTER" />
+            <Button fx:id="btn_add" mnemonicParsing="false" onAction="#goToMain" prefWidth="50.0" BorderPane.alignment="CENTER" />
          </right>
          <left>
             <Button fx:id="btn_search" mnemonicParsing="false" prefWidth="50.0" BorderPane.alignment="CENTER" />

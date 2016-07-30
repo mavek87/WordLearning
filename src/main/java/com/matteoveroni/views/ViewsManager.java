@@ -109,6 +109,11 @@ public class ViewsManager implements Disposable {
         }
     }
 
+    @Override
+    public void dispose() {
+        disposeViews();
+    }
+
     private void unregisterViewFromBus(FXMLView view) {
         EventBus.getDefault().unregister(view.getPresenter());
     }
@@ -130,10 +135,5 @@ public class ViewsManager implements Disposable {
             }
             LOG.debug(views.values().size() + " view\'s disposed");
         }
-    }
-
-    @Override
-    public void dispose() {
-        disposeViews();
     }
 }

@@ -83,11 +83,17 @@ public class TranslationsPresenter implements Initializable, Disposable {
         EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
     }
 
+    @FXML
+    void goToMain(ActionEvent event) {
+        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+    }
+
     private void loadViewDataAndBehaviours() {
 
         setCellFactoryForTranslationsListView();
         defineListViewTranslationsBehaviours();
     }
+
     private void setCellFactoryForTranslationsListView() {
         listview_translations.setCellFactory((ListView<Translation> t) -> {
             ListCell<Translation> translationsListViewCell = new TranslationCell();

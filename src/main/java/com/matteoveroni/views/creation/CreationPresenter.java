@@ -9,6 +9,7 @@ import com.matteoveroni.views.creation.model.exceptions.InvalidVocableException;
 import com.matteoveroni.views.creation.model.exceptions.VocableExistsException;
 import com.matteoveroni.views.creation.model.listeners.RadioToggleGroupChangeListener;
 import com.matteoveroni.views.dictionary.model.pojo.Vocable;
+import com.matteoveroni.views.translations.TranslationsView;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
@@ -84,6 +85,8 @@ public class CreationPresenter implements Initializable, Disposable {
         createTranslationComponents();
 
         resetView();
+        TranslationsView tv = new TranslationsView();
+        hbox_translation.getChildren().add(tv.getView());
     }
 
     @Subscribe
@@ -184,8 +187,7 @@ public class CreationPresenter implements Initializable, Disposable {
 
     private void createTranslationComponents() {
         lbl_searchVocable.setText("search a vocable");
-        
-        
+
         btn_saveNewVocable.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE));
         btn_saveNewVocable.setPrefWidth(50);
         btn_saveNewVocable.setOnAction((ActionEvent event) -> {
