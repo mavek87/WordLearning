@@ -93,7 +93,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
     @Subscribe
     public void onViewChanged(EventViewChanged eventViewChanged) {
         if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
-            resetSelection();
+            resetViewAndSelection();
             loadViewDataAndBehaviours();
         }
     }
@@ -363,7 +363,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
     private void removeTranslation() {
     }
 
-    private void resetSelection() {
+    private void resetViewAndSelection() {
         showActionPanel(false, listview_vocables, ActionPaneType.VOCABULARY);
         showActionPanel(false, listview_translations, ActionPaneType.TRANSLATIONS);
         listview_vocables.getSelectionModel().select(null);

@@ -5,7 +5,9 @@ import com.matteoveroni.App;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventLanguageChanged;
+import com.matteoveroni.bus.events.EventRequestView;
 import com.matteoveroni.bus.events.EventViewChanged;
+import com.matteoveroni.bus.events.EventSendView;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +39,21 @@ public class ViewsManager implements Disposable {
 
     public FXMLView getView(ViewName viewName) {
         return views.get(viewName);
+    }
+
+    @Subscribe
+    public void onViewRequested(EventRequestView event) {
+        try {
+            ViewName viewRequested = event.getViewNameRequested();
+            System.out.println("views.get(viewRequested), viewRequested) " + views.get(viewRequested).getChildren().size());
+            if (views.containsKey(viewRequested)) {
+                EventBus.getDefault().post(new EventSendView(views.get(viewRequested), viewRequested));
+            } else {
+                throw new Exception("View Requested not set");
+            }
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
     }
 
     @Subscribe

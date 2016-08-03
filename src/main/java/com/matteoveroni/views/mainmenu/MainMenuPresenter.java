@@ -56,13 +56,13 @@ public class MainMenuPresenter implements Initializable {
 
     @FXML
     void goToTranslations(ActionEvent event) {
-        Translation t1 = new Translation(1, "ciao");
-        Translation t2 = new Translation(2, "arrivedorci !");
-        final List<Translation> lt = new ArrayList<>();
-        lt.add(t1);
-        lt.add(t2);
-        EventBus.getDefault().post(new EventNewTranslationsToShow(lt));
-        EventBus.getDefault().post(new EventChangeView(ViewName.TRANSLATIONS));
+//        Translation t1 = new Translation(1, "ciao");
+//        Translation t2 = new Translation(2, "arrivedorci !");
+//        final List<Translation> lt = new ArrayList<>();
+//        lt.add(t1);
+//        lt.add(t2);
+//        EventBus.getDefault().post(new EventNewTranslationsToShow(lt));
+//        EventBus.getDefault().post(new EventChangeView(ViewName.TRANSLATIONS));
     }
 
     @FXML

@@ -56,6 +56,11 @@ public class TranslationsPresenter implements Initializable, Disposable {
     public void initialize(URL location, ResourceBundle resources) {
         btn_search.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SEARCH));
         btn_add.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS));
+
+        listview_translations.setCellFactory((ListView<Translation> t) -> {
+            ListCell<Translation> translationsListViewCell = new TranslationCell();
+            return translationsListViewCell;
+        });
     }
 
     @Subscribe
@@ -69,8 +74,12 @@ public class TranslationsPresenter implements Initializable, Disposable {
     @Subscribe
     public void onEventNewTranslationsToShow(EventNewTranslationsToShow event) {
         resetView();
-        final ObservableList<Translation> observableTranslationsList = FXCollections.observableList(event.getTranslations());
+        LOG.debug("" + event.getTranslations().size());
+        ObservableList<Translation> observableTranslationsList = FXCollections.observableList(event.getTranslations());
+        LOG.debug("" + observableTranslationsList.size());
         listview_translations.setItems(observableTranslationsList);
+
+        LOG.debug("" + listview_translations.getChildrenUnmodifiable().size());
     }
 
     @Subscribe
@@ -89,7 +98,6 @@ public class TranslationsPresenter implements Initializable, Disposable {
     }
 
     private void loadViewDataAndBehaviours() {
-
         setCellFactoryForTranslationsListView();
         defineListViewTranslationsBehaviours();
     }
