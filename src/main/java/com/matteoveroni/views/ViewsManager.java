@@ -107,17 +107,12 @@ public class ViewsManager implements Disposable {
 			currentScene.setRoot(new Parent() {
 			});
 		}
-//		Scene currentScene = new Scene(new Parent() {
-//		});
-//		currentScene.setRoot(new Parent() {
-//		});
 		currentScene = new Scene(fxmlView.getView(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
 		if (usedViewsNamesStack.size() < 2 || !nameOfViewToUse.equals(usedViewsNamesStack.getLast())) {
 			usedViewsNamesStack.addLast(nameOfViewToUse);
 		}
-		System.out.println(usedViewsNamesStack.size());
 		applyGeneralCSSToScene();
-		showSceneOnStage(currentScene);
+		drawSceneOnStage(currentScene);
 		if (objectPassed == null) {
 			EventBus.getDefault().post(new EventViewChanged(usedViewsNamesStack.getLast()));
 		} else {
@@ -125,7 +120,7 @@ public class ViewsManager implements Disposable {
 		}
 	}
 
-	private void showSceneOnStage(Scene scene) {
+	private void drawSceneOnStage(Scene scene) {
 		stage.setScene(scene);
 		stage.show();
 	}
