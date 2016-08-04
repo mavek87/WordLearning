@@ -1,5 +1,6 @@
 package com.matteoveroni.views.creation;
 
+import com.airhacks.afterburner.views.FXMLView;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventRequestView;
 import com.matteoveroni.bus.events.EventViewChanged;
@@ -10,6 +11,7 @@ import com.matteoveroni.views.creation.model.events.EventRadioButtonSelectionCha
 import com.matteoveroni.views.creation.model.listeners.RadioToggleGroupChangeListener;
 import com.matteoveroni.views.dictionary.model.pojo.Translation;
 import com.matteoveroni.views.dictionary.model.pojo.Vocable;
+import com.matteoveroni.views.translations.TranslationsPresenter;
 import com.matteoveroni.views.translations.events.EventNewTranslationsToShow;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -86,29 +88,22 @@ public class CreationPresenter implements Initializable, Disposable {
 
 		createVocableComponents();
 		createTranslationComponents();
-
-		resetView();
-		changeViewForVocableSelection(true);
-
 	}
 
 	@Subscribe
 	public void onViewChanged(EventViewChanged eventViewChanged) {
 		if (eventViewChanged.getCurrentViewName() == ViewName.CREATION) {
-//            Translation t1 = new Translation(1, "4");
-//            Translation t2 = new Translation(2, "e3wt2w3t3 !");
-//            final List<Translation> lt = new ArrayList<>();
-//            lt.add(t1);
-//            lt.add(t2);
-//            resetView();
-//            EventBus.getDefault().post(new EventNewTranslationsToShow(lt));
+			resetView();
+			changeViewForVocableSelection();
 		}
 	}
 
 	@Subscribe
 	public void onViewRequestedReceived(EventSendView eventSendedView) {
 		try {
-			hbox_searchVocable.getChildren().add(eventSendedView.getFXMLView().getView());
+			FXMLView fxmlView = eventSendedView.getFXMLView();
+			hbox_searchVocable.getChildren().add(fxmlView.getView());
+			System.out.println("fxmlview requested => " + fxmlView.toString());
 		} catch (Exception ex) {
 			LOG.error(ex.getMessage());
 			ex.printStackTrace();
@@ -135,32 +130,25 @@ public class CreationPresenter implements Initializable, Disposable {
 		changeViewForVocableSelection(true);
 	}
 
+	private void changeViewForVocableSelection(boolean isVocableSelected) {
+		hbox_vocable.getChildren().clear();
+		if (isVocableSelected) {
+			hbox_vocable.getChildren().add(lbl_newVocable);
+			hbox_vocable.getChildren().add(txt_newVocable);
+			hbox_vocable.getChildren().add(btn_saveNewVocable);
+			changeViewForTranslationSelection(false);
+		}
+	}
+
 	private void changeViewForTranslationSelection() {
 		changeViewForTranslationSelection(true);
 	}
 
-	private void changeViewForVocableSelection(boolean isVocableSelected) {
-		if (isVocableSelected) {
-			if (hbox_vocable.getChildren().isEmpty()) {
-				hbox_vocable.getChildren().add(lbl_newVocable);
-				hbox_vocable.getChildren().add(txt_newVocable);
-				hbox_vocable.getChildren().add(btn_saveNewVocable);
-			}
-			changeViewForTranslationSelection(false);
-		} else {
-			hbox_vocable.getChildren().clear();
-		}
-	}
-
 	private void changeViewForTranslationSelection(boolean isTranslationSelected) {
+		hbox_searchVocable.getChildren().clear();
 		if (isTranslationSelected) {
-			if (!hbox_searchVocable.getChildren().isEmpty()) {
-				hbox_searchVocable.getChildren().clear();
-			}
 			EventBus.getDefault().post(new EventRequestView(ViewName.TRANSLATIONS));
 			changeViewForVocableSelection(false);
-		} else {
-			hbox_searchVocable.getChildren().clear();
 		}
 	}
 

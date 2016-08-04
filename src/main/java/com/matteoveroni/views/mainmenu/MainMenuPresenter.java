@@ -23,39 +23,45 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class MainMenuPresenter implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-    }
+	/**
+	 * Initializes the controller class.
+	 *
+	 * @param url
+	 * @param rb
+	 */
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+	}
 
-    @Subscribe
-    public void onViewChanged(EventViewChanged eventViewChanged) {
-        if (eventViewChanged.getCurrentViewName() == ViewName.MAINMENU) {
-        }
-    }
+	@Subscribe
+	public void onViewChanged(EventViewChanged eventViewChanged) {
+		if (eventViewChanged.getCurrentViewName() == ViewName.MAINMENU) {
+			Translation t1 = new Translation(1, "4");
+			Translation t2 = new Translation(2, "e3wt2w3t3 !");
+			final List<Translation> lt = new ArrayList<>();
+			lt.add(t1);
+			lt.add(t2);
+			EventBus.getDefault().post(new EventNewTranslationsToShow(lt));
+		}
+	}
 
-    @FXML
-    void startTraining(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.QUESTIONS));
-    }
+	@FXML
+	void startTraining(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.QUESTIONS));
+	}
 
-    @FXML
-    void goToDictionary(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
-    }
+	@FXML
+	void goToDictionary(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
+	}
 
-    @FXML
-    void goToSettings(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.OPTIONS));
-    }
+	@FXML
+	void goToSettings(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.OPTIONS));
+	}
 
-    @FXML
-    void goToTranslations(ActionEvent event) {
+	@FXML
+	void goToTranslations(ActionEvent event) {
 //        Translation t1 = new Translation(1, "ciao");
 //        Translation t2 = new Translation(2, "arrivedorci !");
 //        final List<Translation> lt = new ArrayList<>();
@@ -63,12 +69,12 @@ public class MainMenuPresenter implements Initializable {
 //        lt.add(t2);
 //        EventBus.getDefault().post(new EventNewTranslationsToShow(lt));
 //        EventBus.getDefault().post(new EventChangeView(ViewName.TRANSLATIONS));
-    }
+	}
 
-    @FXML
-    void closeApp(ActionEvent event) {
-        Platform.exit();
-        System.exit(0);
-    }
+	@FXML
+	void closeApp(ActionEvent event) {
+		Platform.exit();
+		System.exit(0);
+	}
 
 }
