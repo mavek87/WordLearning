@@ -30,7 +30,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import javax.annotation.PostConstruct;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.slf4j.Logger;
@@ -43,187 +42,176 @@ import org.slf4j.LoggerFactory;
  */
 public class CreationPresenter implements Initializable, Disposable {
 
-    private final CreationModel model = new CreationModel();
+	private final CreationModel model = new CreationModel();
 
-    private final ToggleGroup toggleGroup = new ToggleGroup();
-    private final RadioToggleGroupChangeListener radioToggleGroupChangeListener = new RadioToggleGroupChangeListener();
+	private final ToggleGroup toggleGroup = new ToggleGroup();
+	private final RadioToggleGroupChangeListener radioToggleGroupChangeListener = new RadioToggleGroupChangeListener();
 
-    @FXML
-    private RadioButton radio_translation;
-    @FXML
-    private RadioButton radio_vocable;
-    @FXML
-    private Button btn_goBack;
-    @FXML
-    private HBox hbox_vocable;
-    private final Label lbl_newVocable = new Label();
-    private final TextField txt_newVocable = new TextField();
-    private final Button btn_saveNewVocable = new Button();
+	@FXML
+	private RadioButton radio_translation;
+	@FXML
+	private RadioButton radio_vocable;
+	@FXML
+	private Button btn_goBack;
+	@FXML
+	private HBox hbox_vocable;
+	private final Label lbl_newVocable = new Label();
+	private final TextField txt_newVocable = new TextField();
+	private final Button btn_saveNewVocable = new Button();
 
-    @FXML
-    private HBox hbox_searchVocable;
-    private final Label lbl_searchVocable = new Label();
-    private final TextField txt_searchVocable = new TextField();
-    private ListView<Vocable> listView_searchVocable;
+	@FXML
+	private HBox hbox_searchVocable;
+	private final Label lbl_searchVocable = new Label();
+	private final TextField txt_searchVocable = new TextField();
+	private ListView<Vocable> listView_searchVocable;
 
-    @FXML
-    private HBox hbox_translation;
-    private final Label lbl_newTranslation = new Label();
-    private final TextField txt_newTranslation = new TextField();
-    private final Button btn_saveNewTranslation = new Button();
+	@FXML
+	private HBox hbox_translation;
+	private final Label lbl_newTranslation = new Label();
+	private final TextField txt_newTranslation = new TextField();
+	private final Button btn_saveNewTranslation = new Button();
 
-    private ResourceBundle resourceBundle;
+	private ResourceBundle resourceBundle;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CreationPresenter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CreationPresenter.class);
 
-    @Override
-    public void initialize(URL location, ResourceBundle resourceBundle) {
-        this.resourceBundle = resourceBundle;
-        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY));
+	@Override
+	public void initialize(URL location, ResourceBundle resourceBundle) {
+		this.resourceBundle = resourceBundle;
+		btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY));
 
-        radio_vocable.setToggleGroup(toggleGroup);
-        radio_translation.setToggleGroup(toggleGroup);
-        toggleGroup.selectedToggleProperty().addListener(radioToggleGroupChangeListener);
+		radio_vocable.setToggleGroup(toggleGroup);
+		radio_translation.setToggleGroup(toggleGroup);
+		toggleGroup.selectedToggleProperty().addListener(radioToggleGroupChangeListener);
 
-        createVocableComponents();
-        createTranslationComponents();
+		createVocableComponents();
+		createTranslationComponents();
 
-        resetView();
+		resetView();
+		changeViewForVocableSelection(true);
 
-    }
+	}
 
-    @Subscribe
-    public void onViewChanged(EventViewChanged eventViewChanged) {
-        if (eventViewChanged.getCurrentViewName() == ViewName.CREATION) {
+	@Subscribe
+	public void onViewChanged(EventViewChanged eventViewChanged) {
+		if (eventViewChanged.getCurrentViewName() == ViewName.CREATION) {
 //            Translation t1 = new Translation(1, "4");
 //            Translation t2 = new Translation(2, "e3wt2w3t3 !");
 //            final List<Translation> lt = new ArrayList<>();
 //            lt.add(t1);
 //            lt.add(t2);
 //            resetView();
-            EventBus.getDefault().post(new EventRequestView(ViewName.TRANSLATIONS));
 //            EventBus.getDefault().post(new EventNewTranslationsToShow(lt));
-        }
-    }
+		}
+	}
 
-    @Subscribe
-    public void onViewRequestedReceived(EventSendView eventSendedView) {
-        try {
-//                hbox_searchVocable.getChildren().add(eventSendedView.getFXMLView().getParent());
-//                hbox_searchVocable.getChildren().add(new TranslationsView().getView());
-//            System.out.println("ZZZZZZZZ " + eventSendedView.getFXMLView().getParent().getChildrenUnmodifiable().size());
+	@Subscribe
+	public void onViewRequestedReceived(EventSendView eventSendedView) {
+		try {
+			hbox_searchVocable.getChildren().add(eventSendedView.getFXMLView().getView());
+		} catch (Exception ex) {
+			LOG.error(ex.getMessage());
+			ex.printStackTrace();
+		}
+	}
 
-//            hbox_searchVocable.getChildren().add(eventSendedView.getFXMLView().getParent());
-                if (eventSendedView.getFXMLView() != null) {
-                    System.out.println("!=");
-                    System.out.println(eventSendedView.getFXMLView().getChildren().get(0).toString());
-                }else{
-                    System.out.println("==");
-                }
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage());
-            ex.printStackTrace();
-        }
-    }
+	@Subscribe
+	public void RadioButtonSelectionChanged(EventRadioButtonSelectionChanged event) {
+		RadioButton radioButtonSelected = event.getRadioButtonSelected();
+		LOG.debug("Selected Radio Button => " + radioButtonSelected.getText());
+		if (radioButtonSelected == radio_vocable) {
+			changeViewForVocableSelection();
+		} else if (radioButtonSelected == radio_translation) {
+			changeViewForTranslationSelection();
+		}
+	}
 
-    @Subscribe
-    public void RadioButtonSelectionChanged(EventRadioButtonSelectionChanged event) {
-        RadioButton radioButtonSelected = event.getRadioButtonSelected();
-        LOG.debug("Selected Radio Button => " + radioButtonSelected.getText());
-        if (radioButtonSelected == radio_vocable) {
-            changeViewForVocableSelection();
-        } else if (radioButtonSelected == radio_translation) {
-            changeViewForTranslationSelection();
-        }
-    }
+	@FXML
+	void goBack(ActionEvent event) {
+		EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
+	}
 
-    @FXML
-    void goBack(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
-    }
+	private void changeViewForVocableSelection() {
+		changeViewForVocableSelection(true);
+	}
 
-    private void changeViewForVocableSelection() {
-        changeViewForVocableSelection(true);
-    }
+	private void changeViewForTranslationSelection() {
+		changeViewForTranslationSelection(true);
+	}
 
-    private void changeViewForTranslationSelection() {
-        changeViewForTranslationSelection(true);
-    }
+	private void changeViewForVocableSelection(boolean isVocableSelected) {
+		if (isVocableSelected) {
+			if (hbox_vocable.getChildren().isEmpty()) {
+				hbox_vocable.getChildren().add(lbl_newVocable);
+				hbox_vocable.getChildren().add(txt_newVocable);
+				hbox_vocable.getChildren().add(btn_saveNewVocable);
+			}
+			changeViewForTranslationSelection(false);
+		} else {
+			hbox_vocable.getChildren().clear();
+		}
+	}
 
-    private void changeViewForVocableSelection(boolean isVocableSelected) {
-        if (isVocableSelected) {
-            if (hbox_vocable.getChildren().isEmpty()) {
-                hbox_vocable.getChildren().add(lbl_newVocable);
-                hbox_vocable.getChildren().add(txt_newVocable);
-                hbox_vocable.getChildren().add(btn_saveNewVocable);
-            }
-            changeViewForTranslationSelection(false);
-        } else {
-            hbox_vocable.getChildren().clear();
-        }
-    }
+	private void changeViewForTranslationSelection(boolean isTranslationSelected) {
+		if (isTranslationSelected) {
+			if (!hbox_searchVocable.getChildren().isEmpty()) {
+				hbox_searchVocable.getChildren().clear();
+			}
+			EventBus.getDefault().post(new EventRequestView(ViewName.TRANSLATIONS));
+			changeViewForVocableSelection(false);
+		} else {
+			hbox_searchVocable.getChildren().clear();
+		}
+	}
 
-    private void changeViewForTranslationSelection(boolean isTranslationSelected) {
-        if (isTranslationSelected) {
-//            if (hbox_vocable.getChildren().isEmpty()) {
-//                hbox_vocable.getChildren().add(lbl_newVocable);
-//                hbox_vocable.getChildren().add(txt_newVocable);
-//                hbox_vocable.getChildren().add(btn_saveNewVocable);
-//            }
-            changeViewForVocableSelection(false);
-        } else {
-//            hbox_vocable.getChildren().clear();
-        }
-    }
+	private void resetView() {
+		radio_vocable.setSelected(true);
+		txt_newVocable.clear();
+	}
 
-    private void resetView() {
-        radio_vocable.setSelected(true);
-        txt_newVocable.clear();
-        changeViewForVocableSelection(true);
-    }
+	private void createVocableComponents() {
+		btn_saveNewVocable.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE));
+		btn_saveNewVocable.setPrefWidth(50);
+		btn_saveNewVocable.setOnAction((ActionEvent event) -> {
+			saveVocable();
+		});
+	}
 
-    private void createVocableComponents() {
-        btn_saveNewVocable.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE));
-        btn_saveNewVocable.setPrefWidth(50);
-        btn_saveNewVocable.setOnAction((ActionEvent event) -> {
-            saveVocable();
-        });
-    }
+	private void saveVocable() {
+		Alert alertSaveVocable = new Alert(AlertType.NONE);
+		alertSaveVocable.setTitle("Save vocable");
+		String str_vocable = txt_newVocable.getText();
+		try {
+			model.saveStringToVocable(str_vocable);
+			alertSaveVocable.setAlertType(AlertType.INFORMATION);
+			alertSaveVocable.setContentText("Salvataggio " + str_vocable + " riuscito!");
+			resetView();
+			changeViewForVocableSelection(true);
+		} catch (Exception ex) {
+			alertSaveVocable.setAlertType(AlertType.ERROR);
+			alertSaveVocable.setHeaderText("Errore salvataggio");
+			String alertMessage = "Cause: " + ex.getCause() + "\nMessage: " + ex.getMessage();
+			alertSaveVocable.setContentText(alertMessage);
+		}
+		alertSaveVocable.showAndWait();
+	}
 
-    private void saveVocable() {
-        Alert alertSaveVocable = new Alert(AlertType.NONE);
-        alertSaveVocable.setTitle("Save vocable");
-        String str_vocable = txt_newVocable.getText();
-        try {
-            model.saveStringToVocable(str_vocable);
-            alertSaveVocable.setAlertType(AlertType.INFORMATION);
-            alertSaveVocable.setContentText("Salvataggio " + str_vocable + " riuscito!");
-            resetView();
-        } catch (Exception ex) {
-            alertSaveVocable.setAlertType(AlertType.ERROR);
-            alertSaveVocable.setHeaderText("Errore salvataggio");
-            String alertMessage = "Cause: " + ex.getCause() + "\nMessage: " + ex.getMessage();
-            alertSaveVocable.setContentText(alertMessage);
-        }
-        alertSaveVocable.showAndWait();
-    }
+	private void createTranslationComponents() {
+		lbl_searchVocable.setText("search a vocable");
 
-    private void createTranslationComponents() {
-        lbl_searchVocable.setText("search a vocable");
+		btn_saveNewVocable.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE));
+		btn_saveNewVocable.setPrefWidth(50);
+		btn_saveNewVocable.setOnAction((ActionEvent event) -> {
+			saveVocable();
+		});
+	}
 
-        btn_saveNewVocable.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE));
-        btn_saveNewVocable.setPrefWidth(50);
-        btn_saveNewVocable.setOnAction((ActionEvent event) -> {
-            saveVocable();
-        });
-    }
-
-    @Override
-    public void dispose() {
-        try {
-            toggleGroup.selectedToggleProperty().removeListener(radioToggleGroupChangeListener);
-        } catch (Exception ex) {
-        }
-    }
+	@Override
+	public void dispose() {
+		try {
+			toggleGroup.selectedToggleProperty().removeListener(radioToggleGroupChangeListener);
+		} catch (Exception ex) {
+		}
+	}
 
 }
