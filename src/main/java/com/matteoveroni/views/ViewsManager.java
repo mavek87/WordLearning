@@ -29,10 +29,9 @@ import org.slf4j.LoggerFactory;
 public class ViewsManager implements Disposable {
 
 	private final Map<ViewName, FXMLView> views = new HashMap<>();
-	private ViewName currentSettedViewName;
 	private final Stage stage;
 	private Scene currentScene;
-	private Deque<ViewName> usedViewsNamesStack = new ArrayDeque<>();
+	private final Deque<ViewName> usedViewsNamesStack = new ArrayDeque<>();
 	private static final Logger LOG = LoggerFactory.getLogger(ViewsManager.class);
 
 	public ViewsManager(Stage stage) {
@@ -43,6 +42,11 @@ public class ViewsManager implements Disposable {
 
 	public FXMLView getView(ViewName viewName) {
 		return views.get(viewName);
+	}
+
+	@Override
+	public void dispose() {
+		disposeViews();
 	}
 
 	@Subscribe
@@ -62,7 +66,7 @@ public class ViewsManager implements Disposable {
 	}
 
 	@Subscribe
-	public void onPreviousViewRequested(EventGoToPreviousView event) {
+	public void onGoToPreviousView(EventGoToPreviousView event) {
 		if (usedViewsNamesStack.size() > 1) {
 			usedViewsNamesStack.pollLast();
 			useView(usedViewsNamesStack.pollLast());
@@ -79,7 +83,8 @@ public class ViewsManager implements Disposable {
 	public void reloadTranslatedViewsAfterLanguageChanged(EventLanguageChanged eventLanguageChanged) {
 		disposeViews();
 		buildViews();
-		useView(currentSettedViewName);
+		usedViewsNamesStack.peekLast();
+		useView(usedViewsNamesStack.peekLast());
 	}
 
 	@Subscribe
@@ -102,16 +107,21 @@ public class ViewsManager implements Disposable {
 			currentScene.setRoot(new Parent() {
 			});
 		}
+//		Scene currentScene = new Scene(new Parent() {
+//		});
+//		currentScene.setRoot(new Parent() {
+//		});
 		currentScene = new Scene(fxmlView.getView(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
-		usedViewsNamesStack.addLast(nameOfViewToUse);
+		if (usedViewsNamesStack.size() < 2 || !nameOfViewToUse.equals(usedViewsNamesStack.getLast())) {
+			usedViewsNamesStack.addLast(nameOfViewToUse);
+		}
 		System.out.println(usedViewsNamesStack.size());
 		applyGeneralCSSToScene();
-		currentSettedViewName = nameOfViewToUse;
 		showSceneOnStage(currentScene);
 		if (objectPassed == null) {
-			EventBus.getDefault().post(new EventViewChanged(currentSettedViewName));
+			EventBus.getDefault().post(new EventViewChanged(usedViewsNamesStack.getLast()));
 		} else {
-			EventBus.getDefault().post(new EventViewChanged(currentSettedViewName, objectPassed));
+			EventBus.getDefault().post(new EventViewChanged(usedViewsNamesStack.getLast(), objectPassed));
 		}
 	}
 
@@ -143,11 +153,6 @@ public class ViewsManager implements Disposable {
 			LOG.error(ex.getMessage());
 			throw new RuntimeException(ex.getMessage());
 		}
-	}
-
-	@Override
-	public void dispose() {
-		disposeViews();
 	}
 
 	private void unregisterViewFromBus(FXMLView view) {
