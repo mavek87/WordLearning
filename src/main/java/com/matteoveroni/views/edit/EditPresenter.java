@@ -5,6 +5,8 @@ import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.dictionary.model.pojo.Translation;
 import com.matteoveroni.views.dictionary.model.pojo.Vocable;
+import com.matteoveroni.views.edit.events.EventEditTextFieldChanged;
+import com.matteoveroni.views.edit.listeners.EditTextFieldListener;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
@@ -38,20 +40,26 @@ public class EditPresenter implements Initializable, Disposable {
     private TextField txt_edit;
     @FXML
     private Button btn_goBack;
+    @FXML
+    private Button btn_save;
+
+    private EditTextFieldListener editTextFieldListener;
 
     private ResourceBundle resourceBundle;
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
         this.resourceBundle = resourceBundle;
-        if (btn_goBack.getGraphic() == null) {
-            btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1em"));
-        }
+        btn_goBack.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.REPLY, "1em"));
+        btn_save.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE, "1em"));
+        resetView();
     }
 
     @Subscribe
     public void onViewChanged(EventViewChanged eventViewChanged) {
         if (eventViewChanged.getCurrentViewName() == ViewName.EDIT) {
+            resetView();
+
             if (eventViewChanged.getObjectPassed() instanceof Vocable) {
                 lbl_title.setText(resourceBundle.getString("editvocable"));
                 lbl_edit.setText(resourceBundle.getString("vocable"));
@@ -72,12 +80,37 @@ public class EditPresenter implements Initializable, Disposable {
                     goBack(null);
                 }
             }
+
+            editTextFieldListener = new EditTextFieldListener();
+            txt_edit.textProperty().addListener(editTextFieldListener);
+        }
+    }
+
+    @Subscribe
+    public void onEditTextFieldChanged(EventEditTextFieldChanged event) {
+        String newText = event.getTextFieldStringValue();
+        if (newText != null && !newText.trim().isEmpty()) {
+            btn_save.setVisible(true);
+        } else {
+            btn_save.setVisible(false);
         }
     }
 
     @FXML
     void goBack(ActionEvent event) {
         EventBus.getDefault().post(new EventGoToPreviousView());
+    }
+
+    @FXML
+    void saveEdit(ActionEvent event) {
+        System.out.println("boom");
+    }
+
+    private void resetView() {
+        if (editTextFieldListener != null) {
+            txt_edit.textProperty().removeListener(editTextFieldListener);
+        }
+        btn_save.setVisible(false);
     }
 
     @Override

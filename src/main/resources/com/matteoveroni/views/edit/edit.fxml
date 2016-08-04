@@ -48,6 +48,13 @@
                </BorderPane.margin>
             </Button>
          </left>
+         <right>
+            <Button fx:id="btn_save" mnemonicParsing="false" onAction="#saveEdit" prefWidth="50.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" right="20.0" />
+               </BorderPane.margin>
+            </Button>
+         </right>
       </BorderPane>
    </children>
 </AnchorPane>
