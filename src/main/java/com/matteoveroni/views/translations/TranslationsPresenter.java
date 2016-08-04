@@ -14,7 +14,9 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import java.net.URL;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,29 +58,32 @@ public class TranslationsPresenter implements Initializable, Disposable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		btn_search.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SEARCH));
-		btn_add.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS));
-		buildViewComponents();
 		resetView();
-		loadViewDataAndBehaviours();
+		initializeViewComponentsAndBehaviours();
 	}
 
 	@Subscribe
 	public void onViewChanged(EventViewChanged eventViewChanged) {
-		if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
-		}
 	}
 
 	@Subscribe
 	public void onEventNewTranslationsToShow(EventNewTranslationsToShow event) {
-		resetView();
-		ObservableList<Translation> observableTranslationsList = FXCollections.observableList(event.getTranslations());
-		listview_translations.setItems(observableTranslationsList);
+		List<Translation> newTranslationsToShow = event.getTranslations();
+		if (newTranslationsToShow != null) {
+			resetView();
+			ObservableList<Translation> observableTranslationsList = FXCollections.observableList(event.getTranslations());
+			listview_translations.setItems(observableTranslationsList);
+		}
 	}
 
 	@Subscribe
 	public void onEventShowTranslationsActionPanelChange(EventShowTranslationsActionPanel eventShowTranslationsActionPanel) {
 		showActionPanel(eventShowTranslationsActionPanel.getShowValue());
+	}
+
+	@Override
+	public void dispose() {
+		disposeAllListenersFromListView();
 	}
 
 	@FXML
@@ -91,55 +96,22 @@ public class TranslationsPresenter implements Initializable, Disposable {
 		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
 	}
 
-	private void loadViewDataAndBehaviours() {
+	private void resetView() {
+		showActionPanel(false);
+		listview_translations.getSelectionModel().select(null);
+		listview_translations.setItems(null);
+	}
+
+	private void initializeViewComponentsAndBehaviours() {
+		initializeViewButtons();
 		setCellFactoryForTranslationsListView();
 		defineListViewTranslationsBehaviours();
 	}
 
-	private void setCellFactoryForTranslationsListView() {
-		listview_translations.setCellFactory((ListView<Translation> t) -> {
-			ListCell<Translation> translationsListViewCell = new TranslationCell();
-			return translationsListViewCell;
-		});
-	}
+	private void initializeViewButtons() {
+		btn_search.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SEARCH));
+		btn_add.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS));
 
-	private void defineListViewTranslationsBehaviours() {
-		setSelectionChangeListenerForTranslationsListView();
-		setFocusChangeListenerForTranslationsListView();
-		if (listview_translations.getItems() != null) {
-			Collections.sort(listview_translations.getItems(), (Translation t1, Translation t2) -> t1.toString().compareTo(t2.toString()));
-		}
-	}
-
-	private void setSelectionChangeListenerForTranslationsListView() {
-		disposeCurrentSelectionChangeListenerTranslations();
-		selectionChangeListenerTranslations = new SelectionChangeListenerTranslations();
-		listview_translations.getSelectionModel().selectedItemProperty().addListener(selectionChangeListenerTranslations);
-	}
-
-	private void setFocusChangeListenerForTranslationsListView() {
-		disposeCurrentFocusChangeListenerTranslations();
-		focusChangeListenerTranslations = new FocusChangeListenerTranslations(listview_translations);
-		listview_translations.focusedProperty().addListener(focusChangeListenerTranslations);
-	}
-
-	private void showActionPanel(boolean isShown) {
-		if (isShown) {
-			AnchorPane.setBottomAnchor(listview_translations, 55.0);
-			actionPaneTranslations.setLeft(buttonLeft);
-			actionPaneTranslations.setRight(buttonRight);
-
-		} else {
-			AnchorPane.setBottomAnchor(listview_translations, 0.0);
-			actionPaneTranslations.setLeft(null);
-			actionPaneTranslations.setRight(null);
-		}
-	}
-
-	private void removeTranslation() {
-	}
-
-	private void buildViewComponents() {
 		buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
 		buttonLeft.setPrefWidth(50);
 		buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
@@ -159,34 +131,60 @@ public class TranslationsPresenter implements Initializable, Disposable {
 		});
 	}
 
-	private void resetView() {
-		showActionPanel(false);
-		listview_translations.getSelectionModel().select(null);
-		listview_translations.setItems(null);
+	private void setCellFactoryForTranslationsListView() {
+		listview_translations.setCellFactory((ListView<Translation> t) -> {
+			ListCell<Translation> translationsListViewCell = new TranslationCell();
+			return translationsListViewCell;
+		});
 	}
 
-	@Override
-	public void dispose() {
-		disposeCurrentSelectionChangeListenerTranslations();
-		disposeCurrentFocusChangeListenerTranslations();
-	}
-
-	private void disposeCurrentSelectionChangeListenerTranslations() {
-		if (selectionChangeListenerTranslations != null) {
-			try {
-				listview_translations.getSelectionModel().selectedItemProperty().removeListener(selectionChangeListenerTranslations);
-			} catch (Exception ex) {
-			}
+	private void defineListViewTranslationsBehaviours() {
+		setSelectionChangeListenerForTranslationsListView();
+		setFocusChangeListenerForTranslationsListView();
+		if (listview_translations.getItems() != null) {
+			Collections.sort(listview_translations.getItems(), (Translation t1, Translation t2) -> t1.toString().compareTo(t2.toString()));
 		}
 	}
 
-	private void disposeCurrentFocusChangeListenerTranslations() {
-		if (focusChangeListenerTranslations != null) {
-			try {
-				listview_translations.focusedProperty().removeListener(focusChangeListenerTranslations);
-			} catch (Exception ex) {
-			}
+	private void setSelectionChangeListenerForTranslationsListView() {
+		disposeChangeListenerFromListView(selectionChangeListenerTranslations);
+		selectionChangeListenerTranslations = new SelectionChangeListenerTranslations();
+		listview_translations.getSelectionModel().selectedItemProperty().addListener(selectionChangeListenerTranslations);
+	}
+
+	private void setFocusChangeListenerForTranslationsListView() {
+		disposeChangeListenerFromListView(focusChangeListenerTranslations);
+		focusChangeListenerTranslations = new FocusChangeListenerTranslations(listview_translations);
+		listview_translations.focusedProperty().addListener(focusChangeListenerTranslations);
+	}
+
+	private void showActionPanel(boolean isShown) {
+		if (isShown) {
+			AnchorPane.setBottomAnchor(listview_translations, 55.0);
+			actionPaneTranslations.setLeft(buttonLeft);
+			actionPaneTranslations.setRight(buttonRight);
+		} else {
+			AnchorPane.setBottomAnchor(listview_translations, 0.0);
+			actionPaneTranslations.setLeft(null);
+			actionPaneTranslations.setRight(null);
 		}
 	}
 
+	private void removeTranslation() {
+	}
+
+	private void disposeAllListenersFromListView() {
+		disposeChangeListenerFromListView(selectionChangeListenerTranslations);
+		disposeChangeListenerFromListView(focusChangeListenerTranslations);
+	}
+
+	private void disposeChangeListenerFromListView(ChangeListener listener) {
+		if (listener != null) {
+			try {
+				listview_translations.getSelectionModel().selectedItemProperty().removeListener(listener);
+			} catch (Exception ex) {
+				LOG.error(ex.getMessage());
+			}
+		}
+	}
 }
