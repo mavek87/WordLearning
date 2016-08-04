@@ -53,7 +53,6 @@ public class EditPresenter implements Initializable, Disposable {
     public void onViewChanged(EventViewChanged eventViewChanged) {
         if (eventViewChanged.getCurrentViewName() == ViewName.EDIT) {
             if (eventViewChanged.getObjectPassed() instanceof Vocable) {
-                resetView();
                 lbl_title.setText(resourceBundle.getString("editvocable"));
                 lbl_edit.setText(resourceBundle.getString("vocable"));
                 String vocableToUse = ((Vocable) eventViewChanged.getObjectPassed()).getName();
@@ -66,7 +65,6 @@ public class EditPresenter implements Initializable, Disposable {
             if (eventViewChanged.getObjectPassed() instanceof Translation) {
                 lbl_title.setText(resourceBundle.getString("edittranslation"));
                 lbl_edit.setText(resourceBundle.getString("translation"));
-                resetView();
                 String translationToUse = ((Translation) eventViewChanged.getObjectPassed()).getTranslation();
                 if (translationToUse != null && !translationToUse.isEmpty()) {
                     txt_edit.setText(translationToUse);
@@ -82,12 +80,8 @@ public class EditPresenter implements Initializable, Disposable {
         EventBus.getDefault().post(new EventGoToPreviousView());
     }
 
-    private void resetView() {
-    }
-
     @Override
     public void dispose() {
-
     }
 
 }
