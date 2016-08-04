@@ -1,6 +1,7 @@
 package com.matteoveroni.views.editvocable;
 
 import com.matteoveroni.bus.events.EventChangeView;
+import com.matteoveroni.bus.events.EventGoToPreviousView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.dictionary.model.pojo.Vocable;
@@ -55,7 +56,7 @@ public class EditvocablePresenter implements Initializable, Disposable {
 
     @FXML
     void goBack(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.DICTIONARY));
+        EventBus.getDefault().post(new EventGoToPreviousView());
     }
 
     private void resetView() {

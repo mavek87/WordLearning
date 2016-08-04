@@ -8,7 +8,10 @@ import com.matteoveroni.bus.events.EventLanguageChanged;
 import com.matteoveroni.bus.events.EventRequestView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.bus.events.EventSendView;
+import com.matteoveroni.bus.events.EventGoToPreviousView;
 import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Parent;
@@ -26,10 +29,10 @@ import org.slf4j.LoggerFactory;
 public class ViewsManager implements Disposable {
 
 	private final Map<ViewName, FXMLView> views = new HashMap<>();
-	private final Map<ViewName, Parent> viewNodes = new HashMap<>();
 	private ViewName currentSettedViewName;
 	private final Stage stage;
 	private Scene currentScene;
+	private Deque<ViewName> usedViewsNamesStack = new ArrayDeque<>();
 	private static final Logger LOG = LoggerFactory.getLogger(ViewsManager.class);
 
 	public ViewsManager(Stage stage) {
@@ -55,6 +58,14 @@ public class ViewsManager implements Disposable {
 			}
 		} catch (Exception ex) {
 			LOG.error(ex.getMessage());
+		}
+	}
+
+	@Subscribe
+	public void onPreviousViewRequested(EventGoToPreviousView event) {
+		if (usedViewsNamesStack.size() > 1) {
+			usedViewsNamesStack.pollLast();
+			useView(usedViewsNamesStack.pollLast());
 		}
 	}
 
@@ -92,15 +103,21 @@ public class ViewsManager implements Disposable {
 			});
 		}
 		currentScene = new Scene(fxmlView.getView(), App.WINDOW_WIDTH, App.WINDOW_HEIGHT);
+		usedViewsNamesStack.addLast(nameOfViewToUse);
+		System.out.println(usedViewsNamesStack.size());
 		applyGeneralCSSToScene();
-		stage.setScene(currentScene);
 		currentSettedViewName = nameOfViewToUse;
-		stage.show();
+		showSceneOnStage(currentScene);
 		if (objectPassed == null) {
 			EventBus.getDefault().post(new EventViewChanged(currentSettedViewName));
 		} else {
 			EventBus.getDefault().post(new EventViewChanged(currentSettedViewName, objectPassed));
 		}
+	}
+
+	private void showSceneOnStage(Scene scene) {
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	private void applyGeneralCSSToScene() {

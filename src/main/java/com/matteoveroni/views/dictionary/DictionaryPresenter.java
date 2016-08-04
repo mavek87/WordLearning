@@ -1,6 +1,7 @@
 package com.matteoveroni.views.dictionary;
 
 import com.matteoveroni.bus.events.EventChangeView;
+import com.matteoveroni.bus.events.EventGoToPreviousView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.dictionary.model.DictionaryDAO;
 import com.matteoveroni.views.ViewName;
@@ -110,7 +111,8 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     @FXML
     void goBack(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+//        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+        EventBus.getDefault().post(new EventGoToPreviousView());
     }
 
     @FXML

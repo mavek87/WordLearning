@@ -4,6 +4,7 @@ import com.matteoveroni.App;
 import com.matteoveroni.bus.events.EventChangeView;
 import com.matteoveroni.bus.events.EventChangeWindowDimension;
 import com.matteoveroni.bus.events.EventChangeLanguage;
+import com.matteoveroni.bus.events.EventGoToPreviousView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.localization.SupportedCountries;
 import com.matteoveroni.views.ViewName;
@@ -86,7 +87,7 @@ public class OptionsPresenter implements Initializable, Disposable {
 
     @FXML
     void goBack(ActionEvent event) {
-        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+        EventBus.getDefault().post(new EventGoToPreviousView());
     }
 
     private void populateComboboxWindowSize() {

@@ -1,6 +1,7 @@
 package com.matteoveroni.views.translations;
 
 import com.matteoveroni.bus.events.EventChangeView;
+import com.matteoveroni.bus.events.EventGoToPreviousView;
 import com.matteoveroni.bus.events.EventViewChanged;
 import com.matteoveroni.views.ViewName;
 import com.matteoveroni.views.dictionary.events.EventShowTranslationsActionPanel;
@@ -51,8 +52,8 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	private SelectionChangeListenerTranslations selectionChangeListenerTranslations;
 	private FocusChangeListenerTranslations focusChangeListenerTranslations;
 
-	private final Button buttonLeft = new Button();
-	private final Button buttonRight = new Button();
+	private final Button btn_left = new Button();
+	private final Button btn_right = new Button();
 
 	private static final Logger LOG = LoggerFactory.getLogger(TranslationsPresenter.class);
 
@@ -88,7 +89,7 @@ public class TranslationsPresenter implements Initializable, Disposable {
 
 	@FXML
 	void goBack(ActionEvent event) {
-		EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
+		EventBus.getDefault().post(new EventGoToPreviousView());
 	}
 
 	@FXML
@@ -111,19 +112,17 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	private void initializeViewButtons() {
 		btn_search.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SEARCH));
 		btn_add.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS));
-
-		buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
-		buttonLeft.setPrefWidth(50);
-		buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
-		buttonRight.setPrefWidth(50);
-
-		buttonLeft.setOnAction((event) -> {
+		btn_left.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
+		btn_left.setPrefWidth(50);
+		btn_left.setOnAction((event) -> {
 			Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
 			if (selectedTranslation != null) {
 				EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedTranslation));
 			}
 		});
-		buttonRight.setOnAction((event) -> {
+		btn_right.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
+		btn_right.setPrefWidth(50);
+		btn_right.setOnAction((event) -> {
 			Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
 			if (selectedTranslation != null) {
 				removeTranslation();
@@ -161,8 +160,8 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	private void showActionPanel(boolean isShown) {
 		if (isShown) {
 			AnchorPane.setBottomAnchor(listview_translations, 55.0);
-			actionPaneTranslations.setLeft(buttonLeft);
-			actionPaneTranslations.setRight(buttonRight);
+			actionPaneTranslations.setLeft(btn_left);
+			actionPaneTranslations.setRight(btn_right);
 		} else {
 			AnchorPane.setBottomAnchor(listview_translations, 0.0);
 			actionPaneTranslations.setLeft(null);
