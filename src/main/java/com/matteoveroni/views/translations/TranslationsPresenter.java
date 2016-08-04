@@ -43,12 +43,14 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	private Button btn_add;
 	@FXML
 	private ListView<Translation> listview_translations = new ListView<>();
-
 	@FXML
 	private BorderPane actionPaneTranslations;
 
 	private SelectionChangeListenerTranslations selectionChangeListenerTranslations;
 	private FocusChangeListenerTranslations focusChangeListenerTranslations;
+
+	private final Button buttonLeft = new Button();
+	private final Button buttonRight = new Button();
 
 	private static final Logger LOG = LoggerFactory.getLogger(TranslationsPresenter.class);
 
@@ -56,11 +58,7 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	public void initialize(URL location, ResourceBundle resources) {
 		btn_search.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SEARCH));
 		btn_add.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS));
-
-//        listview_translations.setCellFactory((ListView<Translation> t) -> {
-//            ListCell<Translation> translationsListViewCell = new TranslationCell();
-//            return translationsListViewCell;
-//        });
+		buildViewComponents();
 		resetView();
 		loadViewDataAndBehaviours();
 	}
@@ -68,20 +66,14 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	@Subscribe
 	public void onViewChanged(EventViewChanged eventViewChanged) {
 		if (eventViewChanged.getCurrentViewName() == ViewName.DICTIONARY) {
-//            resetView();
-//			loadViewDataAndBehaviours();
 		}
 	}
 
 	@Subscribe
 	public void onEventNewTranslationsToShow(EventNewTranslationsToShow event) {
 		resetView();
-		LOG.debug("" + event.getTranslations().size());
 		ObservableList<Translation> observableTranslationsList = FXCollections.observableList(event.getTranslations());
-		LOG.debug("" + observableTranslationsList.size());
 		listview_translations.setItems(observableTranslationsList);
-
-		LOG.debug("" + listview_translations.getChildrenUnmodifiable().size());
 	}
 
 	@Subscribe
@@ -134,25 +126,6 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	private void showActionPanel(boolean isShown) {
 		if (isShown) {
 			AnchorPane.setBottomAnchor(listview_translations, 55.0);
-			Button buttonLeft = new Button();
-			buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
-			buttonLeft.setPrefWidth(50);
-			Button buttonRight = new Button();
-			buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
-			buttonRight.setPrefWidth(50);
-
-			buttonLeft.setOnAction((event) -> {
-				Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
-				if (selectedTranslation != null) {
-					EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedTranslation));
-				}
-			});
-			buttonRight.setOnAction((event) -> {
-				Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
-				if (selectedTranslation != null) {
-					removeTranslation();
-				}
-			});
 			actionPaneTranslations.setLeft(buttonLeft);
 			actionPaneTranslations.setRight(buttonRight);
 
@@ -164,6 +137,26 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	}
 
 	private void removeTranslation() {
+	}
+
+	private void buildViewComponents() {
+		buttonLeft.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
+		buttonLeft.setPrefWidth(50);
+		buttonRight.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
+		buttonRight.setPrefWidth(50);
+
+		buttonLeft.setOnAction((event) -> {
+			Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
+			if (selectedTranslation != null) {
+				EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedTranslation));
+			}
+		});
+		buttonRight.setOnAction((event) -> {
+			Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
+			if (selectedTranslation != null) {
+				removeTranslation();
+			}
+		});
 	}
 
 	private void resetView() {
