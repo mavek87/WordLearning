@@ -14,7 +14,6 @@ import com.sun.media.jfxmediaimpl.MediaDisposer.Disposable;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -115,15 +114,15 @@ public class TranslationsPresenter implements Initializable, Disposable {
 		btn_left.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT));
 		btn_left.setPrefWidth(50);
 		btn_left.setOnAction((event) -> {
-			Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
+			Translation selectedTranslation = listview_translations.getSelectionModel().getSelectedItem();
 			if (selectedTranslation != null) {
-				EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedTranslation));
+				EventBus.getDefault().post(new EventChangeView(ViewName.EDIT, selectedTranslation));
 			}
 		});
 		btn_right.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH));
 		btn_right.setPrefWidth(50);
 		btn_right.setOnAction((event) -> {
-			Translation selectedTranslation = (Translation) listview_translations.getSelectionModel().getSelectedItem();
+			Translation selectedTranslation = listview_translations.getSelectionModel().getSelectedItem();
 			if (selectedTranslation != null) {
 				removeTranslation();
 			}
@@ -139,10 +138,10 @@ public class TranslationsPresenter implements Initializable, Disposable {
 
 	private void defineListViewTranslationsBehaviours() {
 		setSelectionChangeListenerForTranslationsListView();
-		setFocusChangeListenerForTranslationsListView();
-		if (listview_translations.getItems() != null) {
-			Collections.sort(listview_translations.getItems(), (Translation t1, Translation t2) -> t1.toString().compareTo(t2.toString()));
-		}
+//		setFocusChangeListenerForTranslationsListView();
+//		if (listview_translations.getItems() != null) {
+//			Collections.sort(listview_translations.getItems(), (Translation t1, Translation t2) -> t1.toString().compareTo(t2.toString()));
+//		}
 	}
 
 	private void setSelectionChangeListenerForTranslationsListView() {

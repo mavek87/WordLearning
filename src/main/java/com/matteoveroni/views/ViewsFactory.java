@@ -3,7 +3,7 @@ package com.matteoveroni.views;
 import com.airhacks.afterburner.views.FXMLView;
 import com.matteoveroni.views.creation.CreationView;
 import com.matteoveroni.views.dictionary.DictionaryView;
-import com.matteoveroni.views.editvocable.EditvocableView;
+import com.matteoveroni.views.edit.EditView;
 import com.matteoveroni.views.mainmenu.MainMenuView;
 import com.matteoveroni.views.options.OptionsView;
 import com.matteoveroni.views.questions.QuestionsView;
@@ -25,8 +25,8 @@ public class ViewsFactory {
                 return new MainMenuView();
             case DICTIONARY:
                 return new DictionaryView();
-            case EDIT_VOCABLE:
-                return new EditvocableView();
+            case EDIT:
+                return new EditView();
             case TRANSLATIONS:
                 return new TranslationsView();
             case CREATION:

@@ -123,7 +123,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
     void goToVocableEdit(ActionEvent event) {
         Vocable selectedVocable = listview_vocables.getSelectionModel().getSelectedItem();
         if (selectedVocable != null) {
-            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedVocable));
+            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT, selectedVocable));
         }
     }
 
@@ -313,7 +313,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
                     buttonLeft.setOnAction((event) -> {
                         Vocable selectedVocable = (Vocable) listview.getSelectionModel().getSelectedItem();
                         if (selectedVocable != null) {
-                            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedVocable));
+                            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT, selectedVocable));
                         }
                     });
                     buttonRight.setOnAction((event) -> {
@@ -330,7 +330,7 @@ public class DictionaryPresenter implements Initializable, Disposable {
                     buttonLeft.setOnAction((event) -> {
                         Translation selectedTranslation = (Translation) listview.getSelectionModel().getSelectedItem();
                         if (selectedTranslation != null) {
-                            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT_VOCABLE, selectedTranslation));
+                            EventBus.getDefault().post(new EventChangeView(ViewName.EDIT, selectedTranslation));
                         }
                     });
                     buttonRight.setOnAction((event) -> {

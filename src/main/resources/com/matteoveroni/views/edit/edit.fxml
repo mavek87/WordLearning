@@ -9,11 +9,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.editvocable.EditvocablePresenter">
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.views.edit.EditPresenter">
    <children>
       <BorderPane prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <Label fx:id="lbl_vocableToEdit" text="%editvocable" BorderPane.alignment="CENTER">
+            <Label fx:id="lbl_title" BorderPane.alignment="CENTER">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
@@ -30,8 +30,8 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="%vocable" />
-                  <TextField fx:id="txt_vocable" minWidth="120.0" GridPane.columnIndex="1">
+                  <Label fx:id="lbl_edit" />
+                  <TextField fx:id="txt_edit" minWidth="120.0" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="30.0" right="30.0" />
                      </GridPane.margin>
@@ -40,7 +40,7 @@
             </GridPane>
          </center>
       </BorderPane>
-      <BorderPane fx:id="actionPaneVocabulary" prefHeight="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <BorderPane prefHeight="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <left>
             <Button fx:id="btn_goBack" alignment="CENTER" mnemonicParsing="false" onAction="#goBack" prefWidth="50.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
