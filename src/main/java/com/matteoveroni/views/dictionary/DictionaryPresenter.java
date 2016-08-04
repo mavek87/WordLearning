@@ -111,7 +111,6 @@ public class DictionaryPresenter implements Initializable, Disposable {
 
     @FXML
     void goBack(ActionEvent event) {
-//        EventBus.getDefault().post(new EventChangeView(ViewName.MAINMENU));
         EventBus.getDefault().post(new EventGoToPreviousView());
     }
 

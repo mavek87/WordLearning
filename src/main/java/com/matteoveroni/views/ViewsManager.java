@@ -53,9 +53,7 @@ public class ViewsManager implements Disposable {
 	public void onViewRequested(EventRequestView event) {
 		try {
 			ViewName viewRequested = event.getViewNameRequested();
-			System.out.println("views.get(viewRequested), viewRequested) " + views.get(viewRequested).getChildren().size());
 			if (views.containsKey(viewRequested)) {
-				System.out.println("fxmlview requested => " + views.get(viewRequested).toString());
 				EventBus.getDefault().post(new EventSendView(views.get(viewRequested), viewRequested));
 			} else {
 				throw new Exception("View Requested not set");

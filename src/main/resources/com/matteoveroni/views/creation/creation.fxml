@@ -22,7 +22,8 @@
                 <RadioButton fx:id="radio_translation" mnemonicParsing="false" text="%translation" />
                 <HBox fx:id="hbox_vocable" alignment="CENTER" spacing="10.0" />
                 <HBox fx:id="hbox_searchVocable" />
-                <HBox fx:id="hbox_translation" />
+                <BorderPane fx:id="borderPane_translations">
+                </BorderPane>
             </children>
         </VBox>
         <BorderPane prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

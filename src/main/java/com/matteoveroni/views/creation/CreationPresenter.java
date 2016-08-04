@@ -32,6 +32,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,7 +70,7 @@ public class CreationPresenter implements Initializable, Disposable {
 	private ListView<Vocable> listView_searchVocable;
 
 	@FXML
-	private HBox hbox_translation;
+	private BorderPane borderPane_translations;
 	private final Label lbl_newTranslation = new Label();
 	private final TextField txt_newTranslation = new TextField();
 	private final Button btn_saveNewTranslation = new Button();
@@ -101,13 +102,16 @@ public class CreationPresenter implements Initializable, Disposable {
 
 	@Subscribe
 	public void onViewRequestedReceived(EventSendView eventSendedView) {
-		try {
-			FXMLView fxmlView = eventSendedView.getFXMLView();
-			hbox_searchVocable.getChildren().add(fxmlView.getView());
-			System.out.println("fxmlview requested => " + fxmlView.toString());
-		} catch (Exception ex) {
-			LOG.error(ex.getMessage());
-			ex.printStackTrace();
+		if (eventSendedView.getViewName() == ViewName.TRANSLATIONS) {
+			try {
+				FXMLView fxmlView = eventSendedView.getFXMLView();
+				borderPane_translations.setCenter(fxmlView.getView());
+//				hbox_translation.getChildren().add();
+				System.out.println("fxmlview requested => " + fxmlView.toString());
+			} catch (Exception ex) {
+				LOG.error(ex.getMessage());
+				ex.printStackTrace();
+			}
 		}
 	}
 
@@ -146,7 +150,7 @@ public class CreationPresenter implements Initializable, Disposable {
 	}
 
 	private void changeViewForTranslationSelection(boolean isTranslationSelected) {
-		hbox_searchVocable.getChildren().clear();
+		borderPane_translations.setCenter(null);
 		if (isTranslationSelected) {
 			EventBus.getDefault().post(new EventRequestView(ViewName.TRANSLATIONS));
 			changeViewForVocableSelection(false);
