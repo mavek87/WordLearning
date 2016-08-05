@@ -25,7 +25,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,7 +77,7 @@ public class TranslationsPresenter implements Initializable, Disposable {
 
 	@Subscribe
 	public void onEventShowTranslationsActionPanelChange(EventShowTranslationsActionPanel eventShowTranslationsActionPanel) {
-		showActionPanel(eventShowTranslationsActionPanel.getShowValue());
+		showActionPanelButtons(eventShowTranslationsActionPanel.getShowValue());
 	}
 
 	@Override
@@ -97,7 +96,7 @@ public class TranslationsPresenter implements Initializable, Disposable {
 	}
 
 	private void resetView() {
-		showActionPanel(false);
+		showActionPanelButtons(false);
 		listview_translations.getSelectionModel().select(null);
 		listview_translations.setItems(null);
 	}
@@ -156,13 +155,11 @@ public class TranslationsPresenter implements Initializable, Disposable {
 		listview_translations.focusedProperty().addListener(focusChangeListenerTranslations);
 	}
 
-	private void showActionPanel(boolean isShown) {
+	private void showActionPanelButtons(boolean isShown) {
 		if (isShown) {
-			AnchorPane.setBottomAnchor(listview_translations, 55.0);
 			actionPaneTranslations.setLeft(btn_left);
 			actionPaneTranslations.setRight(btn_right);
 		} else {
-			AnchorPane.setBottomAnchor(listview_translations, 0.0);
 			actionPaneTranslations.setLeft(null);
 			actionPaneTranslations.setRight(null);
 		}

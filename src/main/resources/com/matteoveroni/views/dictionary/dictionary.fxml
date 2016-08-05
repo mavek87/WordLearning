@@ -45,7 +45,7 @@
                                  </font></Label>
                            </center>
                         </BorderPane>
-                        <ListView fx:id="listview_vocables" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                        <ListView fx:id="listview_vocables" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
                         <BorderPane fx:id="actionPaneVocabulary" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <padding>
                               <Insets left="20.0" right="20.0" />
@@ -62,7 +62,7 @@
                                  </font></Label>
                            </center>
                         </BorderPane>
-                        <ListView fx:id="listview_translations" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                        <ListView fx:id="listview_translations" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
                         <BorderPane fx:id="actionPaneTranslations" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <padding>
                               <Insets left="20.0" right="20.0" />
