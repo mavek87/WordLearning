@@ -52,23 +52,7 @@
                            </padding></BorderPane>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0">
-                     <children>
-                        <BorderPane prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <center>
-                              <Label text="%translations" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="13.0" />
-                                 </font></Label>
-                           </center>
-                        </BorderPane>
-                        <ListView fx:id="listview_translations" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                        <BorderPane fx:id="actionPaneTranslations" prefHeight="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <padding>
-                              <Insets left="20.0" right="20.0" />
-                           </padding></BorderPane>
-                     </children>
-                  </AnchorPane>
+                  <BorderPane fx:id="pane_translations" prefHeight="200.0" prefWidth="200.0" />
               </items>
             </SplitPane>
          </center>
